@@ -1,88 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <meta name="description" content=""> -->
+	<!-- <meta name="author" content="Agustín Ruiz Linares"> -->
+	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.ico"> -->
 
-	<style type="text/css">
+	<title>crm-star</title>
 
-	::selection{ background-color: #E13300; color: white; }
-	::moz-selection{ background-color: #E13300; color: white; }
-	::webkit-selection{ background-color: #E13300; color: white; }
+	<!-- Bootstrap core CSS -->
+	<link href="<?php echo $this->config->base_url(); ?>css/bootstrap.min.css" rel="stylesheet">
 
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
+	<!-- Custom CSS -->
+	<link href="<?php echo $this->config->base_url(); ?>css/crm-star.css" rel="stylesheet">
 
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-	}
+	<!-- Custom styles for this template -->
+	<link href="<?php echo $this->config->base_url(); ?>css/offcanvas.css" rel="stylesheet">
 
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
 
-	#body{
-		margin: 0 15px 0 15px;
-	}
-	
-	p.footer{
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-	
-	#container{
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		-webkit-box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
+  <body>
+  	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+  		<div class="container">
+  			<div class="navbar-header">
+  				<button type="button" class="navbar-toggle btn btn-default" data-toggle="offcanvas">
+  					<span class="sr-only">Toggle navigation</span>
+  					<span class="main-left"></span>
+  					<span class="sidebar-right"></span>
+  				</button>
+  				<button type="button" class="navbar-toggle btn btn-default" data-toggle="collapse" data-target=".navbar-collapse">
+  					<span class="sr-only">Toggle navigation</span>
+  					<span class="icon-bar"></span>
+  					<span class="icon-bar"></span>
+  					<span class="icon-bar"></span>
+  				</button>
+  				<a class="navbar-brand" href="#">Project name</a>
+  			</div>
+  			<div class="collapse navbar-collapse">
+  				<ul class="nav navbar-nav">
+  					<li class="active"><a href="#">Home</a></li>
+  					<li><a href="#about">About</a></li>
+  					<li><a href="#contact">Contact</a></li>
+  				</ul>
+  			</div><!-- /.nav-collapse -->
+  		</div><!-- /.container -->
+  	</div><!-- /.navbar -->
 
-<div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
+  	<div class="container">
+  		<div class="row row-offcanvas row-offcanvas-right">
 
-	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+  			<div class="col-xs-12 col-sm-9">
+  				<!-- <p class="pull-right visible-xs"><button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button></p> -->
+  				<div class="jumbotron">
+  					<h1>Hello, world!</h1>
+  					<p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+  				</div>
+  				<div class="row">
+  					<div class="col-6 col-sm-6 col-lg-4">
+  						<h2>Heading</h2>
+  						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+  						<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  					</div><!--/span-->
+  					<div class="col-6 col-sm-6 col-lg-4">
+  						<h2>Heading</h2>
+  						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+  						<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  					</div><!--/span-->
+  					<div class="col-6 col-sm-6 col-lg-4">
+  						<h2>Heading</h2>
+  						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+  						<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  					</div><!--/span-->
+  					<div class="col-6 col-sm-6 col-lg-4">
+  						<h2>Heading</h2>
+  						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+  						<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  					</div><!--/span-->
+  					<div class="col-6 col-sm-6 col-lg-4">
+  						<h2>Heading</h2>
+  						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+  						<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  					</div><!--/span-->
+  					<div class="col-6 col-sm-6 col-lg-4">
+  						<h2>Heading</h2>
+  						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+  						<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+  					</div><!--/span-->
+  				</div><!--/row-->
+  			</div><!--/span-->
+  			<div class="col-xs-6 col-sm-3 sidebar-offcanvas affix-top" id="sidebar" role="navigation">
+  				<div class="list-group">
+  					<a href="#" class="list-group-item active">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  					<a href="#" class="list-group-item">Link</a>
+  				</div>
+  			</div><!--/span-->
+  		</div><!--/row-->
 
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
+  		<hr>
 
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/welcome.php</code>
+  		<footer id="footer">
+  			<p>Página cargada en {elapsed_time} segundos</p>
+  			<p>&copy; <a href="http://www.agustruiz.es" target="_blank">Agustín Ruiz</a> 2014</p>
+  		</footer>
 
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
-	</div>
+  	</div><!--/.container-->
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
-</div>
 
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="<?php echo $this->config->base_url(); ?>js/bootstrap.min.js"></script>
+    <script src="<?php echo $this->config->base_url(); ?>js/offcanvas.js"></script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+.icon-bar-vertical{display:inline-block;width:2px;height:5px;border-radius:1px}
+.navbar-toggle .icon-bar-vertical+.navbar-toggle .icon-bar-vertical{margin-bottom:2px}
+
+
+
+
+
+
+
+.navbar-toggle .main-left{
+	border:solid 2px #fff;
+	display:table-cell;
+	width:17px;
+	height:14px;
+	border-radius:1px;
+}
+
+.navbar-toggle .sidebar-right{
+	background-color: #fff;
+	display:table-cell;
+	width:5px;
+	height:14px;
+	border-radius:1px;
+}
