@@ -1,24 +1,58 @@
-.icon-bar-vertical{display:inline-block;width:2px;height:5px;border-radius:1px}
-.navbar-toggle .icon-bar-vertical+.navbar-toggle .icon-bar-vertical{margin-bottom:2px}
+/*** Logo crm-star ***/
 
+#logo-crm-star{
+	/*background-image: url("../img/logo/logo_gris999_40.png");  Ruta relativa al archivo css*/
+	background-image: url("../img/logo/logo_gris999_20.png");  /*Ruta relativa al archivo css*/
+	/*background-image: url("../img/logo/logo_gris999_30.png"); Ruta relativa al archivo css*/
+	/*height: 40px;*/
+	/*width: 42px;*/
+	height: 20px;
+	width: 37px;
+	/*height: 30px;*/
+	/*width: 55px;*/
+	padding: 0;
+	/*margin: 5px;*/
+	margin: 15px;
+	/*margin: 10px;*/
+}
 
+#logo-crm-star:hover{
+	/*background-image: url("../img/logo/logo_blanco_40.png"); Ruta relativa al archivo css*/
+	background-image: url("../img/logo/logo_blancoBrillo_20.png"); /*Ruta relativa al archivo css*/
+	/*background-image: url("../img/logo/logo_blanco_30.png"); Ruta relativa al archivo css*/
+}
 
-
-
-
+/*** Estilos del botón responsive del sidebar ***/
 
 .navbar-toggle .main-left{
 	border:solid 2px #fff;
 	display:table-cell;
 	width:17px;
 	height:14px;
-	border-radius:1px;
+	border-top-left-radius:1px;
+	border-bottom-left-radius:1px;
 }
 
 .navbar-toggle .sidebar-right{
-	background-color: #fff;
+	/*background-color: #fff;*/
+	border:solid 2px #fff;
+	border-left: 0;
 	display:table-cell;
 	width:5px;
 	height:14px;
-	border-radius:1px;
+	border-top-right-radius:1px;
+	border-bottom-right-radius:1px;
+}
+
+/****** SIDEBAR ******/
+/* Disabled link */
+.list-group > a.disabled {
+  color: #999999;
+}
+.list-group > a.disabled:hover,
+.list-group > a.disabled:focus {
+  color: #999999;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: not-allowed;
 }
