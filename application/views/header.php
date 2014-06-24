@@ -11,13 +11,13 @@
 	<title>crm-star</title>
 
 	<!-- Bootstrap core CSS -->
-	<link href="<?php echo $this->config->base_url(); ?>css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?=$this->config->base_url()?>css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Custom CSS -->
-	<link href="<?php echo $this->config->base_url(); ?>css/crm-star.css" rel="stylesheet">
+	<link href="<?=$this->config->base_url()?>css/crm-star.css" rel="stylesheet">
 
 	<!-- Custom styles for this template -->
-	<link href="<?php echo $this->config->base_url(); ?>css/offcanvas.css" rel="stylesheet">
+	<link href="<?=$this->config->base_url()?>css/offcanvas.css" rel="stylesheet">
 
 	<!-- Just for debugging purposes. Don't actually copy this line! -->
 	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -27,8 +27,8 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
       <![endif]-->
-      <link rel="shortcut icon" href="<?php echo $this->config->base_url(); ?>favicon.ico" type="image/x-icon">
-      <link rel="icon" href="<?php echo $this->config->base_url(); ?>favicon.ico" type="image/x-icon">
+      <link rel="shortcut icon" href="<?=$this->config->base_url()?>favicon.ico" type="image/x-icon">
+      <link rel="icon" href="<?=$this->config->base_url()?>favicon.ico" type="image/x-icon">
     </head>
 
     <body>
@@ -46,13 +46,13 @@
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
        </button>
-       <a class="navbar-brand" href="<?php echo $this->config->base_url(); ?>" id="logo-crm-star">
+       <a class="navbar-brand" href="<?=$this->config->base_url()?>" id="logo-crm-star">
        </a>
      </div>
      <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
        <!-- <li class="active"><a href="#">Inicio</a></li> -->
-       <li <?php if($this->router->fetch_class()=="contactos") echo 'class="active"';?>><a href="contactos">Contactos</a></li>
+       <li <?php if($this->router->fetch_class()=="contactos") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>contactos">Contactos</a></li>
        <li><a href="#">...</a></li>
      </ul>
    </div><!-- /.nav-collapse -->

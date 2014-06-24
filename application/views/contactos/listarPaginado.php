@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row row-offcanvas row-offcanvas-right">
-		<div class="col-xs-12 col-sm-9">
+		<div class="col-xs-12 col-sm-9">	
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -10,7 +10,7 @@
 						<th>NIF</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="contenedor">
 					<?php
 					foreach ($listaContactos as $fila) {
 						echo '<tr>';
@@ -26,5 +26,9 @@
 					<tr><th colspan="4">Nº de resultados: <?=$numContactos?></th></tr>
 				</tfoot>
 			</table>
-</table>
+			<ul class="nav" id="nav1">
+			</ul>
+			<ul id="pagination-digg">
+				<?=$pag_links;?>
+			</ul>
   </div><!--/row-->

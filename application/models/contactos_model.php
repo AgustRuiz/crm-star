@@ -7,6 +7,28 @@ class Contactos_model extends CI_Model{
 
 	function getContactos(){
 		$ssql = "select * from contactos";
-		return mysql_query($ssql);
+		unset($listado);
+		$result=mysql_query($ssql);
+		while($row=mysql_fetch_array($result)){
+			$listado[]=$row;
+		}
+		return $listado;
 	}
+
+	public function countContactos(){
+		return $this->db->count_all_results('contactos');
+	}
+
+
+
+   public function getContactosPaginado($limit, $offset)
+   {
+		$ssql = "select * from contactos LIMIT $limit OFFSET $offset";
+		unset($listado);
+		$result=mysql_query($ssql);
+		while($row=mysql_fetch_array($result)){
+			$listado[]=$row;
+		}
+		return $listado;
+   }
 }
