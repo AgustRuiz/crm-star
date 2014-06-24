@@ -5,8 +5,17 @@ class Contactos_model extends CI_Model{
 		parent::__construct();
 	}
 
-	function getContactos(){
-		$ssql = "select * from contactos";
+	function getContactos($limit=null, $offset=null){
+		if($limit!=null){
+			if($offset!=null){
+				$ssql = "select * from contactos LIMIT $limit OFFSET $offset";
+			}else{
+				$ssql = "select * from contactos LIMIT $limit";
+			}
+		}else{
+			$ssql = "select * from contactos";
+		}
+
 		unset($listado);
 		$result=mysql_query($ssql);
 		while($row=mysql_fetch_array($result)){
@@ -18,17 +27,4 @@ class Contactos_model extends CI_Model{
 	public function countContactos(){
 		return $this->db->count_all_results('contactos');
 	}
-
-
-
-   public function getContactosPaginado($limit, $offset)
-   {
-		$ssql = "select * from contactos LIMIT $limit OFFSET $offset";
-		unset($listado);
-		$result=mysql_query($ssql);
-		while($row=mysql_fetch_array($result)){
-			$listado[]=$row;
-		}
-		return $listado;
-   }
 }

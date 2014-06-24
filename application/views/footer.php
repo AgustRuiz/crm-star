@@ -1,6 +1,6 @@
 <hr/>
 <footer id="footer">
-	<p>Página cargada en {elapsed_time} segundos</p>
+	<p>Tiempo de respuesta: {elapsed_time} segundos</p>
 	<p>&copy; <a href="http://www.agustruiz.es" target="_blank">Agustín Ruiz</a> 2014</p>
 </footer>
 </div><!--/.container-->

@@ -15,60 +15,34 @@ class Contactos extends CI_Controller {
 		$this->listar();
 	}
 
-	public function listar()
+
+	public function listar($offset='0')
 	{
-		// Cargar los modelos
-		// $this->load->model('Contactos_model');
-		// Consultar la lista de contactos
-		$listaContactos = $this->Contactos_model->getContactos();
-		$numContactos = $this->Contactos_model->countContactos();
-		// Obtenemos el ResultSet de la lista de contactos
-		$datos_vista = array(
-			'listaContactos' => $listaContactos,
-			'numContactos' => $numContactos
-			);
+		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
+		$total = $this->Contactos_model->countContactos();
+		$data['listaContactos'] = $this->Contactos_model->getContactos($limit, $offset);
+		$config['base_url'] = base_url().'contactos/listar/';
+		$config['total_rows'] = $total;
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = '3';
+		$this->pagination->initialize($config);
+		$data['pag_links'] = $this->pagination->create_links();
+		// Número de contactos
+		$data['numContacts'] = $total;
+		$data['initialRow'] = $offset+1;
+		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
 
 		// Cargar las vistas
 		// Cabecera
 		$this->load->view('header');
 		// Contenido principal
-		$this->load->view('contactos/listar', $datos_vista);
+		$this->load->view('contactos/listar', $data);
 		// Sidebar de operaciones
 		$this->load->view('sidebars/contactos');
 		// Footer
 		$this->load->view('footer');
 	}
-
-
-
-   public function listarPaginado($offset='0')
-   {
-      $limit = 5;
-      $total = $this->Contactos_model->countContactos();
-      $data['listaContactos'] = $this->Contactos_model->getContactosPaginado($limit, $offset);
-      $config['base_url'] = base_url().'contactos/listarPaginado/';
-      $config['total_rows'] = $total;
-      $config['per_page'] = $limit;
-      $config['uri_segment'] = '3';
-      $this->pagination->initialize($config);
-      $data['pag_links'] = $this->pagination->create_links();
-      $data['title'] = 'Pagination';
-
-
-
-		$numContactos = $this->Contactos_model->countContactos();
-		$data['numContactos'] = $numContactos;
-
-		// Cargar las vistas
-		// Cabecera
-		$this->load->view('header');
-		// Contenido principal
-		$this->load->view('contactos/listarPaginado', $data);
-		// Sidebar de operaciones
-		$this->load->view('sidebars/contactos');
-		// Footer
-		$this->load->view('footer');
-   }
 
 
 
