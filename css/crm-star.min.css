@@ -1,0 +1,4 @@
+#logo-crm-star{background-image:url("../img/logo/logo_gris999_20.png");height:20px;width:37px;padding:0;margin:15px}#logo-crm-star:hover{background-image:url("../img/logo/logo_blancoBrillo_20.png")}
+.navbar-toggle .main-left{border:solid 2px #fff;display:table-cell;width:17px;height:14px;border-top-left-radius:1px;border-bottom-left-radius:1px}.navbar-toggle .sidebar-right{border:solid 2px #fff;border-left:0;display:table-cell;width:5px;height:14px;border-top-right-radius:1px;border-bottom-right-radius:1px}
+.list-group>a.disabled{color:#999}.list-group>a.disabled:hover,.list-group>a.disabled:focus{color:#999;text-decoration:none;background-color:transparent;cursor:not-allowed}
+.form-group.required .control-label:after{content:"*";color:red}

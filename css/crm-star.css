@@ -47,12 +47,38 @@
 /****** SIDEBAR ******/
 /* Disabled link */
 .list-group > a.disabled {
-  color: #999999;
+	color: #999999;
 }
 .list-group > a.disabled:hover,
 .list-group > a.disabled:focus {
-  color: #999999;
-  text-decoration: none;
-  background-color: transparent;
-  cursor: not-allowed;
+	color: #999999;
+	text-decoration: none;
+	background-color: transparent;
+	cursor: not-allowed;
+}
+
+/****** Formularios ******/
+.form-group.required .control-label:after, .asterisk { 
+	font-family: 'Glyphicons Halflings';
+	font-weight: lighter;
+	font-size: 1rem;
+	/*font-size: 2rem;*/
+	content:"*";
+	color:red;
+}
+
+/****** Fichas de datos ******/
+.ficha{
+	padding: 0;
+}
+
+.ficha .titulo, .container-fluid .dato{
+	border-bottom: 1px solid #ddd;
+	/*font-size: 1.5rem;*/
+	padding: 5px;
+	min-height: 31px;
+}
+
+.ficha .titulo{
+	background-color: #F5F5F5;
 }

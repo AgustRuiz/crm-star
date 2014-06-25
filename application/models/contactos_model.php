@@ -24,7 +24,30 @@ class Contactos_model extends CI_Model{
 		return $listado;
 	}
 
+	function getContacto($id){
+		$ssql = "select * from contactos where id=".$id;
+
+		unset($listado);
+		$result=mysql_query($ssql);
+		if(mysql_num_rows($result)>0)
+			return mysql_fetch_array($result);
+		else
+			return null;
+	}
+
 	public function countContactos(){
 		return $this->db->count_all_results('contactos');
+	}
+
+	public function insertar($contacto){
+		// Error -1: Falta el nombre
+		if($contacto['nombre']==null || $contacto['nombre']=="") return -1;
+		// Todo correcto a partir de este punto
+		$data = array(
+                'nombre' => $contacto['nombre'],
+                'apellidos' => $contacto['apellidos'],
+                'nif' => $contacto['nif']
+                );
+        return $this->db->insert('contactos',$data);
 	}
 }

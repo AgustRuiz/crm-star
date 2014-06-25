@@ -6,6 +6,6 @@ class Configuration_model extends CI_Model{
 	}
 
 	function rowsPerPage(){
-		return 10;
+		return 8;
 	}
 }
