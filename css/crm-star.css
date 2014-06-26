@@ -66,6 +66,9 @@
 	content:"*";
 	color:red;
 }
+.padding0{
+	padding:0;
+}
 
 /****** Fichas de datos ******/
 .ficha{
