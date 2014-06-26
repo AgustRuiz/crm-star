@@ -5,16 +5,13 @@ class Contactos extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		// $this->db = $this->load->database('default', TRUE); 
 		$this->load->library('pagination');
-		// $this->load->helper('url');
 		$this->load->model('Contactos_model');
 	}
 
 	public function index(){
 		$this->listar();
 	}
-
 
 	public function listar($offset='0')
 	{
@@ -32,118 +29,136 @@ class Contactos extends CI_Controller {
 		$data['numContacts'] = $total;
 		$data['initialRow'] = $offset+1;
 		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+		$data['offset'] = $offset;
 
 		// Cargar las vistas
-		// Cabecera
 		$this->load->view('header');
-		// Contenido principal
 		$this->load->view('contactos/listar', $data);
-		// Sidebar de operaciones
 		$this->load->view('sidebars/contactos');
-		// Footer
 		$this->load->view('footer');
 	}
 
 	public function ver($id=null){
-		// Cargar las vistas
-		// Cabecera
 		$this->load->view('header');
-		// Contenido principal
-		if($id==null){
+		$data['contacto']=$this->Contactos_model->getContacto($id);
+		if($data['contacto']!=null){
+			$this->load->view('contactos/ver', $data);
+			$this->load->view('sidebars/contactos');
+		}else{
 			$this->load->view('errores/error404');
-			// Sidebar de operaciones
 			$this->load->view('sidebars/error404');
 		}
-		else{
-			$data['contacto']=$this->Contactos_model->getContacto($id);
-			$this->load->view('contactos/ver', $data);
-			// Sidebar de operaciones
-			$this->load->view('sidebars/contactos');
-		}
-		// Footer
 		$this->load->view('footer');
 	}
 
 	public function nuevo(){
-		if($this->input->post("submit")){
-			$contacto = array(
-				'nombre' => $this->input->post('txtNombre'),
-				'apellidos' => $this->input->post('txtApellidos'),
-				'nif' => $this->input->post('txtNIF')
+		$this->load->view('header');
+		$this->load->view('contactos/nuevo');
+		$this->load->view('sidebars/contactos');
+		$this->load->view('footer');
+	}
+
+	public function nuevo2(){
+		$contacto = array(
+			'nombre' => trim($this->input->post('txtNombre')),
+			'apellidos' => trim($this->input->post('txtApellidos')),
+			'nif' => (trim($this->input->post('txtNIF'))=="")?null:$this->input->post('txtNIF')
+			);
+		$resultado = $this->Contactos_model->insertar($contacto);
+
+		if($resultado>0){
+			//Inserción correcta
+			$data = array(
+				"success" => "Contacto creado correctamente"
 				);
-
-			$resultado = $this->Contactos_model->insertar($contacto);
-
-			if($resultado>0){
-				//Inserción correcta
-				$data = array(
-					"success" => "Contacto creado correctamente"
-					);
-				// Cargar las vistas
-				// Cabecera
-				$this->load->view('header');
-				// Contenido principal
-				$data['contacto']=$this->Contactos_model->getContacto($this->db->insert_id());
-				$this->load->view('contactos/ver', $data);
-				// Sidebar de operaciones
-				$this->load->view('sidebars/contactos');
-				// Footer
-				$this->load->view('footer');
-			}else if($resultado==-1){
-				//Error en la inserción
-				$data = array(
-					"error" => "El nombre no puede estar vacío",
-					"contacto" => $contacto
-					);
-				// Cargar las vistas
-				// Cabecera
-				$this->load->view('header');
-				// Contenido principal
-				$this->load->view('contactos/nuevo', $data);
-				// Sidebar de operaciones
-				$this->load->view('sidebars/contactos');
-				// Footer
-				$this->load->view('footer');
-			}else{
-				$data = array(
-					"error" => "El nombre no puede estar vacío",
-					"contacto" => $contacto
-					);
-			}
-
-
-
-
-			// $data = array("status" => $resultado);
-
-
-
-
-
-
-		}else{
+			$data['contacto']=$this->Contactos_model->getContacto($this->db->insert_id());
 			// Cargar las vistas
-			// Cabecera
 			$this->load->view('header');
-			// Contenido principal
-			$this->load->view('contactos/nuevo');
-			// Sidebar de operaciones
+			$this->load->view('contactos/ver', $data);
 			$this->load->view('sidebars/contactos');
-			// Footer
 			$this->load->view('footer');
+		}else{
+			if($resultado==-1){
+				// Error en la inserción
+				$data["error"] = "El nombre no puede estar vacío";
+				$data["contacto"] = $contacto;
+			}else{
+				// Error por NIF duplicado
+				$data["error"] = "Ya existe un contacto con ese NIF";
+				$data["contacto"] = $contacto;
+			}
+			// Cargar las vistas
+			$this->load->view('header');
+			$this->load->view('contactos/nuevo', $data);
+			$this->load->view('sidebars/contactos');
+			$this->load->view('footer');
+
 		}
 	}
 
+	public function eliminar($id=null){
+		$this->load->view('header');
+		$result=$this->Contactos_model->eliminarContacto($id);
+		if($result>0){
+			$data=array("success"=>"Contacto eliminado");
+		}else{
+			$data['error']="No ha podido eliminarse el contacto";
+			$data['contacto']['id']=$id;
+		}
+		$this->load->view('contactos/eliminar', $data);
+		$this->load->view('sidebars/contactos');
+		$this->load->view('footer');
+	}
 
-	/*=== ESTO ES PROVISIONAL===*/
-	public function recibido(){
-		// echo '<pre>'.print_r($this).'</pre>';
-		echo "<h3>Hola, soy un target</h3>";
-		// $this->load->library('form_validation');
-		// $this->form_validation->set_rules('txtNombre', 'Username', 'trim|requrired');
-		echo "<h5>".$this->input->post("txtNombre")."</h5>";
-		echo "<h5>".$this->input->post("txtApellidos")."</h5>";
-		echo "<h5>".$this->input->post("txtNIF")."</h5>";
+	public function editar($id=null){
+		$this->load->view('header');
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
+		}
+		else{
+			$data['contacto']=$this->Contactos_model->getContacto($id);
+			$this->load->view('contactos/editar', $data);
+			$this->load->view('sidebars/contactos');
+		}
+		$this->load->view('footer');
+	}
+
+	public function editar2($id=null){
+		$contacto = array(
+			'id' => $id,
+			'nombre' => trim($this->input->post('txtNombre')),
+			'apellidos' => trim($this->input->post('txtApellidos')),
+			'nif' => (trim($this->input->post('txtNIF'))=="")?null:$this->input->post('txtNIF')
+			);
+		$resultado = $this->Contactos_model->actualizar($contacto);
+
+		if($resultado>0){
+			//Edición correcta
+			$data["success"] = "Contacto editado correctamente";
+			$data['contacto']=$this->Contactos_model->getContacto($id);
+			$this->load->view('header');
+			$this->load->view('contactos/ver', $data);
+			$this->load->view('sidebars/contactos');
+			$this->load->view('footer');
+		}else{
+			//Error al editar
+			if($resultado==-1){
+				// Error en la inserción
+				$data["error"] = "El nombre no puede estar vacío";
+				$data["contacto"] = $contacto;
+			}else{
+				// Error por NIF duplicado
+				$data["error"] = "Ya existe un contacto con ese NIF";
+				$data["contacto"] = $contacto;
+			}
+			$data['contacto']=$this->Contactos_model->getContacto($id);
+			$this->load->view('header');
+			$this->load->view('contactos/editar', $data);
+			$this->load->view('sidebars/contactos');
+			$this->load->view('footer');
+		}
 	}
 }
 

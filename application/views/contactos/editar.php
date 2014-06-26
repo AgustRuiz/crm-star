@@ -7,7 +7,7 @@
 				<strong>Oops!</strong> <?=$error?>
 			</div>
 			<?php } ?>
-			<form class="form-horizontal" role="form" method="post" action="<?=$this->config->base_url()?>index.php/contactos/nuevo2/" accept-charset="utf-8">
+			<form class="form-horizontal" role="form" method="post" action="<?=$this->config->base_url()?>index.php/contactos/editar2/<?php if(isset($contacto)) echo $contacto['id']; ?>" accept-charset="utf-8">
 				<div class="form-group required">
 					<label for="txtNombre" class="col-sm-2 control-label">Nombre</label>
 					<div class="col-sm-10">
@@ -29,8 +29,8 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-success" name="submit" value="submit">Crear contacto</button>
-						<a href="<?=$this->config->base_url().$this->router->fetch_class()?>" rol="button" class="btn btn-danger">Cancelar</a>
+						<button type="submit" class="btn btn-success" name="submit" value="submit">Guardar contacto</button>
+						<a href="<?=$this->config->base_url().'contactos/ver/'.$contacto['id']?>" rol="button" class="btn btn-danger">Cancelar</a>
 					</div>
 				</div>
 				<div class="form-group">
