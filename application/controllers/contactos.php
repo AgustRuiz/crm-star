@@ -13,8 +13,7 @@ class Contactos extends CI_Controller {
 		$this->listar();
 	}
 
-	public function listar($offset='0')
-	{
+	public function listar($offset='0'){
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
 		$total = $this->Contactos_model->countContactos();
@@ -35,7 +34,7 @@ class Contactos extends CI_Controller {
 		// Cargar las vistas
 		$this->load->view('header');
 		$this->load->view('contactos/listar', $data);
-		$this->load->view('sidebars/contactos');
+		$this->load->view('sidebars/contactos/listar');
 		$this->load->view('footer');
 	}
 
@@ -44,7 +43,7 @@ class Contactos extends CI_Controller {
 		$data['contacto']=$this->Contactos_model->getContacto($id);
 		if($data['contacto']!=null){
 			$this->load->view('contactos/ver', $data);
-			$this->load->view('sidebars/contactos');
+			$this->load->view('sidebars/contactos/ver');
 		}else{
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
@@ -55,7 +54,7 @@ class Contactos extends CI_Controller {
 	public function nuevo(){
 		$this->load->view('header');
 		$this->load->view('contactos/nuevo');
-		$this->load->view('sidebars/contactos');
+		$this->load->view('sidebars/contactos/nuevo');
 		$this->load->view('footer');
 	}
 
@@ -76,7 +75,7 @@ class Contactos extends CI_Controller {
 			// Cargar las vistas
 			$this->load->view('header');
 			$this->load->view('contactos/ver', $data);
-			$this->load->view('sidebars/contactos');
+			$this->load->view('sidebars/contactos/ver');
 			$this->load->view('footer');
 		}else{
 			if($resultado==-1){
@@ -88,10 +87,9 @@ class Contactos extends CI_Controller {
 				$data["error"] = "Ya existe un contacto con ese NIF";
 				$data["contacto"] = $contacto;
 			}
-			// Cargar las vistas
 			$this->load->view('header');
 			$this->load->view('contactos/nuevo', $data);
-			$this->load->view('sidebars/contactos');
+			$this->load->view('sidebars/contactos/nuevo');
 			$this->load->view('footer');
 
 		}
@@ -107,7 +105,7 @@ class Contactos extends CI_Controller {
 			$data['contacto']['id']=$id;
 		}
 		$this->load->view('contactos/eliminar', $data);
-		$this->load->view('sidebars/contactos');
+		$this->load->view('sidebars/contactos/eliminar');
 		$this->load->view('footer');
 	}
 
@@ -120,7 +118,7 @@ class Contactos extends CI_Controller {
 		else{
 			$data['contacto']=$this->Contactos_model->getContacto($id);
 			$this->load->view('contactos/editar', $data);
-			$this->load->view('sidebars/contactos');
+			$this->load->view('sidebars/contactos/editar');
 		}
 		$this->load->view('footer');
 	}
@@ -140,7 +138,7 @@ class Contactos extends CI_Controller {
 			$data['contacto']=$this->Contactos_model->getContacto($id);
 			$this->load->view('header');
 			$this->load->view('contactos/ver', $data);
-			$this->load->view('sidebars/contactos');
+			$this->load->view('sidebars/contactos/ver');
 			$this->load->view('footer');
 		}else{
 			//Error al editar
@@ -153,10 +151,9 @@ class Contactos extends CI_Controller {
 				$data["error"] = "Ya existe un contacto con ese NIF";
 				$data["contacto"] = $contacto;
 			}
-			$data['contacto']=$this->Contactos_model->getContacto($id);
 			$this->load->view('header');
 			$this->load->view('contactos/editar', $data);
-			$this->load->view('sidebars/contactos');
+			$this->load->view('sidebars/contactos/editar');
 			$this->load->view('footer');
 		}
 	}
