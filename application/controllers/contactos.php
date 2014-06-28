@@ -59,13 +59,8 @@ class Contactos extends CI_Controller {
 	}
 
 	public function nuevo2(){
-		$contacto = array(
-			'nombre' => trim($this->input->post('txtNombre')),
-			'apellidos' => trim($this->input->post('txtApellidos')),
-			'nif' => (trim($this->input->post('txtNIF'))=="")?null:$this->input->post('txtNIF')
-			);
+		$contacto = recogerFormulario($this->input);
 		$resultado = $this->Contactos_model->insertar($contacto);
-
 		if($resultado>0){
 			//Inserción correcta
 			$data = array(
@@ -124,12 +119,8 @@ class Contactos extends CI_Controller {
 	}
 
 	public function editar2($id=null){
-		$contacto = array(
-			'id' => $id,
-			'nombre' => trim($this->input->post('txtNombre')),
-			'apellidos' => trim($this->input->post('txtApellidos')),
-			'nif' => (trim($this->input->post('txtNIF'))=="")?null:$this->input->post('txtNIF')
-			);
+		$contacto = recogerFormulario($this->input);
+		$contacto['id'] = $id;
 		$resultado = $this->Contactos_model->actualizar($contacto);
 
 		if($resultado>0){
@@ -157,6 +148,24 @@ class Contactos extends CI_Controller {
 			$this->load->view('footer');
 		}
 	}
+}
+
+/* FUNCIONES AUXILIARES */
+function recogerFormulario($input){
+	return array(
+		'nombre' => trim($input->post('txtNombre')),
+		'apellidos' => trim($input->post('txtApellidos')),
+		'nif' => (trim($input->post('txtNIF'))=="")?null:$input->post('txtNIF'),
+		'direccion' => trim($input->post('txtDireccion')),
+		'ciudad' => trim($input->post('txtCiudad')),
+		'provincia' => trim($input->post('txtProvincia')),
+		'cp' => trim($input->post('txtCP')),
+		'pais' => trim($input->post('txtPais')),
+		'telfOficina' => trim($input->post('txtTelfOficina')),
+		'telfMovil' => trim($input->post('txtTelfMovil')),
+		'fax' => trim($input->post('txtFax'))
+			// Aquí vienen los correos electrónicos
+		);
 }
 
 /* End of file contactos.php */

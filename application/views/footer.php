@@ -10,5 +10,6 @@
     <script src="<?php echo $this->config->base_url(); ?>js/jquery.min.js"></script>
     <script src="<?php echo $this->config->base_url(); ?>js/bootstrap.min.js"></script>
     <script src="<?php echo $this->config->base_url(); ?>js/offcanvas.js"></script>
+    <script src="<?php echo $this->config->base_url(); ?>js/crm-star.js"></script>
 </body>
 </html>

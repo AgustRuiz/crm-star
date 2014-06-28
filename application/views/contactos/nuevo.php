@@ -76,7 +76,7 @@
 					<div class="form-group">
 						<label for="txtFax" class="col-sm-2 control-label">FAX</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="txtFax" name="txtFax" placeholder="Teléfono FAX" value="<?php if(isset($contacto)) echo $contacto['telfFax']; ?>" />
+							<input type="text" class="form-control" id="txtFax" name="txtFax" placeholder="Teléfono FAX" value="<?php if(isset($contacto)) echo $contacto['fax']; ?>" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -86,14 +86,14 @@
 								<?php for($i=0;$i<1;$i++){?>
 								<div class="form" id="correo0">
 									<div class="col-md-7 padding0">
-										<input type="text" class="form-control" id="txtEmail" name="txtEmail" placeholder="Correo electrónico" value="<?php if(isset($contacto)) echo $contacto['email']; ?>" />
+										<input type="text" class="form-control" id="txtEmail" name="txtEmail" placeholder="Correo electrónico" value="" />
 									</div>
 									<label class=" col-md-2"><input type="radio" name="radPrincipal" checked="checked" /> Principal</label>
 									<label class="col-md-2"><input type="checkbox" name="chkNoValido" /> No válido</label>
 								</div>
 								<?php } ?>
 							</div>
-							<div class="btn btn-default form-control" onclick="addCorreo();"><span class="glyphicon glyphicon-plus-sign"></span> Añadir correo electrónico</div>
+							<div class="btn btn-default form-control" onclick="addCorreoContactos();"><span class="glyphicon glyphicon-plus-sign"></span> Añadir correo electrónico</div>
 						</div>
 					</div>
 				</fieldset>
@@ -109,17 +109,4 @@
 					</div>
 				</div>
 			</form>
-
-			<script>
-				function addCorreo(){
-					var divCorreos = document.getElementById("divCorreos");
-					var newdiv = document.createElement('div');
-					newdiv.innerHTML = '<div class="col-md-7 padding0"><input type="text" class="form-control" id="txtEmail" name="txtEmail" placeholder="Correo electrónico" /></div><label class=" col-md-2"><input type="radio" name="radPrincipal" /> Principal</label><label class="col-md-2"><input type="checkbox" name="chkNoValido" /> No válido</label><div class="btn btn-default pull-right col-md-1" onclick="removeCorreo(this);"><span class="glyphicon glyphicon-minus-sign"></span></div>';
-					divCorreos.appendChild(newdiv);
-				}
-				function removeCorreo(variable){
-					variable.parentNode.parentNode.removeChild(variable.parentNode);
-				}
-			</script>
-
   </div><!--/row-->

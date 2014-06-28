@@ -43,11 +43,7 @@ class Contactos_model extends CI_Model{
 		// Error -1: Falta el nombre
 		if($contacto['nombre']==null || $contacto['nombre']=="") return -1;
 		// Todo correcto a partir de este punto
-		$data = array(
-			'nombre' => $contacto['nombre'],
-			'apellidos' => $contacto['apellidos'],
-			'nif' => $contacto['nif']
-			);
+		$data = construirData($contacto);
 		return $this->db->insert('contactos',$data);
 	}
 
@@ -55,11 +51,7 @@ class Contactos_model extends CI_Model{
 		// Error -1: Falta el nombre
 		if($contacto['nombre']==null || $contacto['nombre']=="") return -1;
 		// Todo correcto a partir de este punto
-		$data = array(
-			'nombre' => $contacto['nombre'],
-			'apellidos' => $contacto['apellidos'],
-			'nif' => $contacto['nif']
-			);
+		$data = construirData($contacto);
 		$this->db->where('id', $contacto['id']);
 		return $this->db->update('contactos',$data);
 	}
@@ -69,4 +61,24 @@ class Contactos_model extends CI_Model{
 		$result = mysql_query($ssql);
 		return mysql_affected_rows();
 	}
+}
+
+/* FUNCIONES AUXILIARES */
+function construirData($contacto){
+	$return = array(
+		'nombre' => $contacto['nombre'],
+		'apellidos' => $contacto['apellidos'],
+		'nif' => $contacto['nif'],
+		'direccion' => $contacto['direccion'],
+		'ciudad' => $contacto['ciudad'],
+		'provincia' => $contacto['provincia'],
+		'cp' => $contacto['cp'],
+		'pais' => $contacto['pais'],
+		'telfOficina' => $contacto['telfOficina'],
+		'telfMovil' => $contacto['telfMovil'],
+		'fax' => $contacto['fax']
+		);
+	if(isset($contacto['id']))
+		$return['id'] = $contacto['id'];
+	return $return;
 }
