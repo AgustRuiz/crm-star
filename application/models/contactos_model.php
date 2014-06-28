@@ -29,10 +29,13 @@ class Contactos_model extends CI_Model{
 
 		$ssql = "select * from contactos where id=".$id;
 		$result=mysql_query($ssql);
-		if(mysql_num_rows($result)>0)
-			return mysql_fetch_array($result);
-		else
+		if(mysql_num_rows($result)>0){
+			$return = mysql_fetch_array($result);
+			$return['correos']=getEmails($id);
+			return $return;
+		}else{
 			return null;
+		}
 	}
 
 	public function countContactos(){
@@ -52,6 +55,17 @@ class Contactos_model extends CI_Model{
 		if($contacto['nombre']==null || $contacto['nombre']=="") return -1;
 		// Todo correcto a partir de este punto
 		$data = construirData($contacto);
+
+		// Eliminar todos los correos y crearlos con los datos nuevos
+		$ssql = "delete from correos where id_contacto=".$contacto['id'];
+		$result = mysql_query($ssql);
+		if($contacto['correos']){
+			foreach($contacto['correos'] as $correo){
+			// if($correo['id']<=0) continue;
+				$this->db->insert('correos',$correo);
+			}
+		}
+
 		$this->db->where('id', $contacto['id']);
 		return $this->db->update('contactos',$data);
 	}
@@ -76,9 +90,28 @@ function construirData($contacto){
 		'pais' => $contacto['pais'],
 		'telfOficina' => $contacto['telfOficina'],
 		'telfMovil' => $contacto['telfMovil'],
-		'fax' => $contacto['fax']
+		'fax' => $contacto['fax'],
+		'otrosDatos' => $contacto['otrosDatos']
 		);
 	if(isset($contacto['id']))
 		$return['id'] = $contacto['id'];
 	return $return;
+}
+
+function getEmails($id=null){
+	// return null;
+	if($id==null) return null;
+
+	$ssql = "select * from correos where id_contacto=".$id." order by principal DESC";
+	$result=mysql_query($ssql);
+	if(mysql_num_rows($result)>0){
+		unset($return);
+		while($row = mysql_fetch_array($result)){
+			$return[] = $row;
+		}
+		return $return;
+	}
+	else{
+		return null;
+	}
 }

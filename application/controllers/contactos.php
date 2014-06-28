@@ -119,8 +119,7 @@ class Contactos extends CI_Controller {
 	}
 
 	public function editar2($id=null){
-		$contacto = recogerFormulario($this->input);
-		$contacto['id'] = $id;
+		$contacto = recogerFormulario($this->input, $id);
 		$resultado = $this->Contactos_model->actualizar($contacto);
 
 		if($resultado>0){
@@ -151,21 +150,49 @@ class Contactos extends CI_Controller {
 }
 
 /* FUNCIONES AUXILIARES */
-function recogerFormulario($input){
-	return array(
-		'nombre' => trim($input->post('txtNombre')),
-		'apellidos' => trim($input->post('txtApellidos')),
-		'nif' => (trim($input->post('txtNIF'))=="")?null:$input->post('txtNIF'),
-		'direccion' => trim($input->post('txtDireccion')),
-		'ciudad' => trim($input->post('txtCiudad')),
-		'provincia' => trim($input->post('txtProvincia')),
-		'cp' => trim($input->post('txtCP')),
-		'pais' => trim($input->post('txtPais')),
-		'telfOficina' => trim($input->post('txtTelfOficina')),
-		'telfMovil' => trim($input->post('txtTelfMovil')),
-		'fax' => trim($input->post('txtFax'))
-			// Aquí vienen los correos electrónicos
+function recogerFormulario($input, $id_contacto=null){ unset($return);
+
+	$return = array(
+		'nombre' => strip_tags(trim($input->post('txtNombre'))),
+		'apellidos' => strip_tags(trim($input->post('txtApellidos'))),
+		'nif' => (strip_tags(trim($input->post('txtNIF')))=="")?null:strip_tags(trim($input->post('txtNIF'))),
+		'direccion' => nl2br(strip_tags(trim($input->post('txtDireccion')))),
+		'ciudad' => strip_tags(trim($input->post('txtCiudad'))),
+		'provincia' => strip_tags(trim($input->post('txtProvincia'))),
+		'cp' => strip_tags(trim($input->post('txtCP'))),
+		'pais' => strip_tags(trim($input->post('txtPais'))),
+		'telfOficina' => strip_tags(trim($input->post('txtTelfOficina'))),
+		'telfMovil' => strip_tags(trim($input->post('txtTelfMovil'))),
+		'fax' => strip_tags(trim($input->post('txtFax'))),
+		'otrosDatos' => nl2br(strip_tags(trim($input->post('txtOtrosDatos'))))
 		);
+	if($id_contacto!=null){
+		$return['id']=$id_contacto;
+	}
+
+	// Recogida de correos
+	unset($correos);
+	$principal=$input->post('radPrincipal');
+	$noValido=$input->post('chkNoValido', TRUE);
+	if($input->post('txtEmail')!=null){
+		foreach ($input->post('txtEmail') as $id => $mail) {
+			$mail = strip_tags(trim($mail));
+			if($mail=="") continue;
+
+			$correos[$id]['id'] = $id;
+			($id<=0)?$correos[$id]['id']=null:$correos[$id]['id']=$id; 
+			$correos[$id]['id_contacto'] = $id_contacto;
+			$correos[$id]['correo'] = $mail;
+			($principal==$id)? $correos[$id]['principal']=1:$correos[$id]['principal']=0; 
+			(isset($noValido[$id])&&$principal!=$id)? $correos[$id]['noValido']=1:$correos[$id]['noValido']=0;
+		}
+		$return['correos']=$correos;
+	}else{
+		$return['correos']=null;
+	}
+
+
+	return $return;
 }
 
 /* End of file contactos.php */
