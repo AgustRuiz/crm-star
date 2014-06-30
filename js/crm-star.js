@@ -13,3 +13,9 @@ function addCorreoContactos(){
 	divCorreos.appendChild(newdiv);
 	contacto--;
 }
+
+// Funciones para usuarios
+function addCorreoUsuarios(){
+	// Vale la misma función que para los contactos
+	addCorreoContactos();
+}

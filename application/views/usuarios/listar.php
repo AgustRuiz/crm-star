@@ -6,15 +6,15 @@
 					<tr>
 						<th>#</th>
 						<th>Nombre</th>
-						<th>Estado</th>
+						<th>Identificador</th>
 					</tr>
 				</thead>
 				<tbody id="contenedor">
-					<?php foreach ($listaContactos as $fila) { ?>
+					<?php foreach ($listaUsuarios as $fila) { ?>
 						<tr>
 							<td><?=$fila['id']?></td>
-							<td><a href="<?=$this->config->base_url().'contactos/ver/'.$fila['id']?>"><?=$fila['nombre'].' '.$fila['apellidos'];?></a></td>
-							<td><span class="estado_<?=$fila['estilo_estado']?>"><?=$fila['estado'];?></span></td>
+							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila['id']?>"><strong><?=$fila['nombre']?></strong></a></td>
+							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila['id']?>"><?=$fila['nick']?></a></td>
 						</tr>
 					<?php } ?>
 				</tbody>

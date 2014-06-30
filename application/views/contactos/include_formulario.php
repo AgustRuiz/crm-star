@@ -19,6 +19,22 @@
 			<input type="text" class="form-control" id="txtNIF" name="txtNIF" placeholder="NIF del contacto" value="<?php if(isset($contacto)) echo $contacto['nif']; ?>" />
 		</div>
 	</div>
+	<div class="form-group">
+		<label for="cmbEstado" class="col-sm-2 control-label">Estado</label>
+		<div class="col-sm-10">
+			<select class="form-control" id="cmbEstado" name="cmbEstado">
+				<?php
+				foreach ($estados as $estado) {
+					if($estado['id_estado']==$contacto['id_estado']){
+						echo '<option value="'.$estado['id_estado'].'" selected="selected">'.$estado['estado'].'</option>';
+					}else{
+						echo '<option value="'.$estado['id_estado'].'">'.$estado['estado'].'</option>';
+					}
+				}
+				?>
+			</select>
+		</div>
+	</div>
 	<hr/>
 	<div class="form-group">
 		<label for="txtDireccion" class="col-sm-2 control-label">Dirección</label>
@@ -99,11 +115,11 @@
 					<div class="btn btn-default form-control" onclick="addCorreoContactos();"><span class="glyphicon glyphicon-plus-sign"></span> Añadir correo electrónico</div>
 				</div>
 			</div>
-	<hr/>
-	<div class="form-group">
-		<label for="txtOtrosDatos" class="col-sm-2 control-label">Otros datos</label>
-		<div class="col-sm-10">
-			<textarea class="form-control" id="txtOtrosDatos" name="txtOtrosDatos" rows="4" placeholder="Observaciones de interés sobre el contacto"><?php if(isset($contacto)) echo str_replace('<br />', "", $contacto['otrosDatos']); ?></textarea>
-		</div>
-	</div>
+			<hr/>
+			<div class="form-group">
+				<label for="txtOtrosDatos" class="col-sm-2 control-label">Otros datos</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" id="txtOtrosDatos" name="txtOtrosDatos" rows="4" placeholder="Observaciones de interés sobre el contacto"><?php if(isset($contacto)) echo str_replace('<br />', "", $contacto['otrosDatos']); ?></textarea>
+				</div>
+			</div>
 		</fieldset>

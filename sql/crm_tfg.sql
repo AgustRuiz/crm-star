@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-06-2014 a las 01:19:23
+-- Tiempo de generación: 29-06-2014 a las 01:25:18
 -- Versión del servidor: 5.5.37
 -- Versión de PHP: 5.3.10-1ubuntu3.12
 
@@ -29,20 +29,20 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `contactos` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) NOT NULL,
-  `apellidos` varchar(40) DEFAULT NULL,
-  `nif` varchar(15) DEFAULT NULL,
-  `direccion` varchar(200) NOT NULL,
-  `ciudad` varchar(40) NOT NULL,
-  `provincia` varchar(40) NOT NULL,
-  `cp` varchar(10) NOT NULL,
-  `pais` varchar(40) NOT NULL,
-  `telfOficina` varchar(15) NOT NULL,
-  `telfMovil` varchar(15) NOT NULL,
-  `fax` varchar(15) NOT NULL,
-  `otrosDatos` text NOT NULL,
+  `apellidos` varchar(40),
+  `nif` varchar(15),
+  `direccion` varchar(200),
+  `ciudad` varchar(40),
+  `provincia` varchar(40),
+  `cp` varchar(10),
+  `pais` varchar(40),
+  `telfOficina` varchar(15),
+  `telfMovil` varchar(15),
+  `fax` varchar(15),
+  `otrosDatos` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nif` (`nif`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Volcado de datos para la tabla `contactos`
@@ -76,7 +76,40 @@ INSERT INTO `contactos` (`id`, `nombre`, `apellidos`, `nif`, `direccion`, `ciuda
 (25, 'Xavier', 'Xabier', NULL, '', '', '', '', '', '', '', '', ''),
 (26, 'Yago', 'Yagüe', NULL, '', '', '', '', '', '', '', '', ''),
 (27, 'Zaina', 'Zamorano', NULL, '', '', '', '', '', '', '', '', ''),
-(32, 'Agustín', 'Ruiz Linares', '15510111S', 'Calle Navas, 21<br />\nApetecán', 'Villacarrillo', 'Jaén', '23300', 'España', '999999999', '666666666', '-', 'Es un chico muy apañao<br />\nApetepórico<br />\nJanderklander');
+(28, 'Agustín', 'Ruiz Linares', '15510111S', 'Calle Navas, 21<br />\nApetecán', 'Villacarrillo', 'Jaén', '23300', 'España', '999999999', '666666666', '-', 'Es un chico muy apañao<br />\nApetepórico<br />\nJanderklander');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `correos`
+--
+
+CREATE TABLE IF NOT EXISTS `correos` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id_contacto` bigint(20) unsigned NOT NULL,
+  `correo` varchar(50) NOT NULL,
+  `principal` tinyint(1) NOT NULL,
+  `noValido` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_contacto` (`id_contacto`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `correos`
+--
+
+INSERT INTO `correos` (`id`, `id_contacto`, `correo`, `principal`, `noValido`) VALUES
+(1, 28, 'agustinruizlinares@gmail.com', 1, 0);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `correos`
+--
+ALTER TABLE `correos`
+  ADD CONSTRAINT `correos_ibfk_1` FOREIGN KEY (`id_contacto`) REFERENCES `contactos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

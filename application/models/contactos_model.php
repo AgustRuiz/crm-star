@@ -6,7 +6,7 @@ class Contactos_model extends CI_Model{
 	}
 
 	function getContactos($limit=null, $offset=null){
-		$ssql = "select * from contactos";
+		$ssql = "select * from contactos, contactos_estado WHERE contactos.id_estado = contactos_estado.id_estado";
 		// Limit y Offset
 		if($limit!=null){
 			if($offset!=null){
@@ -27,7 +27,7 @@ class Contactos_model extends CI_Model{
 	function getContacto($id=null){
 		if($id==null) return null;
 
-		$ssql = "select * from contactos where id=".$id;
+		$ssql = "select * from contactos, contactos_estado where contactos.id=".$id." AND contactos.id_estado = contactos_estado.id_estado";
 		$result=mysql_query($ssql);
 		if(mysql_num_rows($result)>0){
 			$return = mysql_fetch_array($result);
@@ -57,12 +57,12 @@ class Contactos_model extends CI_Model{
 		$data = construirData($contacto);
 
 		// Eliminar todos los correos y crearlos con los datos nuevos
-		$ssql = "delete from correos where id_contacto=".$contacto['id'];
+		$ssql = "delete from contactos_correos where id_contacto=".$contacto['id'];
 		$result = mysql_query($ssql);
 		if($contacto['correos']){
 			foreach($contacto['correos'] as $correo){
 			// if($correo['id']<=0) continue;
-				$this->db->insert('correos',$correo);
+				$this->db->insert('contactos_correos',$correo);
 			}
 		}
 
@@ -71,7 +71,7 @@ class Contactos_model extends CI_Model{
 	}
 
 	public function eliminarContacto($id){
-		$ssql = "delete from contactos where id=".$id;
+		$ssql = "delete from contactos_contactos where id=".$id;
 		$result = mysql_query($ssql);
 		return mysql_affected_rows();
 	}
@@ -83,6 +83,7 @@ function construirData($contacto){
 		'nombre' => $contacto['nombre'],
 		'apellidos' => $contacto['apellidos'],
 		'nif' => $contacto['nif'],
+		'id_estado' => $contacto['id_estado'],
 		'direccion' => $contacto['direccion'],
 		'ciudad' => $contacto['ciudad'],
 		'provincia' => $contacto['provincia'],
@@ -102,7 +103,7 @@ function getEmails($id=null){
 	// return null;
 	if($id==null) return null;
 
-	$ssql = "select * from correos where id_contacto=".$id." order by principal DESC";
+	$ssql = "select * from contactos_correos where id_contacto=".$id." order by principal DESC, noValido ASC";
 	$result=mysql_query($ssql);
 	if(mysql_num_rows($result)>0){
 		unset($return);

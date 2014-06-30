@@ -7,6 +7,7 @@ class Contactos extends CI_Controller {
 		parent::__construct();
 		$this->load->library('pagination');
 		$this->load->model('Contactos_model');
+		$this->load->model('Contactos_estado_model');
 	}
 
 	public function index(){
@@ -53,7 +54,8 @@ class Contactos extends CI_Controller {
 
 	public function nuevo(){
 		$this->load->view('header');
-		$this->load->view('contactos/nuevo');
+		$data['estados']=$this->Contactos_estado_model->getEstados();
+		$this->load->view('contactos/nuevo', $data);
 		$this->load->view('sidebars/contactos/nuevo');
 		$this->load->view('footer');
 	}
@@ -67,6 +69,7 @@ class Contactos extends CI_Controller {
 				"success" => "Contacto creado correctamente"
 				);
 			$data['contacto']=$this->Contactos_model->getContacto($this->db->insert_id());
+			$data['estados']=$this->Contactos_estado_model->getEstados();
 			// Cargar las vistas
 			$this->load->view('header');
 			$this->load->view('contactos/ver', $data);
@@ -76,12 +79,12 @@ class Contactos extends CI_Controller {
 			if($resultado==-1){
 				// Error en la inserción
 				$data["error"] = "El nombre no puede estar vacío";
-				$data["contacto"] = $contacto;
 			}else{
 				// Error por NIF duplicado
 				$data["error"] = "Ya existe un contacto con ese NIF";
-				$data["contacto"] = $contacto;
 			}
+			$data["contacto"] = $contacto;
+			$data['estados']=$this->Contactos_estado_model->getEstados();
 			$this->load->view('header');
 			$this->load->view('contactos/nuevo', $data);
 			$this->load->view('sidebars/contactos/nuevo');
@@ -112,6 +115,7 @@ class Contactos extends CI_Controller {
 		}
 		else{
 			$data['contacto']=$this->Contactos_model->getContacto($id);
+			$data['estados']=$this->Contactos_estado_model->getEstados();
 			$this->load->view('contactos/editar', $data);
 			$this->load->view('sidebars/contactos/editar');
 		}
@@ -126,6 +130,7 @@ class Contactos extends CI_Controller {
 			//Edición correcta
 			$data["success"] = "Contacto editado correctamente";
 			$data['contacto']=$this->Contactos_model->getContacto($id);
+			$data['estados']=$this->Contactos_estado_model->getEstados();
 			$this->load->view('header');
 			$this->load->view('contactos/ver', $data);
 			$this->load->view('sidebars/contactos/ver');
@@ -135,12 +140,12 @@ class Contactos extends CI_Controller {
 			if($resultado==-1){
 				// Error en la inserción
 				$data["error"] = "El nombre no puede estar vacío";
-				$data["contacto"] = $contacto;
 			}else{
 				// Error por NIF duplicado
 				$data["error"] = "Ya existe un contacto con ese NIF";
-				$data["contacto"] = $contacto;
 			}
+			$data["contacto"] = $contacto;
+			$data['estados']=$this->Contactos_estado_model->getEstados();
 			$this->load->view('header');
 			$this->load->view('contactos/editar', $data);
 			$this->load->view('sidebars/contactos/editar');
@@ -150,12 +155,15 @@ class Contactos extends CI_Controller {
 }
 
 /* FUNCIONES AUXILIARES */
-function recogerFormulario($input, $id_contacto=null){ unset($return);
+function recogerFormulario($input, $id_contacto=null)
+{
+	unset($return);
 
 	$return = array(
 		'nombre' => strip_tags(trim($input->post('txtNombre'))),
 		'apellidos' => strip_tags(trim($input->post('txtApellidos'))),
 		'nif' => (strip_tags(trim($input->post('txtNIF')))=="")?null:strip_tags(trim($input->post('txtNIF'))),
+		'id_estado' => $input->post('cmbEstado'),
 		'direccion' => nl2br(strip_tags(trim($input->post('txtDireccion')))),
 		'ciudad' => strip_tags(trim($input->post('txtCiudad'))),
 		'provincia' => strip_tags(trim($input->post('txtProvincia'))),
@@ -175,6 +183,7 @@ function recogerFormulario($input, $id_contacto=null){ unset($return);
 	$principal=$input->post('radPrincipal');
 	$noValido=$input->post('chkNoValido', TRUE);
 	if($input->post('txtEmail')!=null){
+		unset($correos);
 		foreach ($input->post('txtEmail') as $id => $mail) {
 			$mail = strip_tags(trim($mail));
 			if($mail=="") continue;
@@ -186,11 +195,13 @@ function recogerFormulario($input, $id_contacto=null){ unset($return);
 			($principal==$id)? $correos[$id]['principal']=1:$correos[$id]['principal']=0; 
 			(isset($noValido[$id])&&$principal!=$id)? $correos[$id]['noValido']=1:$correos[$id]['noValido']=0;
 		}
-		$return['correos']=$correos;
+		if(isset($correos))
+			$return['correos']=$correos;
+		else
+			$return['correos']=null;
 	}else{
 		$return['correos']=null;
 	}
-
 
 	return $return;
 }
