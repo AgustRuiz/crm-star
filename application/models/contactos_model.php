@@ -71,7 +71,7 @@ class Contactos_model extends CI_Model{
 	}
 
 	public function eliminarContacto($id){
-		$ssql = "delete from contactos_contactos where id=".$id;
+		$ssql = "delete from contactos where id=".$id;
 		$result = mysql_query($ssql);
 		return mysql_affected_rows();
 	}

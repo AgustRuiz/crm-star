@@ -2,7 +2,7 @@
 	<div class="row row-offcanvas row-offcanvas-right">
 		<div class="col-xs-12 col-sm-9">
 			<?php if(isset($error)){ ?>
-			<div class="alert alert-warning alert-dismissable">
+			<div class="alert alert-danger alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				<strong>Oops!</strong> <?=$error?>
 			</div>

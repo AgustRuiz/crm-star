@@ -110,16 +110,30 @@
 /****** CONTACTOS ******/
 /*Estilos de estado*/
 .estado_indeterminado{
-	color:#999;
+	color:gray;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid gray;
 	font-style: italic;
 }
 .estado_potencial{
-	color:blue;
+	background-color:#f0ad4e;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #f0ad4e;
 }
 .estado_activo{
-	color:green;
-	font-weight: bold;
+	background-color:#5cb85c;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #5cb85c;
 }
 .estado_agotado{
-	color:red;
+	background-color:#d9534f;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #d9534f;
 }
