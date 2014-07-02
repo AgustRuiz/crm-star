@@ -123,6 +123,11 @@ class Usuarios_model extends CI_Model{
 		}
 		return $result;
 	}
+
+	public function cambiarPassword($id, $password){
+		$ssql = "update usuarios set password='".$password."' where id=".$id;
+		$result = mysql_query($ssql);
+	}
 }
 
 /* FUNCIONES AUXILIARES */
@@ -140,5 +145,7 @@ function construirData($usuario){
 		);
 	if(isset($usuario['id']))
 		$return['id'] = $usuario['id'];
+	if(isset($usuario['password']))
+		$return['password'] = $usuario['password'];
 	return $return;
 }

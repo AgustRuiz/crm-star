@@ -63,12 +63,19 @@ class Usuarios extends CI_Controller {
 
 	public function nuevo2(){
 		$usuario = recogerFormulario($this->input);
+		$password = generarPassword();
+		$hash = $hash=hashPassword($password);
+		$usuario['password'] = $hash;
 		$resultado = $this->Usuarios_model->insertar($usuario);
 		if($resultado>0){
 			//Inserción correcta
+			include('include_mail.php');
+			mail_altaUsuario($usuario['email'], $usuario['nick'], $password, $this->config->base_url());
 			$data = array(
 				"success" => "Usuario creado correctamente. La contraseña de acceso ha sido generada aleatoriamente y mandada por correo electrónico a la dirección <em>".$usuario['email']."</em>"
 				);
+			$data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash.").<br/><em>Esto luego se quita, por favor</em>";
+
 			$data['usuario']=$this->Usuarios_model->getUsuario($this->db->insert_id());
 			// Cargar las vistas
 			$this->load->view('header');
@@ -181,23 +188,28 @@ class Usuarios extends CI_Controller {
 
 	public function password($id=null){
 
-		$psswd = generarPassword();
-
-
+		$password = generarPassword();
 		$data['usuario']=$this->Usuarios_model->getUsuario($id);
 
+		include('include_mail.php');
 		
-		$resultado = mail($data['usuario']['email'],"Prueba CRM","Esto es un mensaje de prueba de correo");
+		// if(true){
+		if(mail_cambiarPassword($data['usuario']['email'], $data['usuario']['nick'], $password, $this->config->base_url())){
+			$hash=hashPassword($password);
+			$this->Usuarios_model->cambiarPassword($data['usuario']['id'], $hash);
+			$data["success"] = "La nueva contraseña ha sido generada y enviada por correo electrónico a la dirección <em>".$data['usuario']['email']."</em>.";
+			$data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash.").<br/><em>Esto luego se quita, por favor</em>";
+}else{
+	$data["error"] = "Ha ocurrido un error y no ha podido mandarse la nueva contraseña al usuario. (".$password.").";
+}
 
 
-		$data["success"] = "La nueva contraseña ha sido generada y enviada por correo electrónico a la dirección <em>".$data['usuario']['email']."</em>. (".$psswd."). (".$resultado.")";
-		$data["error"] = "Ha ocurrido un error y no ha podido mandarse la nueva contraseña al usuario. (".$psswd."). (".$resultado.")";
 
-		$this->load->view('header');
-		$this->load->view('usuarios/ver', $data);
-		$this->load->view('sidebars/usuarios/ver');
-		$this->load->view('footer');
-	}
+$this->load->view('header');
+$this->load->view('usuarios/ver', $data);
+$this->load->view('sidebars/usuarios/ver');
+$this->load->view('footer');
+}
 }
 
 
@@ -230,6 +242,11 @@ function generarPassword($longitud=6){
 		$psswd .= substr($str,rand(0,62),1);
 	}
 	return $psswd;
+}
+
+function hashPassword($psswd){
+	//Devuelve 98 caracteres
+	return crypt($psswd);
 }
 
 /* End of file usuarios.php */
