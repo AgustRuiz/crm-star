@@ -28,14 +28,24 @@ class Usuarios_model extends CI_Model{
 		return $listado;
 	}
 
-	function getusuario($id=null){
+	function getUsuario($id=null){
 		if($id==null) return null;
 
 		$ssql = "select * from usuarios where id=".$id;
 		$result=mysql_query($ssql);
 		if(mysql_num_rows($result)>0){
-			$return = mysql_fetch_array($result);
-			return $return;
+			return mysql_fetch_array($result);
+		}else{
+			return null;
+		}
+	}
+
+	function getLogin($nick=null, $hash=null){
+		if($nick==null || $hash==null) return null;
+		$ssql = "select * from usuarios where nick like '".$nick."' and password like '".$hash."'";
+		$result=mysql_query($ssql);
+		if(mysql_num_rows($result)>0){
+			return mysql_fetch_array($result);
 		}else{
 			return null;
 		}

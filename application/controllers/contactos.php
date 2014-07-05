@@ -5,6 +5,11 @@ class Contactos extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		// Comprobar si hay sesión
+		if($this->session->userdata('id')==null){
+			header("Location: ".$this->config->base_url()."index.php/login");
+		}
+		// Carga de recursos
 		$this->load->library('pagination');
 		$this->load->model('Contactos_model');
 		$this->load->model('Contactos_estado_model');

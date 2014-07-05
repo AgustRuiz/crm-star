@@ -59,12 +59,12 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola Agustín <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">Cambiar contraseña</a></li>
 							<li><a href="#">Configuración</a></li>
 							<li class="divider"></li>
-							<li><a href="#">Cerrar sesión</a></li>
+							<li><a href="<?=$this->config->base_url()?>login/logout">Cerrar sesión</a></li>
 						</ul>
 					</li>
 				</ul>

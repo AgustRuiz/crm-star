@@ -1,7 +1,14 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 // Funciones con plantillas para el envío de correos
 
 function mail_altaUsuario($destinatario, $nick, $password, $base_url){
+	return true;
+
+
+
+
+
 	// $destinatario      = 'arl00029@red.ujaen.es';
 	$asunto = 'crm-star - Alta de usuario';
 
@@ -24,6 +31,12 @@ function mail_altaUsuario($destinatario, $nick, $password, $base_url){
 }
 
 function mail_cambiarPassword($destinatario, $nick, $password, $base_url){
+	return true;
+
+
+
+
+	
 	// $destinatario      = 'arl00029@red.ujaen.es';
 	$asunto = 'crm-star - Cambio de contraseña';
 

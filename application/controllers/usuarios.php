@@ -5,6 +5,11 @@ class Usuarios extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		// Comprobar si hay sesión
+		if($this->session->userdata('id')==null){
+			header("Location: ".$this->config->base_url()."index.php/login");
+		}
+		// Carga de recursos
 		$this->load->library('pagination');
 		$this->load->model('Usuarios_model');
 	}
@@ -235,19 +240,6 @@ function recogerFormulario($input, $id=null)
 	return $return;
 }
 
-function generarPassword($longitud=6){
-	$str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-	$psswd = "";
-	for($i=0;$i<$longitud;$i++) {
-		$psswd .= substr($str,rand(0,62),1);
-	}
-	return $psswd;
-}
-
-function hashPassword($psswd){
-	//Devuelve 98 caracteres
-	return crypt($psswd);
-}
-
+include('include_password.php');
 /* End of file usuarios.php */
 /* Location: ./application/controllers/usuario.php */

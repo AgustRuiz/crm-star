@@ -4,6 +4,11 @@ class Error404 extends CI_Controller {
 
 	public function index()
 	{
+		// Comprobar si hay sesión
+		if($this->session->userdata('id')==null){
+			header("Location: ".$this->config->base_url()."index.php/login");
+		}
+		
 		//Cabecera
 		$this->load->view('header');
 		//Contenido principal
