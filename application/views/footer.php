@@ -9,7 +9,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="<?php echo $this->config->base_url(); ?>js/jquery.min.js"></script>
     <script src="<?php echo $this->config->base_url(); ?>js/bootstrap.min.js"></script>
+    <!-- Funciones para el menú lateral -->
     <script src="<?php echo $this->config->base_url(); ?>js/offcanvas.js"></script>
+    <!-- Funciones de la aplicación -->
     <script src="<?php echo $this->config->base_url(); ?>js/crm-star.js"></script>
 </body>
 </html>

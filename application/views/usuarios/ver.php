@@ -33,7 +33,7 @@
 					<!-- Fila -->
 					<div class="col-md-12"><h4>Métodos de contacto</h4></div>
 
-					<div class="col-md-2 col-xs-3 text-right titulo">Correo electrónico</div>
+					<div class="col-md-2 col-xs-3 text-right titulo">Correo</div>
 					<div class="col-md-4 col-xs-9 dato"><?=$usuario['email']?></div>
 					<div class="col-md-2 col-xs-3 text-right titulo">Telf. Oficina</div>
 					<div class="col-md-4 col-xs-9 dato"><?=$usuario['telfOficina']?></div>

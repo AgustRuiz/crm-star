@@ -49,13 +49,13 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="txtProvincia" class="col-sm-2 control-label">Estado/Provincia</label>
+		<label for="txtProvincia" class="col-sm-2 control-label">Provincia</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="txtProvincia" name="txtProvincia" placeholder="Estado o provincia" value="<?php if(isset($contacto)) echo $contacto['provincia']; ?>" />
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="txtCP" class="col-sm-2 control-label">Código Postal</label>
+		<label for="txtCP" class="col-sm-2 control-label">Cód. Postal</label>
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="txtCP" name="txtCP" placeholder="Código postal" value="<?php if(isset($contacto)) echo $contacto['cp']; ?>" />
 		</div>

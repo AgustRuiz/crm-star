@@ -25,9 +25,10 @@ class Login extends CI_Controller {
 				$data['error']="Usuario no encontrado";
 			}else{
 				// Todo bien
-				foreach ($usuario as $clave => $valor) {
-					$this->session->set_userdata($clave, $valor);
-				}
+				// foreach ($usuario as $clave => $valor) {
+				// 	$this->session->set_userdata($clave, $valor);
+				// }
+					$this->session->set_userdata($usuario);
 				// Crear sesión y redirigir
 				header("Location: ".$this->config->base_url());
 				die();

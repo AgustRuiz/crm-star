@@ -6,7 +6,7 @@
     <div class="jumbotron">
     	<!-- Esto es una chapuza, pero es provisional -->
     	<center><img src="<?=$this->config->base_url();?>/img/logo/logo_negro.png" alt="crm-star" style="width:50%;"></center>
-    	<p>Client Relationship Management Star</p>
+    	<p class="text-center">Client Relationship Management Star</p>
    </div>
 
 </div><!--/span-->

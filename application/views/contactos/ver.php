@@ -25,17 +25,17 @@
 					<div class="col-md-12"><h4>Dirección</h4></div>
 					<div class="col-md-2 col-xs-3 text-right titulo">Dirección</div>
 					<div class="col-md-4 col-xs-9 dato"><?=$contacto['direccion']?></div>
-					<div class="col-md-2 col-xs-3 text-right titulo">Código postal</div>
+					<div class="col-md-2 col-xs-3 text-right titulo">Cód. Postal</div>
 					<div class="col-md-4 col-xs-9 dato"><?=$contacto['cp']?></div>
 					<!-- Fila -->
 					<div class="col-md-2 col-xs-3 text-right titulo">Ciudad</div>
 					<div class="col-md-4 col-xs-9 dato"><?=$contacto['ciudad']?></div>
-					<div class="col-md-2 col-xs-3 text-right titulo">Provincia/Estado</div>
+					<div class="col-md-2 col-xs-3 text-right titulo">Provincia</div>
 					<div class="col-md-4 col-xs-9 dato"><?=$contacto['provincia']?></div>
 					<!-- Fila -->
 					<div class="col-md-12"><h4>Métodos de contacto</h4></div>
 
-					<div class="col-md-2 col-xs-3 text-right titulo">Correo electrónico</div>
+					<div class="col-md-2 col-xs-3 text-right titulo">Correo</div>
 					<div class="col-md-4 col-xs-9 dato">
 						<?php
 						if($contacto['correos']!=null){

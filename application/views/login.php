@@ -39,7 +39,11 @@
 		</div>
 		<?php } ?>
 		<form class="form-signin" role="form" method="post" accept-charset="utf-8" href="<?=$this->config->base_url()?>index.php/login">
-			<h2 class="form-signin-heading">crm-star</h2>
+			<h4 class="form-signin-heading">
+				<p>Bienvenid@ a</p>
+				<img class="img-responsive" alt="crm-star" src="<?=$this->config->base_url()?>img/logo/logo_negro.png"/>
+				<p class="text-center">Client Relationship Management Star</p>
+			</h4>
 			<input type="text" name="nick" value="<?php if(isset($nick)) echo $nick; ?>" class="form-control" placeholder="Usuario" required autofocus>
 			<input type="password" name="password" class="form-control" placeholder="Contraseña" required>
 			<!-- <div class="checkbox">

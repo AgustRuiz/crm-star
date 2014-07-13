@@ -54,6 +54,7 @@
 					<!-- <li class="active"><a href="#">Inicio</a></li> -->
 					<li <?php if($this->router->fetch_class()=="contactos") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>contactos">Contactos</a></li>
 					<li <?php if($this->router->fetch_class()=="usuarios") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>usuarios">Usuarios</a></li>
+					<li <?php if($this->router->fetch_class()=="campanyas") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>campanyas">Campañas</a></li>
 					<li><a href="#">...</a></li>
 				</ul>
 
@@ -64,7 +65,7 @@
 							<li><a href="#">Cambiar contraseña</a></li>
 							<li><a href="#">Configuración</a></li>
 							<li class="divider"></li>
-							<li><a href="<?=$this->config->base_url()?>login/logout">Cerrar sesión</a></li>
+							<li><a href="<?=$this->config->base_url()?>index.php/login/logout">Cerrar sesión</a></li>
 						</ul>
 					</li>
 				</ul>
