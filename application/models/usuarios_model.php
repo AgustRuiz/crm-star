@@ -9,8 +9,12 @@ class Usuarios_model extends CI_Model{
 		parent::__construct();
 	}
 
-	function getUsuarios($limit=null, $offset=null){
+	function getUsuarios($limit=null, $offset=null, $filtro=null){
 		$ssql = "select * from usuarios";
+		// Filtro
+		if($filtro!=null){
+			$ssql .= " WHERE nick like '".$filtro."' OR nombre like '%".$filtro."%' OR apellidos like '%".$filtro."%' OR nif like '%".$filtro."%' OR email like '%".$filtro."%' OR telfOficina like '%".$filtro."%' OR telfMovil like '%".$filtro."%' OR fax like '%".$filtro."%'";
+		}
 		// Limit y Offset
 		if($limit!=null){
 			if($offset!=null){
@@ -24,6 +28,9 @@ class Usuarios_model extends CI_Model{
 		$result=mysql_query($ssql);
 		while($row=mysql_fetch_array($result)){
 			$listado[]=$row;
+		}
+		if(!isset($listado)){
+			$listado = null;
 		}
 		return $listado;
 	}
@@ -51,8 +58,15 @@ class Usuarios_model extends CI_Model{
 		}
 	}
 
-	function countUsuarios(){
-		return $this->db->count_all_results('usuarios');
+	function countUsuarios($filtro=null){
+		$ssql = "select count(*) from usuarios";
+		// Filtro
+		if($filtro!=null){
+			$ssql .= " WHERE nick like '".$filtro."' OR nombre like '%".$filtro."%' OR apellidos like '%".$filtro."%' OR nif like '%".$filtro."%' OR email like '%".$filtro."%' OR telfOficina like '%".$filtro."%' OR telfMovil like '%".$filtro."%' OR fax like '%".$filtro."%'";
+		}
+		$result=mysql_query($ssql);
+		$num = mysql_fetch_array($result);
+		return $num[0];
 	}
 
 
@@ -71,21 +85,21 @@ class Usuarios_model extends CI_Model{
 			switch (mysql_errno()) {
 				case mysql_CODE_DUPLICATE_KEY:
 					// Campo duplicado
-					if(strpos(mysql_error(),'nick')){
+				if(strpos(mysql_error(),'nick')){
 						// Error -4: Nick duplicado
-						$result=-4;
-					}else if(strpos(mysql_error(),'email')){
+					$result=-4;
+				}else if(strpos(mysql_error(),'email')){
 						// Error -4: Correo duplicado
-						$result=-5;
-					}else{
+					$result=-5;
+				}else{
 						//Error no identificado
-						$result=-1000;
-					}
-					break;
+					$result=-1000;
+				}
+				break;
 
 				default:
-					$result=-1000;
-					break;
+				$result=-1000;
+				break;
 			}
 		}
 		return $result;
@@ -114,21 +128,21 @@ class Usuarios_model extends CI_Model{
 			switch (mysql_errno()) {
 				case mysql_CODE_DUPLICATE_KEY:
 					// Campo duplicado
-					if(strpos(mysql_error(),'nick')){
+				if(strpos(mysql_error(),'nick')){
 						// Error -4: Nick duplicado
-						$result=-4;
-					}else if(strpos(mysql_error(),'email')){
+					$result=-4;
+				}else if(strpos(mysql_error(),'email')){
 						// Error -4: Correo duplicado
-						$result=-5;
-					}else{
+					$result=-5;
+				}else{
 						//Error no identificado
-						$result=-1000;
-					}
-					break;
+					$result=-1000;
+				}
+				break;
 
 				default:
-					$result=-1000;
-					break;
+				$result=-1000;
+				break;
 			}
 		}
 		return $result;

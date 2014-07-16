@@ -22,8 +22,8 @@ class Usuarios extends CI_Controller {
 	public function listar($offset='0'){
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
-		$total = $this->Usuarios_model->countUsuarios();
 		$data['listaUsuarios'] = $this->Usuarios_model->getUsuarios($limit, $offset);
+		$total = $this->Usuarios_model->countUsuarios();
 		$config['base_url'] = base_url().'usuarios/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -79,7 +79,7 @@ class Usuarios extends CI_Controller {
 			$data = array(
 				"success" => "Usuario creado correctamente. La contraseña de acceso ha sido generada aleatoriamente y mandada por correo electrónico a la dirección <em>".$usuario['email']."</em>"
 				);
-			$data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash.").<br/><em>Esto luego se quita, por favor</em>";
+			// $data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash.").<br/><em>Esto luego se quita, por favor</em>";
 
 			$data['usuario']=$this->Usuarios_model->getUsuario($this->db->insert_id());
 			// Cargar las vistas
@@ -198,23 +198,51 @@ class Usuarios extends CI_Controller {
 
 		include('include_mail.php');
 		
-		// if(true){
 		if(mail_cambiarPassword($data['usuario']['email'], $data['usuario']['nick'], $password, $this->config->base_url())){
 			$hash=hashPassword($password);
 			$this->Usuarios_model->cambiarPassword($data['usuario']['id'], $hash);
 			$data["success"] = "La nueva contraseña ha sido generada y enviada por correo electrónico a la dirección <em>".$data['usuario']['email']."</em>.";
-			$data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash.").<br/><em>Esto luego se quita, por favor</em>";
-}else{
-	$data["error"] = "Ha ocurrido un error y no ha podido mandarse la nueva contraseña al usuario. (".$password.").";
-}
+			// $data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash.").<br/><em>Esto luego se quita, por favor</em>";
+		}else{
+			$data["error"] = "Ha ocurrido un error y no ha podido mandarse la nueva contraseña al usuario. (".$password.").";
+		}
 
+		$this->load->view('header');
+		$this->load->view('usuarios/ver', $data);
+		$this->load->view('sidebars/usuarios/ver');
+		$this->load->view('footer');
+	}
 
-
-$this->load->view('header');
-$this->load->view('usuarios/ver', $data);
-$this->load->view('sidebars/usuarios/ver');
-$this->load->view('footer');
-}
+	public function include_busqueda_usuario($offset='0'){
+		$consulta=null;
+		if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
+			$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));
+		}
+		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
+		if($consulta==null){
+			$data['listaUsuarios'] = $this->Usuarios_model->getUsuarios($limit, $offset, $consulta);
+			$total = $this->Usuarios_model->countUsuarios($consulta);
+			$config['per_page'] = $limit;
+		}else{
+			$data['listaUsuarios'] = $this->Usuarios_model->getUsuarios(null, null, $consulta);
+			$total = $this->Usuarios_model->countUsuarios($consulta);
+			$config['per_page'] = $limit = $total;
+		}
+		$config['base_url'] = base_url().'usuarios/include_busqueda_usuario/';
+		$config['total_rows'] = $total;
+		$config['uri_segment'] = '3';
+		$this->pagination->initialize($config);
+		$data['pag_links'] = $this->pagination->create_links();
+		// Número de usuarios
+		$data['numContacts'] = $total;
+		$data['initialRow'] = $offset+1;
+		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+		$data['offset'] = $offset;
+		// Cargar las vistas
+		$this->load->view('usuarios/popups/buscar',$data);
+	}
 }
 
 

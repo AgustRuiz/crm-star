@@ -1,10 +1,19 @@
-// Funciones generales
+/*** Funciones generales ***/
 function removeElement(elemento){
 	elemento.parentNode.parentNode.removeChild(elemento.parentNode);
 }
 
+function setHeightIframeElement(){
+	var altura = Math.max(
+		document.body.offsetHeight,
+		document.documentElement.offsetHeight
+		);
+	// var altura = $("#contenido").height();
+	window.frameElement.style.height = altura+"px";
+}
 
-// Funciones para contactos
+
+/*** Funciones para Contactos ***/
 var contacto = -1;
 function addCorreoContactos(){
 	var divCorreos = document.getElementById("divCorreos");
@@ -14,8 +23,17 @@ function addCorreoContactos(){
 	contacto--;
 }
 
-// Funciones para usuarios
+/*** Funciones para Usuarios ***/
 function addCorreoUsuarios(){
 	// Vale la misma función que para los contactos
 	addCorreoContactos();
 }
+
+
+	function asignarUsuario(id, nombre){
+		var campoIdUsuario = parent.document.getElementById("txtIdUsuario");
+		var campoNombreUsuario = parent.document.getElementById("txtNombreUsuario");
+		campoIdUsuario.value = id;
+		campoNombreUsuario.value = nombre;
+		parent.cerrarModalUsuarioResponsable();
+	}

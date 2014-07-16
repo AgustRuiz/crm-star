@@ -10,12 +10,14 @@
 					</tr>
 				</thead>
 				<tbody id="contenedor">
-					<?php foreach ($listaContactos as $fila) { ?>
+					<?php if(isset($listaContactos)){ foreach ($listaContactos as $fila) { ?>
 						<tr>
 							<td><?=$fila['id']?></td>
 							<td><a href="<?=$this->config->base_url().'contactos/ver/'.$fila['id']?>"><?=$fila['nombre'].' '.$fila['apellidos'];?></a></td>
-							<td><span class="estado_<?=$fila['estilo_estado']?>"><?=$fila['estado'];?></span></td>
+							<td><span class="<?=$fila['estilo_estado']?>"><?=$fila['estado'];?></span></td>
 						</tr>
+					<?php } } else { ?>
+						<tr><td colspan="4" class="text-center"><em>No hay contactos</em></td></tr>
 					<?php } ?>
 				</tbody>
 				<tfoot>	

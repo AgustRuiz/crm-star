@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> <!-- Fin Modal eliminar -->
 	</div>
 </div><!--/span-->
 </div><!--/row-->

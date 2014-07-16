@@ -111,31 +111,85 @@
 
 /****** CONTACTOS ******/
 /*Estilos de estado*/
-.estado_indeterminado{
+.estado-contacto-indeterminado{
 	color:gray;
 	padding: 3px;
 	border-radius: 5px;
 	border: 1px solid gray;
 	font-style: italic;
 }
-.estado_potencial{
+.estado-contacto-potencial{
 	background-color:#f0ad4e;
 	color:white;
 	padding: 3px;
 	border-radius: 5px;
 	border: 1px solid #f0ad4e;
 }
-.estado_activo{
+.estado-contacto-activo{
 	background-color:#5cb85c;
 	color:white;
 	padding: 3px;
 	border-radius: 5px;
 	border: 1px solid #5cb85c;
 }
-.estado_agotado{
+.estado-contacto-agotado{
 	background-color:#d9534f;
 	color:white;
 	padding: 3px;
 	border-radius: 5px;
 	border: 1px solid #d9534f;
+}
+
+/****** IFRAME MODAL ******/
+.iframe-modal{
+	/*height: 300px;*/
+	width: 100%;
+	/*margin: 5px;*/
+	padding: 5px;
+	border:0;
+	overflow:hidden;
+}
+
+/****** CAMPAÑAS ******/
+/*Estilos de estado*/
+.estado-campanya-planificacion{
+	color:gray;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid gray;
+}
+.estado-campanya-activa{
+	background-color:#5cb85c;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #5cb85c;
+}
+.estado-campanya-inactiva{
+	background-color:#f0ad4e;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #f0ad4e;
+}
+.estado-campanya-completada{
+	background-color:#5bc0de;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #5bc0de;
+}
+.estado-campanya-suspendida{
+	background-color:#d9534f;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #d9534f;
+}
+.estado-contacto-aplazada{
+	background-color:#428bca;
+	color:white;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #428bca;
 }

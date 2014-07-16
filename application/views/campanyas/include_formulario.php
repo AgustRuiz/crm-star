@@ -8,23 +8,31 @@
 	<div class="form-group">
 		<label for="txtFechaInicio" class="col-sm-2 control-label">Inicio</label>
 		<div class="col-sm-10">
-			<div class='input-group date' id='txtFechaInicio'>
+			<input type='hidden' name="txtFechaInicioTimestamp" id="txtFechaInicioTimestamp" />
+			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtFechaInicio'>
 				<input type='text' class="form-control" name="txtFechaInicio" readonly="readonly" />
 				<span class="input-group-addon">
 					<span class="glyphicon glyphicon-calendar"></span>
 				</span>
 			</div>
+			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearFechaInicio();">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtFechaFin" class="col-sm-2 control-label">Finalización</label>
 		<div class="col-sm-10">
-			<div class='input-group date' id='txtFechaFin'>
+		<input type='hidden' name="txtFechaFinTimestamp" id="txtFechaFinTimestamp" />
+			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtFechaFin'>
 				<input type='text' class="form-control" name="txtFechaFin" readonly="readonly" />
 				<span class="input-group-addon">
 					<span class="glyphicon glyphicon-calendar"></span>
 				</span>
 			</div>
+			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearFechaFin();">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
 		</div>
 	</div>
 	<div class="form-group">
@@ -33,7 +41,7 @@
 			<select class="form-control" id="cmbTipo" name="cmbTipo">
 				<?php
 				foreach ($tipos as $tipo) {
-					if($tipo['id_tipo']==$campanya['id_tipo']){
+					if(isset($campanya) && $tipo['id_tipo']==$campanya['id_tipo']){
 						echo '<option value="'.$tipo['id_tipo'].'" selected="selected">'.$tipo['tipo'].'</option>';
 					}else{
 						echo '<option value="'.$tipo['id_tipo'].'">'.$tipo['tipo'].'</option>';
@@ -49,7 +57,7 @@
 			<select class="form-control" id="cmbEstado" name="cmbEstado">
 				<?php
 				foreach ($estados as $estado) {
-					if($estado['id_estado']==$campanya['id_estado']){
+					if(isset($campanya) && $estado['id_estado']==$campanya['id_estado']){
 						echo '<option value="'.$estado['id_estado'].'" selected="selected">'.$estado['estado'].'</option>';
 					}else{
 						echo '<option value="'.$estado['id_estado'].'">'.$estado['estado'].'</option>';
@@ -62,37 +70,35 @@
 	<div class="form-group">
 		<label for="txtDescripcion" class="col-sm-2 control-label">Descripción</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $contacto['descripcion']); ?></textarea>
+			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $campanya['descripcion']); ?></textarea>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtObjetivo" class="col-sm-2 control-label">Objetivo</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtObjetivo" name="txtObjetivo" rows="4" placeholder="Objetivo de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $contacto['objetivo']); ?></textarea>
+			<textarea class="form-control" id="txtObjetivo" name="txtObjetivo" rows="4" placeholder="Objetivo de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $campanya['objetivo']); ?></textarea>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtNombreUsuario" class="col-sm-2 control-label" title="Campo obligatorio">Usuario responsable</label>
 		<div class="col-sm-10">
-			<div class="input-group">
-				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($campanya)) echo $campanya['usuarios.id']; ?>"/>
-				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<?php if(isset($campanya)) echo $campanya['usuarios.nombre']; ?>" readonly="readonly"/>
-				<span class="input-group-addon" data-toggle="modal" data-target="#modalUsuarioResponsable"><span class="glyphicon glyphicon-search"></span></span>
+			<div class="input-group col-sm-11 col-xs-11 pull-left">
+				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($campanya)) echo $campanya['usuario']; ?>"/>
+				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($campanya)) echo $campanya['usuario_nombre'].' '.$campanya['usuario_apellidos']; ?>" readonly="readonly"/>
+				<span class="input-group-addon" onclick="abrirModalUsuarioResponsable()"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
+			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearUsuario();">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
 			<!-- Modal búsqueda de usuario -->
-			<div class="modal fade" id="modalUsuarioResponsable" tabindex="-1" role="dialog">
-				<div class="modal-dialog">
+			<div class="modal fade" id="modalUsuarioResponsable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
-							Asignar usuario
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+							<h4>Usuario responsable de campaña</h4>
 						</div>
-						<div class="modal-body">
-							Éste apartado no está diseñado aún. Incluirá un iframe de búsqueda
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-success" data-dismiss="modal">Asignar</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-						</div>
+						<iframe class="iframe-modal" id="iframeModalUsuarioResponsable" style="height:30px;"></iframe>
 					</div>
 				</div>
 			</div><!-- Fin de modal de búsqueda de usuario -->
