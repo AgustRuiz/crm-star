@@ -40,7 +40,7 @@
 						?></div>
 					</div>
 					<div class="row clearfix">
-						<div class="col-md-2 col-xs-3 text-right titulo">Tipo campaña</div>
+						<div class="col-md-2 col-xs-3 text-right titulo">Tipo</div>
 						<div class="col-md-4 col-xs-9 dato"><?=$campanya['tipo']?></div>
 						<div class="col-md-2 col-xs-3 text-right titulo">Estado</div>
 						<div class="col-md-4 col-xs-9 dato"><span class="<?=$campanya['estilo_estado']?>"><?=$campanya['estado']?></span></div>

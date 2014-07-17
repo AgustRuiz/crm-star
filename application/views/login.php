@@ -27,8 +27,8 @@
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-<link rel="shortcut icon" href="<?=$this->config->base_url()?>favicon.ico" type="image/x-icon">
-<link rel="icon" href="<?=$this->config->base_url()?>favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="<?=$this->config->base_url()?>favicon.svg" type="image/x-icon">
+<link rel="icon" href="<?=$this->config->base_url()?>favicon.svg" type="image/x-icon">
 </head>
 <body>
 	<div class="container">
@@ -41,7 +41,7 @@
 		<form class="form-signin" role="form" method="post" accept-charset="utf-8" href="<?=$this->config->base_url()?>index.php/login">
 			<h4 class="form-signin-heading">
 				<p>Bienvenid@ a</p>
-				<img class="img-responsive" alt="crm-star" src="<?=$this->config->base_url()?>img/logo/logo_negro.png"/>
+				<img class="img-responsive" alt="crm-star" src="<?=$this->config->base_url()?>img/logo/logo.svg"/>
 				<p class="text-center">Client Relationship Management Star</p>
 			</h4>
 			<input type="text" name="nick" value="<?php if(isset($nick)) echo $nick; ?>" class="form-control" placeholder="Usuario" required autofocus>
