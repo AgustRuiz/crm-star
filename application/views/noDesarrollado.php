@@ -5,6 +5,6 @@
     <!-- <p class="pull-right visible-xs"><button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button></p> -->
     <div class="jumbotron">
      <h1>¡No Desarrollado!</h1>
-     <p>Esta parte aún no está desarrollada.</p>
+     <p>Funcionalidad no desarrollada aún.</p>
    </div>
   </div><!--/row-->

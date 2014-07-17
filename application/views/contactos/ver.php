@@ -46,11 +46,11 @@
 							if($contacto['correos']!=null){
 								foreach ($contacto['correos'] as $email) {
 									if($email['principal']==1){
-										echo '<div><strong>'.$email['correo'].'</strong> <em>(principal)</em></div>';
+										echo '<div><a href="mailto:'.$email['correo'].'"><strong>'.$email['correo'].'</strong></a> <em>(principal)</em></div>';
 									}else if($email['noValido']==1){
-										echo '<div><s>'.$email['correo'].'</s> <em>(no válido)</em></div>';
+										echo '<div><a href="mailto:'.$email['correo'].'"><s>'.$email['correo'].'</s></a> <em>(no válido)</em></div>';
 									}else{
-										echo '<div>'.$email['correo'].'</div>';
+										echo '<div><a href="mailto:'.$email['correo'].'">'.$email['correo'].'</a></div>';
 									}
 								}
 							}else{

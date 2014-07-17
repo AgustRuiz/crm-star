@@ -38,6 +38,34 @@ class Campanyas_model extends CI_Model{
 		return $listado;
 	}
 
+	function getCampanyasUsuario($limit=null, $offset=null, $usuario=null){
+		$ssql = "SELECT c.*, u.nombre AS usuario_nombre, u.apellidos AS usuario_apellidos  FROM (SELECT c.id, c.nombre, c.fechaInicio, c.fechaFin, c.objetivo, c.descripcion, c.usuario, t.*, e.* FROM campanyas c, campanyas_tipo t, campanyas_estado e WHERE c.tipo=t.id_tipo AND c.estado=e.id_estado) c INNER JOIN usuarios u ON c.usuario=u.id";
+		// Filtro
+		if($usuario!=null){
+			$ssql .= " AND c.usuario = ".$usuario;
+		}
+		// Orden
+		$ssql .= " ORDER BY c.id";
+		// Limit y Offset
+		if($limit!=null){
+			if($offset!=null){
+				$ssql .= " LIMIT $limit OFFSET $offset";
+			}else{
+				$ssql .= " LIMIT $limit";
+			}
+		}
+
+		unset($listado);
+		$result=mysql_query($ssql);
+		while($row=mysql_fetch_array($result)){
+			$listado[]=$row;
+		}
+		if(!isset($listado)){
+			$listado = null;
+		}
+		return $listado;
+	}
+
 	function getCampanya($id=null){
 		if($id==null) return null;
 
@@ -74,7 +102,7 @@ class Campanyas_model extends CI_Model{
 		if(!$result){
 			switch (mysql_errno()) {
 				default:
-				$result=-1000;
+				$result=-mysql_errno();
 				break;
 			}
 		}
@@ -93,7 +121,7 @@ class Campanyas_model extends CI_Model{
 		if(!$result){
 			switch (mysql_errno()) {
 				default:
-				$result=-1000;
+				$result=-1048;
 				break;
 			}
 		}

@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Campanyas_estado_model extends CI_Model{
+class Actividades_estado_model extends CI_Model{
+
 	function __construct(){
 		parent::__construct();
 	}
@@ -9,7 +10,7 @@ class Campanyas_estado_model extends CI_Model{
 		if($id==null){
 			$ssql = "select * from campanyas_estado order by id_estado";
 		}else{
-			$ssql = "select * from campanyas_estado where id_estado=".$id;
+			$ssql = "select * from actividades_estado where id_estado=".$id;
 		}
 
 		$result=mysql_query($ssql);

@@ -19,5 +19,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="list-group">
+		<a href="<?=$this->config->base_url()?>actividades/listar" class="list-group-item">Listar actividades de este contacto</a>
+		<a href="<?=$this->config->base_url()?>actividades/nuevo" class="list-group-item">Nueva actividad para este contacto</a>
+	</div>
 </div><!--/span-->
 </div><!--/row-->

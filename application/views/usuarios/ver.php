@@ -38,7 +38,7 @@
 					<div class="row col-md-12"><h5>Métodos de contacto</h5></div>
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Correo</div>
-						<div class="col-md-4 col-xs-9 dato"><?=$usuario['email']?></div>
+						<div class="col-md-4 col-xs-9 dato"><a href="mailto:<?=$usuario['email']?>"><?=$usuario['email']?></a></div>
 						<div class="col-md-2 col-xs-3 text-right titulo">Telf. Oficina</div>
 						<div class="col-md-4 col-xs-9 dato"><?=$usuario['telfOficina']?></div>
 					</div>

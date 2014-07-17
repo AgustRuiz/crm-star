@@ -24,7 +24,7 @@ class Campanyas extends CI_Controller {
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
 		$data['listaCampanyas'] = $this->Campanyas_model->getCampanyas($limit, $offset);
-		$total = count($this->Campanyas_model->getCampanyas(null,0)); //$this->Campanyas_model->countCampanyas();
+		$total = count($this->Campanyas_model->getCampanyas(null, null));
 		$config['base_url'] = base_url().'campanyas/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -42,6 +42,31 @@ class Campanyas extends CI_Controller {
 		$this->load->view('header');
 		$this->load->view('campanyas/listar', $data);
 		$this->load->view('sidebars/campanyas/listar');
+		$this->load->view('footer');
+	}
+
+	public function listarUsuario($offset='0'){
+		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
+		$data['listaCampanyas'] = $this->Campanyas_model->getCampanyasUsuario($limit, $offset, $this->session->userdata('id'));
+		$total = count($this->Campanyas_model->getCampanyasUsuario(null, null, $this->session->userdata('id')));
+		$config['base_url'] = base_url().'campanyas/listar/';
+		$config['total_rows'] = $total;
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = '3';
+		$this->pagination->initialize($config);
+		$data['pag_links'] = $this->pagination->create_links();
+		// Número de usuarios
+		$data['numContacts'] = $total;
+		$data['initialRow'] = $offset+1;
+		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+		$data['offset'] = $offset;
+
+		// Cargar las vistas
+		$this->load->view('header');
+		$this->load->view('campanyas/listar', $data);
+		$this->load->view('sidebars/campanyas/listarUsuario');
 		$this->load->view('footer');
 	}
 
@@ -69,7 +94,7 @@ class Campanyas extends CI_Controller {
 			$this->load->view('sidebars/campanyas/ver');
 		}else{
 			// Fallo al insertar
-			$data['error'] = "Ha ocurrido un error durante la creación de la campaña.";
+			$data['error'] = "Ha ocurrido un error durante la creación de la campaña. (error: ".$resultado.")";
 			$data['campanya'] = $campanya;
 			$data['campanya']['usuario_nombre'] = $this->input->post('txtNombreUsuario');
 			$data['campanya']['usuario_apellidos'] = "";
@@ -195,7 +220,7 @@ function recogerFormulario($input, $id_campanya=null)
 	if(strip_tags(trim($input->post('txtIdUsuario')))!=""){
 		$return['usuario'] = strip_tags(trim($input->post('txtIdUsuario')));
 	}else{
-		$return['usuario'] = null;
+		$return['usuario'] = 0;
 	}
 
 	return $return;

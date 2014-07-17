@@ -80,7 +80,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="txtNombreUsuario" class="col-sm-2 control-label" title="Campo obligatorio">Usuario responsable</label>
+		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario responsable</label>
 		<div class="col-sm-10">
 			<div class="input-group col-sm-11 col-xs-11 pull-left">
 				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($campanya)) echo $campanya['usuario']; ?>"/>
