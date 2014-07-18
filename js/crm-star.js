@@ -30,10 +30,30 @@ function addCorreoUsuarios(){
 }
 
 
-	function asignarUsuario(id, nombre){
-		var campoIdUsuario = parent.document.getElementById("txtIdUsuario");
-		var campoNombreUsuario = parent.document.getElementById("txtNombreUsuario");
-		campoIdUsuario.value = id;
-		campoNombreUsuario.value = nombre;
-		parent.cerrarModalUsuarioResponsable();
-	}
+function asignarUsuario(id, nombre){
+	var campoIdUsuario = parent.document.getElementById("txtIdUsuario");
+	var campoNombreUsuario = parent.document.getElementById("txtNombreUsuario");
+	campoIdUsuario.value = id;
+	campoNombreUsuario.value = nombre;
+	parent.cerrarModalUsuarioResponsable();
+}
+
+/*** Funciones para Contactos ***/
+
+function asignarContacto(id, nombre){
+	var campoIdContacto = parent.document.getElementById("txtIdContacto");
+	var campoNombreContacto = parent.document.getElementById("txtNombreContacto");
+	campoIdContacto.value = id;
+	campoNombreContacto.value = nombre;
+	parent.cerrarModalContacto();
+}
+
+/*** Funciones para Campañas ***/
+
+function asignarCampanya(id, nombre){
+	var campoIdCampanya = parent.document.getElementById("txtIdCampanya");
+	var campoNombreCampanya = parent.document.getElementById("txtNombreCampanya");
+	campoIdCampanya.value = id;
+	campoNombreCampanya.value = nombre;
+	parent.cerrarModalCampanya();
+}

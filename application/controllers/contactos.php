@@ -157,6 +157,37 @@ class Contactos extends CI_Controller {
 			$this->load->view('footer');
 		}
 	}
+
+	public function include_busqueda_contacto($offset='0'){
+		$consulta=null;
+		if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
+			$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));
+		}
+		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
+		if($consulta==null){
+			$data['listaContactos'] = $this->Contactos_model->getContactos($limit, $offset, $consulta);
+			$total = $this->Contactos_model->countContactos($consulta);
+			$config['per_page'] = $limit;
+		}else{
+			$data['listaContactos'] = $this->Contactos_model->getContactos(null, null, $consulta);
+			$total = $this->Contactos_model->countContactos($consulta);
+			$config['per_page'] = $limit = $total;
+		}
+		$config['base_url'] = base_url().'contactos/include_busqueda_contacto/';
+		$config['total_rows'] = $total;
+		$config['uri_segment'] = '3';
+		$this->pagination->initialize($config);
+		$data['pag_links'] = $this->pagination->create_links();
+		// Número de usuarios
+		$data['numContacts'] = $total;
+		$data['initialRow'] = $offset+1;
+		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+		$data['offset'] = $offset;
+		// Cargar las vistas
+		$this->load->view('contactos/popups/buscar',$data);
+	}
 }
 
 /* FUNCIONES AUXILIARES */

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-07-2014 a las 20:56:25
+-- Tiempo de generación: 19-07-2014 a las 01:03:48
 -- Versión del servidor: 5.5.37
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -19,6 +19,105 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `crm_tfg`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividades`
+--
+
+CREATE TABLE IF NOT EXISTS `actividades` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `inicio` datetime NOT NULL,
+  `fin` datetime NOT NULL,
+  `tipo` int(10) unsigned NOT NULL,
+  `prioridad` int(10) unsigned NOT NULL,
+  `estado` int(10) unsigned NOT NULL,
+  `usuario` bigint(20) unsigned NOT NULL,
+  `campanya` bigint(20) unsigned NOT NULL,
+  `contacto` bigint(20) unsigned NOT NULL,
+  `descripcion` text COLLATE latin1_spanish_ci NOT NULL,
+  `resultado` text COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`),
+  KEY `prioridad` (`prioridad`),
+  KEY `estado` (`estado`),
+  KEY `usuario` (`usuario`),
+  KEY `campanya` (`campanya`),
+  KEY `contacto` (`contacto`),
+  KEY `tipo` (`tipo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividades_estado`
+--
+
+CREATE TABLE IF NOT EXISTS `actividades_estado` (
+  `id_estado` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo_estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_estado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `actividades_estado`
+--
+
+INSERT INTO `actividades_estado` (`id_estado`, `estado`, `estilo_estado`) VALUES
+(1, 'No iniciada', 'estado-actividades-noIniciada'),
+(2, 'En progreso', 'estado-actividades-enProgreso'),
+(3, 'Completada', 'estado-actividades-completada'),
+(4, 'Pendiente de información', 'estado-actividades-pendienteIn'),
+(5, 'Aplazada', 'estado-actividades-aplazada');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividades_prioridad`
+--
+
+CREATE TABLE IF NOT EXISTS `actividades_prioridad` (
+  `id_prioridad` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `prioridad` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo_prioridad` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_prioridad`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `actividades_prioridad`
+--
+
+INSERT INTO `actividades_prioridad` (`id_prioridad`, `prioridad`, `estilo_prioridad`) VALUES
+(1, 'Baja', 'prioridad-actividades-baja'),
+(2, 'Media', 'prioridad-actividades-media'),
+(3, 'Alta', 'prioridad-actividades-alta');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividades_tipo`
+--
+
+CREATE TABLE IF NOT EXISTS `actividades_tipo` (
+  `id_tipo` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo_tipo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_tipo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `actividades_tipo`
+--
+
+INSERT INTO `actividades_tipo` (`id_tipo`, `tipo`, `estilo_tipo`) VALUES
+(1, 'Llamada telefónica', 'tipo-actividades-llamada'),
+(2, 'Correo electrónico', 'tipo-actividades-correo'),
+(3, 'Carta', 'tipo-actividades-carta'),
+(4, 'Fax', 'tipo-actividades-fax'),
+(5, 'Tarea', 'tipo-actividades-tarea'),
+(6, 'Reunión', 'tipo-actividades-reunion');
 
 -- --------------------------------------------------------
 
@@ -39,7 +138,15 @@ CREATE TABLE IF NOT EXISTS `campanyas` (
   PRIMARY KEY (`id`),
   KEY `estado` (`estado`),
   KEY `tipo` (`tipo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `campanyas`
+--
+
+INSERT INTO `campanyas` (`id`, `nombre`, `fechaInicio`, `fechaFin`, `estado`, `tipo`, `objetivo`, `descripcion`, `usuario`) VALUES
+(1, 'Campaña de Agustín', '0000-00-00', '0000-00-00', 1, 1, '', '', 13),
+(3, 'Campaña sin asignar', '0000-00-00', '0000-00-00', 1, 1, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -84,13 +191,13 @@ CREATE TABLE IF NOT EXISTS `campanyas_tipo` (
 --
 
 INSERT INTO `campanyas_tipo` (`id_tipo`, `tipo`, `estilo_tipo`) VALUES
-(1, 'Ventas', 'ventas'),
-(2, 'Correo', 'correo'),
-(3, 'Email', 'email'),
-(4, 'Web', 'web'),
-(5, 'Radio', 'radio'),
-(6, 'Televisión', 'television'),
-(7, 'Boletín de noticias', 'noticias');
+(1, 'Ventas', 'tipo-campanya-ventas'),
+(2, 'Correo', 'tipo-campanya-correo'),
+(3, 'Email', 'tipo-campanya-email'),
+(4, 'Web', 'tipo-campanya-web'),
+(5, 'Radio', 'tipo-campanya-radio'),
+(6, 'Televisión', 'tipo-campanya-television'),
+(7, 'Boletín de noticias', 'tipo-campanya-noticias');
 
 -- --------------------------------------------------------
 
@@ -250,6 +357,17 @@ INSERT INTO `usuarios` (`id`, `nick`, `password`, `nombre`, `apellidos`, `nif`, 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `actividades`
+--
+ALTER TABLE `actividades`
+  ADD CONSTRAINT `actividades_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `actividades_ibfk_2` FOREIGN KEY (`campanya`) REFERENCES `campanyas` (`id`),
+  ADD CONSTRAINT `actividades_ibfk_3` FOREIGN KEY (`contacto`) REFERENCES `contactos` (`id`),
+  ADD CONSTRAINT `actividades_ibfk_4` FOREIGN KEY (`prioridad`) REFERENCES `actividades_prioridad` (`id_prioridad`),
+  ADD CONSTRAINT `actividades_ibfk_5` FOREIGN KEY (`estado`) REFERENCES `actividades_estado` (`id_estado`),
+  ADD CONSTRAINT `actividades_ibfk_6` FOREIGN KEY (`tipo`) REFERENCES `actividades_tipo` (`id_tipo`);
 
 --
 -- Filtros para la tabla `campanyas`

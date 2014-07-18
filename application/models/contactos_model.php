@@ -5,8 +5,12 @@ class Contactos_model extends CI_Model{
 		parent::__construct();
 	}
 
-	function getContactos($limit=null, $offset=null){
+	function getContactos($limit=null, $offset=null, $filtro=null){
 		$ssql = "select * from contactos, contactos_estado WHERE contactos.id_estado = contactos_estado.id_estado";
+		// Filtro
+		if($filtro!=null){
+			$ssql .= " AND (nombre like '%".$filtro."%' OR apellidos like '%".$filtro."%' OR nif like '%".$filtro."%')";
+		}
 		// Limit y Offset
 		if($limit!=null){
 			if($offset!=null){
@@ -38,8 +42,15 @@ class Contactos_model extends CI_Model{
 		}
 	}
 
-	public function countContactos(){
-		return $this->db->count_all_results('contactos');
+	public function countContactos($filtro=null){
+		$ssql = "select count(*) from contactos, contactos_estado WHERE contactos.id_estado = contactos_estado.id_estado";
+		// Filtro
+		if($filtro!=null){
+			$ssql .= " AND (nombre like '%".$filtro."%' OR apellidos like '%".$filtro."%' OR nif like '%".$filtro."%')";
+		}
+		$result = mysql_query($ssql);
+		$row = mysql_fetch_array($result);
+		return $row[0];
 	}
 
 	public function insertar($contacto){

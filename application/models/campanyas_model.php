@@ -10,12 +10,13 @@ class Campanyas_model extends CI_Model{
 	}
 
 	function getCampanyas($limit=null, $offset=null, $filtro=null){
-		// $ssql = "select c.*, t.*, e.*, u.nombre AS usuario_nombre, u.apellidos AS usuario_apellidos from campanyas c, usuarios u, campanyas_tipo t, campanyas_estado e WHERE (c.usuario=u.id OR c.usuario=0) AND c.tipo=t.id_tipo AND c.estado=e.id_estado";
-		$ssql = "SELECT c.*, u.nombre AS usuario_nombre, u.apellidos AS usuario_apellidos  FROM (SELECT c.id, c.nombre, c.fechaInicio, c.fechaFin, c.objetivo, c.descripcion, c.usuario, t.*, e.* FROM campanyas c, campanyas_tipo t, campanyas_estado e WHERE c.tipo=t.id_tipo AND c.estado=e.id_estado) c LEFT JOIN usuarios u ON c.usuario=u.id";
+		$ssql = "SELECT c.*, u.nombre AS usuario_nombre, u.apellidos AS usuario_apellidos  FROM (SELECT c.id, c.nombre, c.fechaInicio, c.fechaFin, c.objetivo, c.descripcion, c.usuario, t.*, e.* FROM campanyas c, campanyas_tipo t, campanyas_estado e WHERE c.tipo=t.id_tipo AND c.estado=e.id_estado";
 		// Filtro
 		if($filtro!=null){
-			$ssql .= " AND c.nombre like '".$filtro."'";
+			$ssql .= " AND c.nombre like '%".$filtro."%'";
 		}
+		// Continuación de la consulta
+		$ssql .= ") c LEFT JOIN usuarios u ON c.usuario=u.id";
 		// Orden
 		$ssql .= " ORDER BY c.id";
 		// Limit y Offset
@@ -81,10 +82,10 @@ class Campanyas_model extends CI_Model{
 
 
 	function countCampanyas($filtro=null){
-		$ssql = "select count(*) from campanyas";
+		$ssql = "select count(*) from campanyas c";
 		// Filtro
 		if($filtro!=null){
-			$ssql .= " AND c.nombre like '".$filtro."'";
+			$ssql .= " WHERE c.nombre like '%".$filtro."%'";
 		}
 		$result=mysql_query($ssql);
 		$num = mysql_fetch_array($result);

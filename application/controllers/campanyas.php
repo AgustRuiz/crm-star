@@ -187,6 +187,35 @@ class Campanyas extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function include_busqueda_campanya($offset='0'){
+		$consulta=null;
+		if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
+			$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));
+		}
+		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
+		if($consulta==null){
+			$data['listaCampanyas'] = $this->Campanyas_model->getCampanyas($limit, $offset, null);
+		}else{
+			$data['listaCampanyas'] = $this->Campanyas_model->getCampanyas(null, null, $consulta);
+		}
+		$total = $this->Campanyas_model->countCampanyas($consulta);
+		$config['per_page'] = $limit;
+		$config['base_url'] = base_url().'campanyas/include_busqueda_contacto/';
+		$config['total_rows'] = $total;
+		$config['uri_segment'] = '3';
+		$this->pagination->initialize($config);
+		$data['pag_links'] = $this->pagination->create_links();
+		// Número de usuarios
+		$data['numContacts'] = $total;
+		$data['initialRow'] = $offset+1;
+		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+		$data['offset'] = $offset;
+		// Cargar las vistas
+		$this->load->view('campanyas/popups/buscar',$data);
+	}
+
 }
 
 /* FUNCIONES AUXILIARES */

@@ -1,10 +1,10 @@
 <fieldset>
-	<div class="form-group">
+	<div class="form-group required">
 		<label for="txtInicio" class="col-sm-2 control-label">Inicio</label>
 		<div class="col-sm-10">
-			<input type='hidden' name="txtInicioTimestamp" id="txtInicioTimestamp" />
-			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtInicio'>
-				<input type='text' class="form-control" name="txtInicio" readonly="readonly" />
+			<input type='hidden' name="txtInicioTimestamp" id="txtInicioTimestamp" required="required" />
+			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtInicio' data-date-format="DD/MM/YYYY HH:mm">
+				<input type='text' class="form-control" name="txtInicio" id="lblInicio" readonly="readonly" required="required" />
 				<span class="input-group-addon">
 					<span class="glyphicon glyphicon-calendar"></span>
 				</span>
@@ -18,8 +18,8 @@
 		<label for="txtFin" class="col-sm-2 control-label">Finalización</label>
 		<div class="col-sm-10">
 			<input type='hidden' name="txtFinTimestamp" id="txtFinTimestamp" />
-			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtFin'>
-				<input type='text' class="form-control" name="txtFin" readonly="readonly" />
+			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtFin' data-date-format="DD/MM/YYYY HH:mm">
+				<input type='text' class="form-control" name="txtFin" id="lblFin" readonly="readonly" placeholder="No especificado" />
 				<span class="input-group-addon">
 					<span class="glyphicon glyphicon-calendar"></span>
 				</span>
@@ -29,7 +29,7 @@
 			</span>
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group required">
 		<label for="cmbTipo" class="col-sm-2 control-label">Tipo</label>
 		<div class="col-sm-10">
 			<select class="form-control" id="cmbTipo" name="cmbTipo">
@@ -45,7 +45,7 @@
 			</select>
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group required">
 		<label for="cmbPrioridad" class="col-sm-2 control-label">Prioridad</label>
 		<div class="col-sm-10">
 			<select class="form-control" id="cmbPrioridad" name="cmbPrioridad">
@@ -63,7 +63,7 @@
 			</select>
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group required">
 		<label for="cmbEstado" class="col-sm-2 control-label">Estado</label>
 		<div class="col-sm-10">
 			<select class="form-control" id="cmbEstado" name="cmbEstado">
@@ -79,45 +79,69 @@
 			</select>
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group required">
 		<label for="txtNombreContacto" class="col-sm-2 control-label">Contacto</label>
 		<div class="col-sm-10">
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="txtNombreCampaña" class="col-sm-2 control-label">Campaña</label>
-		<div class="col-sm-10">
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario</label>
-		<div class="col-sm-10">
 			<div class="input-group col-sm-11 col-xs-11 pull-left">
-				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($actividad)) echo $actividad['usuario']; ?>"/>
-				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($actividad)) echo $actividad['usuario_nombre'].' '.$actividad['usuario_apellidos']; ?>" readonly="readonly"/>
-				<span class="input-group-addon" onclick="abrirModalUsuarioResponsable()"><span class="glyphicon glyphicon-search"></span></span>
+				<input type="hidden" id="txtIdContacto" name="txtIdContacto" value="<?php if(isset($actividad)) echo $actividad['contacto']; ?>"/>
+				<input type="text" class="form-control" id="txtNombreContacto" name="txtNombreContacto" placeholder="" value="<? if(isset($actividad)) echo $actividad['contacto_nombre'].' '.$actividad['contacto_apellidos']; ?>" readonly="readonly"/>
+				<span class="input-group-addon" onclick="abrirModalContacto()"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
-			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearUsuario();">
+			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearContacto();">
 				<span class="glyphicon glyphicon-remove"></span>
 			</span>
-			<!-- Modal búsqueda de usuario -->
-			<div class="modal fade" id="modalUsuarioResponsable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<!-- Modal búsqueda de contacto -->
+			<div class="modal fade" id="modalContacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-							<h4>Usuario responsable de campaña</h4>
+							<h4>Contacto</h4>
 						</div>
-						<iframe class="iframe-modal" id="iframeModalUsuarioResponsable" style="height:30px;"></iframe>
+						<iframe class="iframe-modal" id="iframeModalContacto"></iframe>
 					</div>
 				</div>
-			</div><!-- Fin de modal de búsqueda de usuario -->
+			</div><!-- Fin de modal de búsqueda de contacto -->
 		</div>
 	</div>
 	<div class="form-group">
+		<label for="txtNombreCampanya" class="col-sm-2 control-label">Campaña</label>
+		<div class="col-sm-10">
+			<div class="input-group col-sm-11 col-xs-11 pull-left">
+				<input type="hidden" id="txtIdCampanya" name="txtIdCampanya" value="<?php if(isset($actividad)) echo $actividad['campanya']; ?>"/>
+				<input type="text" class="form-control" id="txtNombreCampanya" name="txtNombreCampanya" placeholder="" value="<? if(isset($actividad)) echo $actividad['campanya_nombre'];?>" readonly="readonly"/>
+				<span class="input-group-addon" onclick="abrirModalCampanya()"><span class="glyphicon glyphicon-search"></span></span>
+			</div>
+			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearCampanya();">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+			<!-- Modal búsqueda de campaña -->
+			<div class="modal fade" id="modalCampanya" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+							<h4>Campaña</h4>
+						</div>
+						<iframe class="iframe-modal" id="iframeModalCampanya"></iframe>
+					</div>
+				</div>
+			</div><!-- Fin de modal de búsqueda de contacto -->
+		</div>
+	</div>
+	<div class="form-group required">
+		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario</label>
+		<div class="col-sm-10">
+			<div class="input-group col-sm-12 col-xs-12 pull-left">
+				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="$this->session->userdata('id')"/>
+				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<?=$this->session->userdata('nombre')?> <?=$this->session->userdata('apellidos')?>" readonly="readonly"/>
+			</div>
+		</div>
+	</div>
+	<div class="form-group required">
 		<label for="txtDescripcion" class="col-sm-2 control-label">Descripción</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la actividad"><?php if(isset($actividad)) echo str_replace('<br />', "", $actividad['descripcion']); ?></textarea>
+			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la actividad" required="required"><?php if(isset($actividad)) echo str_replace('<br />', "", $actividad['descripcion']); ?></textarea>
 		</div>
 	</div>
 	<div class="form-group">
