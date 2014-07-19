@@ -9,12 +9,12 @@
 <script type="text/javascript">
 	$(function () {
 		<?php
-		if(isset($campanya)){
-			if($campanya['fechaInicio']!=0){
-				$fechaInicio = date("d-m-Y H:i", strtotime($campanya['fechaInicio']));
+		if(isset($actividad)){
+			if($actividad['inicio']!=0){
+				$fechaInicio = date("d-m-Y H:i", strtotime($actividad['inicio']));
 			}
-			if($campanya['fechaFin']!=0){
-				$fechaFin = date("d-m-Y H:i", strtotime($campanya['fechaFin']));
+			if($actividad['fin']!=0){
+				$fechaFin = date("d-m-Y H:i", strtotime($actividad['fin']));
 			}
 		}
 		?>

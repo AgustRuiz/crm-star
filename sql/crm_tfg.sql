@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-07-2014 a las 01:03:48
+-- Tiempo de generación: 19-07-2014 a las 22:50:31
 -- Versión del servidor: 5.5.37
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -28,13 +28,14 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `actividades` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
   `inicio` datetime NOT NULL,
   `fin` datetime NOT NULL,
   `tipo` int(10) unsigned NOT NULL,
   `prioridad` int(10) unsigned NOT NULL,
   `estado` int(10) unsigned NOT NULL,
   `usuario` bigint(20) unsigned NOT NULL,
-  `campanya` bigint(20) unsigned NOT NULL,
+  `campanya` bigint(20) unsigned DEFAULT NULL,
   `contacto` bigint(20) unsigned NOT NULL,
   `descripcion` text COLLATE latin1_spanish_ci NOT NULL,
   `resultado` text COLLATE latin1_spanish_ci NOT NULL,
@@ -46,7 +47,63 @@ CREATE TABLE IF NOT EXISTS `actividades` (
   KEY `campanya` (`campanya`),
   KEY `contacto` (`contacto`),
   KEY `tipo` (`tipo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=59 ;
+
+--
+-- Volcado de datos para la tabla `actividades`
+--
+
+INSERT INTO `actividades` (`id`, `nombre`, `inicio`, `fin`, `tipo`, `prioridad`, `estado`, `usuario`, `campanya`, `contacto`, `descripcion`, `resultado`) VALUES
+(5, 'Primera actividad', '2014-07-21 12:30:00', '2014-07-21 13:00:00', 4, 1, 1, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(6, 'Primera actividad', '2014-07-21 12:30:00', '2014-07-21 13:00:00', 4, 2, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(7, 'Primera actividad', '2014-07-21 12:30:00', '2014-07-21 13:00:00', 4, 3, 3, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(8, 'Primera actividad', '2014-07-21 12:30:00', '2014-07-21 13:00:00', 4, 3, 4, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(9, 'Primera actividad', '2014-07-21 12:30:00', '2014-07-21 13:00:00', 4, 3, 5, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(10, 'Primera actividad', '2014-07-21 12:30:00', '2014-07-21 13:00:00', 4, 3, 6, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(11, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(12, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(13, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(14, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(15, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(16, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(17, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(18, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(19, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(20, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(21, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(22, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(23, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(24, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(29, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(30, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(31, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(32, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(33, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(34, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(35, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(36, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(37, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(38, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(39, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(40, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(41, 'Primera actividad', '2014-07-18 20:53:00', '2014-07-18 21:23:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(42, 'Primera actividad', '2014-07-18 20:53:00', '2014-07-18 21:23:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(43, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(44, 'Primera actividad', '2014-07-19 13:30:00', '2014-07-19 14:00:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(45, 'Primera actividad', '1970-01-01 01:33:00', '1970-01-01 01:33:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(46, 'Primera actividad', '1970-01-01 01:33:00', '1970-01-01 01:33:00', 4, 3, 2, 13, 1, 9, 'Ésta es la primera actividad que registro', 'El resultado no lo sabremos hasta que no comprobemos que se inserta correctamente'),
+(47, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(48, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(49, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(50, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(51, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(52, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(53, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(54, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 1, 2, 1, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(55, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 4, 3, 3, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(56, 'Actividad nueva 2', '2014-07-19 20:57:00', '2014-07-19 21:27:00', 4, 3, 3, 13, 1, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(57, 'Actividad jorl', '2014-07-19 13:10:00', '2014-07-19 13:40:00', 4, 3, 3, 13, NULL, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn'),
+(58, 'Actividad jorl', '2014-07-19 13:10:00', '2014-07-19 13:40:00', 4, 3, 3, 13, NULL, 1, 'asdfasdgfasdg', 'htrhdfndftndfgn');
 
 -- --------------------------------------------------------
 
@@ -59,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `actividades_estado` (
   `estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   `estilo_estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   PRIMARY KEY (`id_estado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `actividades_estado`
@@ -69,8 +126,9 @@ INSERT INTO `actividades_estado` (`id_estado`, `estado`, `estilo_estado`) VALUES
 (1, 'No iniciada', 'estado-actividades-noIniciada'),
 (2, 'En progreso', 'estado-actividades-enProgreso'),
 (3, 'Completada', 'estado-actividades-completada'),
-(4, 'Pendiente de información', 'estado-actividades-pendienteIn'),
-(5, 'Aplazada', 'estado-actividades-aplazada');
+(4, 'Pendiente información', 'estado-actividades-pendienteIn'),
+(5, 'Aplazada', 'estado-actividades-aplazada'),
+(6, 'Cancelada', 'estado-actividades-cancelada');
 
 -- --------------------------------------------------------
 
@@ -145,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `campanyas` (
 --
 
 INSERT INTO `campanyas` (`id`, `nombre`, `fechaInicio`, `fechaFin`, `estado`, `tipo`, `objetivo`, `descripcion`, `usuario`) VALUES
-(1, 'Campaña de Agustín', '0000-00-00', '0000-00-00', 1, 1, '', '', 13),
+(1, 'Campaña de Agustín', '0000-00-00', '0000-00-00', 4, 1, '', '', 13),
 (3, 'Campaña sin asignar', '0000-00-00', '0000-00-00', 1, 1, '', '', 0);
 
 -- --------------------------------------------------------
