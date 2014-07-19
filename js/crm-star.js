@@ -57,3 +57,15 @@ function asignarCampanya(id, nombre){
 	campoNombreCampanya.value = nombre;
 	parent.cerrarModalCampanya();
 }
+
+/*** Popover de Alertas ***/
+$(document).ready(function() {
+	$("[rel=popover-alertas]").popover({
+		placement : 'bottom', //Posición (top, bottom, left, right)
+		trigger: 'click',
+		title : 'Esto es una prueba de notificaciones de alertas', //Título
+		html: 'true', //Necesario para mostrar HTML
+		content : '<img src="http://www.hd-report.com/wp-content/uploads/2008/08/mr-evil.jpg" width="251" height="201" />Más info <a href="http://getbootstrap.com/javascript/#popovers-examples" target="_blank">aquí</a>' //Contenido
+	});
+});
+

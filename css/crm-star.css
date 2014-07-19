@@ -28,6 +28,74 @@
 }
 
 /*** Estilos del header ***/
+
+/*Alerta*/
+.nav .alerta{
+	font-size: 26px;
+	padding: 10px 12px;
+	margin: 0;
+}
+.nav .alerta. .glyphicon{
+	color:#fff;
+}
+
+.nav .alerta .badge{
+	background-color:#d9534f;
+}
+
+.blink_me {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 2s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@-moz-keyframes blinker {  
+    0% { background-color: #d9534f; }
+    10% { background-color:#fff; }
+    40% { background-color: #d9534f; }
+    100% { background-color: #d9534f; }
+}
+
+@-webkit-keyframes blinker { 
+    0% { background-color: #d9534f; }
+    10% { background-color:#fff; }
+    40% { background-color: #d9534f; }
+    100% { background-color: #d9534f; }
+}
+
+@keyframes blinker {  
+    0% { background-color: #d9534f; }
+    10% { background-color:#fff; }
+    40% { background-color: #d9534f; }
+    100% { background-color: #d9534f; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Usuario*/
 .nav .usuario{
 	margin: 0;
 	padding: 0;

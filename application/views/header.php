@@ -59,6 +59,17 @@
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
+					<li rel="popover-alertas" class="popover-dismiss"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">21</span></a></li>
+
+
+
+
+
+
+
+
+
+
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">

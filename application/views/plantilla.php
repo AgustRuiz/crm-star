@@ -8,5 +8,4 @@
     	<center><img src="<?=$this->config->base_url();?>/img/logo/logo.svg" alt="crm-star" style="width:60%;"></center>
     	<p class="text-center">Client Relationship Management Star</p>
    </div>
-
 </div><!--/span-->
