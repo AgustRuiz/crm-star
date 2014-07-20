@@ -29,23 +29,35 @@
 
 /*** Estilos del header ***/
 
-/*Alerta*/
+/*Alerta colapsada*/
+.navbar button.popover-alertas{
+	padding: 4px;
+}
+.navbar .alerta{
+	font-size: 17px;
+	color:#fff;
+	margin: 0;
+}
+.navbar .alerta .badge{
+	font-size: 12px;
+}
+
+/*Alerta en el nav*/
 .nav .alerta{
 	font-size: 26px;
 	padding: 10px 12px;
 	margin: 0;
+	display: none;
 }
-.nav .alerta. .glyphicon{
-	color:#fff;
-}
-
-.nav .alerta .badge{
-	background-color:#d9534f;
+@media (min-width:768px) {
+	.nav .alerta{
+		display: inline-block;
+	}
 }
 
 .blink_me {
     -webkit-animation-name: blinker;
-    -webkit-animation-duration: 1s;
+    -webkit-animation-duration: 2s;
     -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: infinite;
 
@@ -55,29 +67,29 @@
     -moz-animation-iteration-count: infinite;
 
     animation-name: blinker;
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
 
 @-moz-keyframes blinker {  
     0% { background-color: #d9534f; }
-    10% { background-color:#fff; }
-    40% { background-color: #d9534f; }
+    5% { background-color:#fff; }
+    20% { background-color: #d9534f; }
     100% { background-color: #d9534f; }
 }
 
 @-webkit-keyframes blinker { 
     0% { background-color: #d9534f; }
-    10% { background-color:#fff; }
-    40% { background-color: #d9534f; }
+    5% { background-color:#fff; }
+    20% { background-color: #d9534f; }
     100% { background-color: #d9534f; }
 }
 
 @keyframes blinker {  
     0% { background-color: #d9534f; }
-    10% { background-color:#fff; }
-    40% { background-color: #d9534f; }
+    5% { background-color:#fff; }
+    20% { background-color: #d9534f; }
     100% { background-color: #d9534f; }
 }
 

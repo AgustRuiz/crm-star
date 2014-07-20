@@ -46,8 +46,8 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<?=$this->config->base_url()?>" id="logo-crm-star">
-				</a>
+				<button rel="popover-alertas" class="popover-alertas navbar-toggle"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">21</span></a></button>
+				<a class="navbar-brand" href="<?=$this->config->base_url()?>" id="logo-crm-star"></a>
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">

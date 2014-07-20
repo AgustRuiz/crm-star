@@ -28,7 +28,7 @@
 						</tr>
 					<?php } } else { ?>
 						<tr>
-							<td colspan="5" class="text-center"><em>No hay campañas</em></td>
+							<td colspan="8" class="text-center"><em>No hay actividades</em></td>
 						</tr>
 					<?php } ?>
 				</tbody>
