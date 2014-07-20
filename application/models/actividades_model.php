@@ -39,6 +39,44 @@ class Actividades_model extends CI_Model{
 		return $listado;
 	}
 
+	function getActividadesUsuario($limit=null, $offset=null, $usuario=null, $filtro=null){
+		$ssql = "SELECT a.*, t.*, p.*, e.*, con.nombre as contacto_nombre, con.apellidos as contacto_apellidos, u.nombre as usuario_nombre, u.apellidos as usuario_apellidos FROM actividades a, actividades_tipo t, actividades_prioridad p, actividades_estado e, contactos con, usuarios u WHERE a.tipo=t.id_tipo AND a.prioridad=p.id_prioridad AND a.estado=e.id_estado AND a.contacto=con.id AND a.usuario=u.id";
+		// Usuario
+		if($usuario!=null){
+			$ssql .= " AND a.usuario=".$usuario;
+		}
+		// Filtro
+		if($filtro!=null){
+			$ssql .= " AND (a.nombre like '%".$filtro."%' OR a.descripcion like '%".$filtro."%' OR a.resultado like '%".$filtro."%')";
+		}
+		// Orden
+		// $ssql .= " ORDER BY a.inicio, a.id";
+		$ssql .= " ORDER BY a.id";
+
+		// Limit y Offset
+		if($limit!=null){
+			if($offset!=null){
+				$ssql .= " LIMIT $limit OFFSET $offset";
+			}else{
+				$ssql .= " LIMIT $limit";
+			}
+		}
+
+		unset($listado);
+		$result=mysql_query($ssql);
+		while($row=mysql_fetch_array($result)){
+			$listado[]=$row;
+		}
+		if(!isset($listado)){
+			$listado = null;
+		}
+		return $listado;
+	}
+
+	public function getActividad($id=null){
+		return null;
+	}
+
 
 	public function insertar($actividad){
 		if($actividad['nombre']==null || $actividad['nombre']==""){

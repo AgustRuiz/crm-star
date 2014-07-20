@@ -45,16 +45,40 @@ class Actividades extends CI_Controller {
 	}
 
 	public function listarUsuario($offset='0'){
+		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
+		$data['listaActividades'] = $this->Actividades_model->getActividadesUsuario($limit, $offset, $this->session->userdata('id'));
+		$total = count($this->Actividades_model->getActividadesUsuario(null, null, $this->session->userdata('id')));
+		$config['base_url'] = base_url().'actividades/listarUsuario/';
+		$config['total_rows'] = $total;
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = '3';
+		$this->pagination->initialize($config);
+		$data['pag_links'] = $this->pagination->create_links();
+		// Número de usuarios
+		$data['numContacts'] = $total;
+		$data['initialRow'] = $offset+1;
+		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+		$data['offset'] = $offset;
+
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
+		$this->load->view('actividades/listar', $data);
 		$this->load->view('sidebars/actividades/listarUsuario');
 		$this->load->view('footer');
 	}
 
 	public function ver($id=null){
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebar');
+		
+		$data['actividad']=$this->Actividades_model->getActividad($id);
+		if($data['actividad']!=null){
+			$this->load->view('actividades/ver', $data);
+			$this->load->view('sidebars/actividades/ver');
+		}else{
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
+		}
 		$this->load->view('footer');
 	}
 
