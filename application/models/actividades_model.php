@@ -13,11 +13,10 @@ class Actividades_model extends CI_Model{
 		$ssql = "SELECT a.*, t.*, p.*, e.*, con.nombre as contacto_nombre, con.apellidos as contacto_apellidos, u.nombre as usuario_nombre, u.apellidos as usuario_apellidos FROM actividades a, actividades_tipo t, actividades_prioridad p, actividades_estado e, contactos con, usuarios u WHERE a.tipo=t.id_tipo AND a.prioridad=p.id_prioridad AND a.estado=e.id_estado AND a.contacto=con.id AND a.usuario=u.id";
 		// Filtro
 		if($filtro!=null){
-			// $ssql .= " AND c.nombre like '%".$filtro."%'";
+			$ssql .= " AND (a.nombre like '%".$filtro."%' OR a.descripcion like '%".$filtro."%' OR a.resultado like '%".$filtro."%' )";
 		}
 		// Orden
-		// $ssql .= " ORDER BY a.inicio, a.id";
-		$ssql .= " ORDER BY a.id";
+		$ssql .= " ORDER BY a.inicio, a.id";
 
 		// Limit y Offset
 		if($limit!=null){
@@ -74,7 +73,16 @@ class Actividades_model extends CI_Model{
 	}
 
 	public function getActividad($id=null){
-		return null;
+		if($id==null) return null;
+
+		$ssql = "SELECT a.*, camp.nombre as campanya_nombre FROM (SELECT a.id, a.nombre, a.inicio, a.fin, a.usuario, a.campanya, a.contacto, a.descripcion, a.resultado, t.*, p.*, e.*, con.nombre as contacto_nombre, con.apellidos as contacto_apellidos, u.nombre as usuario_nombre, u.apellidos as usuario_apellidos FROM actividades a, actividades_tipo t, actividades_prioridad p, actividades_estado e, contactos con, usuarios u WHERE a.id=".$id." AND a.tipo=t.id_tipo AND a.prioridad=p.id_prioridad AND a.estado=e.id_estado AND a.contacto=con.id AND a.usuario=u.id) a LEFT JOIN campanyas camp ON a.campanya=camp.id";
+		
+		$result=mysql_query($ssql);
+		if(mysql_num_rows($result)>0){
+			return mysql_fetch_array($result);
+		}else{
+			return null;
+		}
 	}
 
 
@@ -107,7 +115,36 @@ class Actividades_model extends CI_Model{
 		return $result;
 	}
 
-	public function eliminarActividad($id){
+	public function actualizar($actividad){
+		if($actividad['nombre']==null || $actividad['nombre']==""){
+			return -1; // Falta nombre
+		}
+		if($actividad['inicio']=="0"){
+			return -2; // Falta inicio (fecha/hora)
+		}
+		if($actividad['contacto']==null || $actividad['contacto']=="0"){
+			return -3; // Falta contacto
+		}
+		if($actividad['usuario']==null ||$actividad['usuario']=="0"){
+			return -4; // Falta usuario
+		}
+
+		// Todos los datos necesarios están a partir de este punto
+		$data = construirData($actividad);
+
+		$this->db->where('id', $actividad['id']);
+		$result = $this->db->update('actividades',$data);
+		if(!$result){
+			switch (mysql_errno()) {
+				default:
+				$result=-1000;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	public function eliminar($id){
 		$ssql = "delete from actividades where id=".$id;
 		$result = mysql_query($ssql);
 		return mysql_affected_rows();

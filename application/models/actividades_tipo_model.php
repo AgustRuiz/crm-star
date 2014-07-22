@@ -7,7 +7,7 @@ class Actividades_tipo_model extends CI_Model{
 
 	function getTipos($id=null){
 		if($id==null){
-			$ssql = "select * from campanyas_tipo order by id_tipo";
+			$ssql = "select * from actividades_tipo order by id_tipo";
 		}else{
 			$ssql = "select * from actividades_tipo where id_tipo=".$id;
 		}

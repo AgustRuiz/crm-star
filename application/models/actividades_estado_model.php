@@ -8,7 +8,7 @@ class Actividades_estado_model extends CI_Model{
 
 	function getEstados($id=null){
 		if($id==null){
-			$ssql = "select * from campanyas_estado order by id_estado";
+			$ssql = "select * from actividades_estado order by id_estado";
 		}else{
 			$ssql = "select * from actividades_estado where id_estado=".$id;
 		}

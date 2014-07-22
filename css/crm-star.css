@@ -93,20 +93,6 @@
     100% { background-color: #d9534f; }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*Usuario*/
 .nav .usuario{
 	margin: 0;
@@ -198,7 +184,7 @@
 /*Estilos de estado*/
 .estado-contacto-indeterminado{
 	color:gray;
-	padding: 3px;
+	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid gray;
 	font-style: italic;
@@ -206,21 +192,21 @@
 .estado-contacto-potencial{
 	background-color:#f0ad4e;
 	color:white;
-	padding: 3px;
+	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #f0ad4e;
 }
 .estado-contacto-activo{
 	background-color:#5cb85c;
 	color:white;
-	padding: 3px;
+	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #5cb85c;
 }
 .estado-contacto-agotado{
 	background-color:#d9534f;
 	color:white;
-	padding: 3px;
+	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #d9534f;
 }
@@ -248,7 +234,6 @@
 	background-color:#5cb85c;
 	color:white;
 	padding: 1px 3px;
-	display: inline-block;
 	border-radius: 5px;
 	border: 1px solid #5cb85c;
 }
@@ -256,7 +241,6 @@
 	background-color:#f0ad4e;
 	color:white;
 	padding: 1px 3px;
-	display: inline-block;
 	border-radius: 5px;
 	border: 1px solid #f0ad4e;
 }
@@ -264,7 +248,6 @@
 	background-color:#5bc0de;
 	color:white;
 	padding: 1px 3px;
-	display: inline-block;
 	border-radius: 5px;
 	border: 1px solid #5bc0de;
 }
@@ -272,7 +255,6 @@
 	background-color:#d9534f;
 	color:white;
 	padding: 1px 3px;
-	display: inline-block;
 	border-radius: 5px;
 	border: 1px solid #d9534f;
 }
@@ -280,7 +262,6 @@
 	background-color:#428bca;
 	color:white;
 	padding: 1px 3px;
-	display: inline-block;
 	border-radius: 5px;
 	border: 1px solid #428bca;
 }
@@ -292,7 +273,6 @@
 	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid gray;
-	display: inline-block;
 }
 .estado-actividades-enProgreso{
 	background-color:#5bc0de;
@@ -300,7 +280,6 @@
 	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #5bc0de;
-	display: inline-block;
 }
 .estado-actividades-completada{
 	background-color:#5cb85c;
@@ -308,7 +287,6 @@
 	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #5cb85c;
-	display: inline-block;
 }
 .estado-actividades-pendienteIn{
 	background-color:#f0ad4e;
@@ -316,7 +294,6 @@
 	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #f0ad4e;
-	display: inline-block;
 }
 .estado-actividades-aplazada{
 	background-color:#428bca;
@@ -324,7 +301,6 @@
 	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #428bca;
-	display: inline-block;
 }
 .estado-actividades-cancelada{
 	background-color:#d9534f;
@@ -332,7 +308,6 @@
 	padding: 1px 3px;
 	border-radius: 5px;
 	border: 1px solid #d9534f;
-	display: inline-block;
 	
 }
 
@@ -345,7 +320,6 @@
 	font-weight: bold;
 	color:#d9534f;
 	padding: 1px 3px;
-	display: inline-block;
 	border-radius: 5px;
 	border: 1px solid #d9534f;
 }

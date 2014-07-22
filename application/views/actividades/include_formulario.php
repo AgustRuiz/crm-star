@@ -1,6 +1,6 @@
 <fieldset>
 	<div class="form-group required">
-		<label for="txtNombre" class="col-sm-2 control-label">Nombre</label>
+		<label for="txtNombre" class="col-sm-2 control-label">Asunto</label>
 		<div class="col-sm-10">
 			<input type='text' class="form-control" name="txtNombre" id="txtNombre" required="required" placeholder="Nombre de la actividad" value="<? if(isset($actividad)) echo $actividad['nombre'];?>" />
 		</div>
@@ -8,7 +8,7 @@
 	<div class="form-group required">
 		<label for="txtInicio" class="col-sm-2 control-label">Inicio</label>
 		<div class="col-sm-10">
-			<input type='hidden' name="txtInicioTimestamp" id="txtInicioTimestamp" value="<?php if(isset($actividad)) echo $actividad['inicioTimestamp']; ?>"/>
+			<input type='hidden' name="txtInicioTimestamp" id="txtInicioTimestamp"/>
 			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtInicio' data-date-format="DD/MM/YYYY HH:mm">
 				<input type='text' class="form-control" name="txtInicio" id="lblInicio" readonly="readonly" required="required" />
 				<span class="input-group-addon">
@@ -23,7 +23,7 @@
 	<div class="form-group">
 		<label for="txtFin" class="col-sm-2 control-label">Finalización</label>
 		<div class="col-sm-10">
-			<input type='hidden' name="txtFinTimestamp" id="txtFinTimestamp" value="<?php if(isset($actividad)) echo $actividad['finTimestamp']; ?>"/>
+			<input type='hidden' name="txtFinTimestamp" id="txtFinTimestamp" />
 			<div class='input-group date col-sm-11 col-xs-11 pull-left' id='txtFin' data-date-format="DD/MM/YYYY HH:mm">
 				<input type='text' class="form-control" name="txtFin" id="lblFin" readonly="readonly" placeholder="No especificado" />
 				<span class="input-group-addon">
@@ -41,7 +41,7 @@
 			<select class="form-control" id="cmbTipo" name="cmbTipo">
 				<?php
 				foreach ($tipos as $tipo) {
-					if(isset($actividad) && $tipo['id_tipo']==$actividad['tipo']){
+					if(isset($actividad) && $tipo['id_tipo']==$actividad['id_tipo']){
 						echo '<option value="'.$tipo['id_tipo'].'" selected="selected">'.$tipo['tipo'].'</option>';
 					}else{
 						echo '<option value="'.$tipo['id_tipo'].'">'.$tipo['tipo'].'</option>';
@@ -57,7 +57,7 @@
 			<select class="form-control" id="cmbPrioridad" name="cmbPrioridad">
 				<?php
 				foreach ($prioridades as $prioridad) {
-					if(isset($actividad) && $prioridad['id_prioridad']==$actividad['prioridad']){
+					if(isset($actividad) && $prioridad['id_prioridad']==$actividad['id_prioridad']){
 						echo '<option value="'.$prioridad['id_prioridad'].'" selected="selected">'.$prioridad['prioridad'].'</option>';
 					}else if($prioridad['id_prioridad'] == 2){
 						echo '<option value="'.$prioridad['id_prioridad'].'" selected="selected">'.$prioridad['prioridad'].'</option>';
@@ -75,7 +75,7 @@
 			<select class="form-control" id="cmbEstado" name="cmbEstado">
 				<?php
 				foreach ($estados as $estado) {
-					if(isset($actividad) && $estado['id_estado']==$actividad['estado']){
+					if(isset($actividad) && $estado['id_estado']==$actividad['id_estado']){
 						echo '<option value="'.$estado['id_estado'].'" selected="selected">'.$estado['estado'].'</option>';
 					}else{
 						echo '<option value="'.$estado['id_estado'].'">'.$estado['estado'].'</option>';

@@ -31,7 +31,7 @@
 						<div class="col-md-4 col-xs-9 dato"><?=$usuario['apellidos']?></div>
 					</div>
 					<div class="row clearfix">
-						<div class="col-md-2 col-md-offset-6 col-xs-3 text-right titulo">NIF</div> <!-- Tiene offset -->
+						<div class="col-md-2 col-md-offset-6 col-xs-3 text-right titulo">NIF</div>
 						<div class="col-md-4 col-xs-9 dato"><?=$usuario['nif']?></div>
 					</div>
 					
@@ -51,7 +51,7 @@
 
 					<div class="col-md-12"><h5>Otros</h5></div>
 					<div class="row clearfix">
-						<div class="col-md-2 col-xs-3 text-right titulo">Otros datos</div> <!-- Tiene offset -->
+						<div class="col-md-2 col-xs-3 text-right titulo">Otros datos</div>
 						<div class="col-md-10 col-xs-9 dato"><?=$usuario['otrosDatos']?></div>
 					</div>
 				</div>

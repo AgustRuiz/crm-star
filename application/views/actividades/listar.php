@@ -5,7 +5,7 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Actividad</th>
+						<th>Asunto</th>
 						<th>Inicio</th>
 						<th>Tipo</th>
 						<th>Prioridad</th>

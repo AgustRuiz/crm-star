@@ -28,6 +28,19 @@
 			pickTime: false,
 			<?if(isset($fechaFin)) echo 'defaultDate: "'.$fechaFin.'",';?>
 		});
+
+
+
+		<?php if(isset($fechaInicio)){ ?>
+			$('#txtFechaInicioTimestamp').val($('#txtFechaInicio').data("DateTimePicker").getDate()/1000);
+			var tiempoInicio = $('#txtFechaInicioTimestamp').val();
+		<?php } ?>
+		<?php if(isset($fechaFin)){ ?>
+				$('#txtFechaFinTimestamp').val($('#txtFechaFin').data("DateTimePicker").getDate()/1000);
+				var tiempoGap = $('#txtFechaFinTimestamp').val() - $('#txtFechaInicioTimestamp').val();
+		<?php } ?>
+
+
 	});
 
 	$("#txtFechaInicio").on("dp.change",function (e) {

@@ -7,6 +7,11 @@
 <script type="text/javascript" src="<?=$this->config->base_url()?>js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="<?=$this->config->base_url()?>js/locales/bootstrap-datetimepicker.es.js"></script>
 <script type="text/javascript">
+	var tiempoInicio
+	var tiempoFin;
+	var tiempoGap;
+	var tiempoInicioDate;
+
 	$(function () {
 		<?php
 		if(isset($actividad)){
@@ -30,68 +35,76 @@
 			<?if(isset($fechaFin)) echo 'defaultDate: "'.$fechaFin.'",';?>
 		});
 		$('#txtFin').data("DateTimePicker").disable();
-	});
 
-	var tiempoGap = 1800000;
-	var tiempoInicio = 0;
-	var tiempoInicioDate;
+		<?php if(isset($fechaInicio)){ ?>
+			$('#txtInicioTimestamp').val($('#txtInicio').data("DateTimePicker").getDate()/1000);
+			tiempoInicio = $('#txtInicioTimestamp').val();
+			<?php } else { ?>
+				tiempoInicio = 0;
+				<?php } ?>
+				<?php if(isset($fechaFin)){ ?>
+					$('#txtFinTimestamp').val($('#txtFin').data("DateTimePicker").getDate()/1000);
+					tiempoGap = $('#txtFinTimestamp').val() - $('#txtInicioTimestamp').val();
+					<?php } else { ?>
+						tiempoGap = 1800000;
+						<?php } ?>
+					});
 
-
-	$("#txtInicio").on("dp.change",function (e) {
-		var fechaInicio = new Date(e.date);
-		tiempoInicioDate = fechaInicio.toLocaleDateString()+" "+fechaInicio.toTimeString();
+$("#txtInicio").on("dp.change",function (e) {
+	fechaInicio = new Date(e.date);
+	tiempoInicioDate = fechaInicio.toLocaleDateString()+" "+fechaInicio.toTimeString();
 		tiempoInicio = fechaInicio.getTime(); // Milisegundos
 		document.getElementById('txtInicioTimestamp').value = tiempoInicio/1000; // Segundos
 
-		var fechaFin = new Date(e.date+tiempoGap);
+		fechaFin = new Date(e.date+tiempoGap);
 		$('#txtFin').data("DateTimePicker").setDate(fechaFin.toLocaleDateString()+" "+fechaFin.toTimeString());
 	});
-	$("#txtInicio").on("dp.show",function (e) {
-		var fechaInicio = new Date(e.date);
-		tiempoInicioDate = fechaInicio.toLocaleDateString()+" "+fechaInicio.toTimeString();
+$("#txtInicio").on("dp.show",function (e) {
+	fechaInicio = new Date(e.date);
+	tiempoInicioDate = fechaInicio.toLocaleDateString()+" "+fechaInicio.toTimeString();
 		tiempoInicio = fechaInicio.getTime(); // Milisegundos
 		document.getElementById('txtInicioTimestamp').value = tiempoInicio/1000; // Segundos
 
-		var fechaFin = new Date(e.date+tiempoGap);
+		fechaFin = new Date(e.date+tiempoGap);
 		$('#txtFin').data("DateTimePicker").setDate(fechaFin.toLocaleDateString()+" "+fechaFin.toTimeString());
 		$('#txtFin').data("DateTimePicker").enable();
 	});
 
-	$("#txtFin").on("dp.change",function (e) {
-		var tiempoFin = new Date(e.date).getTime(); // Milisegundos
+$("#txtFin").on("dp.change",function (e) {
+		tiempoFin = new Date(e.date).getTime(); // Milisegundos
 		document.getElementById('txtFinTimestamp').value = tiempoFin/1000; // Segundos
 
 		tiempoGap = tiempoFin - tiempoInicio;
 		if(tiempoGap<0){
 			alert("La finalización no puede ser anterior al inicio");
 			tiempoGap = 0;
-			// var fechaFin = new Date(tiempoInicio);
+			// fechaFin = new Date(tiempoInicio);
 			$('#txtFin').data("DateTimePicker").setDate(tiempoInicioDate);
 			// $('#txtFin').data("DateTimePicker").setDate(e.date);
 		}
 
 	});
-	$("#txtFin").on("dp.show",function (e) {
-		var tiempoFin = new Date(e.date).getTime(); // Milisegundos
+$("#txtFin").on("dp.show",function (e) {
+		tiempoFin = new Date(e.date).getTime(); // Milisegundos
 		document.getElementById('txtFinTimestamp').value = tiempoFin/1000; // Segundos
 
 		// $('#txtInicio').data("DateTimePicker").setMaxDate(e.date);
 	});
 
 
-	function clearFechaInicio(){
-		$('#txtInicio').data("DateTimePicker").setDate("");
-		document.getElementById('txtInicioTimestamp').value = "";
-		$('#txtFin').data("DateTimePicker").setMinDate("");
-		clearFechaFin();
-		$('#txtFin').data("DateTimePicker").disable();
-	}
+function clearFechaInicio(){
+	$('#txtInicio').data("DateTimePicker").setDate("");
+	document.getElementById('txtInicioTimestamp').value = "";
+	$('#txtFin').data("DateTimePicker").setMinDate("");
+	clearFechaFin();
+	$('#txtFin').data("DateTimePicker").disable();
+}
 
-	function clearFechaFin(){
-		$('#txtFin').data("DateTimePicker").setDate("");
-		document.getElementById('txtFinTimestamp').value = "";
-		$('#txtInicio').data("DateTimePicker").setMaxDate("");
-	}
+function clearFechaFin(){
+	$('#txtFin').data("DateTimePicker").setDate("");
+	document.getElementById('txtFinTimestamp').value = "";
+	$('#txtInicio').data("DateTimePicker").setMaxDate("");
+}
 
 </script>
 

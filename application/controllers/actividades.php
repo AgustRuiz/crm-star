@@ -97,15 +97,11 @@ class Actividades extends CI_Controller {
 	public function nuevo2(){
 		$actividad = recogerFormulario($this->input);
 		$resultado = $this->Actividades_model->insertar($actividad);
-
-
-
-
-		$resultado = $this->Actividades_model->insertar($actividad);
 		if($resultado>0){
 			$data["success"] = "Actividad creada correctamente.";
+			$data['campanya']=$this->Actividades_model->getActividad($this->db->insert_id());
 			$this->load->view('header');
-			$this->load->view('noDesarrollado', $data);						// Aquí ha de ir a la vista "ver"
+			$this->load->view('actividades/ver', $data);
 			$this->load->view('sidebars/actividades/nuevo');
 		$this->load->view('footer');
 		}else{
@@ -140,23 +136,77 @@ class Actividades extends CI_Controller {
 
 	public function eliminar($id=null){
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebar');
+		$result=$this->Actividades_model->eliminar($id);
+		if($result>0){
+			$data=array("success"=>"Actividad eliminada");
+		}else{
+			$data['error']="No ha podido eliminarse la actividad";
+			$data['actividad']['id']=$id;
+		}
+		$this->load->view('actividades/eliminar', $data);
+		$this->load->view('sidebars/actividades/eliminar');
 		$this->load->view('footer');
 	}
 
 	public function editar($id=null){
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebar');
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
+		}
+		else{
+			$data['actividad']=$this->Actividades_model->getActividad($id);
+			$data['estados']=$this->Actividades_estado_model->getEstados();
+			$data['prioridades']=$this->Actividades_prioridad_model->getPrioridades();
+			$data['tipos']=$this->Actividades_tipo_model->getTipos();
+			$this->load->view('actividades/editar', $data);
+			$this->load->view('sidebars/actividades/editar');
+		}
 		$this->load->view('footer');
+			$this->load->view("actividades/js/include_formulario");
 	}
 
 	public function editar2($id=null){
-		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebar');
-		$this->load->view('footer');
+		// Recoger el formulario e insertar el nuevo registro
+		$actividad = recogerFormulario($this->input, $id);
+		$resultado = $this->Actividades_model->actualizar($actividad);
+
+		if($resultado>0){
+			//Edición correcta
+			$data["success"] = "Actividad editada correctamente";
+			$data['actividad']=$this->Actividades_model->getActividad($id);
+			$this->load->view('header');
+			$this->load->view('actividades/ver', $data);
+			$this->load->view('sidebars/actividades/ver');
+			$this->load->view('footer');
+		}else{
+			switch($resultado){
+				case -1: // Falta nombre
+					$data["error"] = "Falta el nombre de la actividad.";
+					break;
+				case -2: // Falta fechaInicio
+					$data["error"] = "Falta indicar el inicio de la actividad.";
+					break;
+				case -3: // Falta contacto
+					$data["error"] = "Falta indicar el contacto relacionado con la actividad.";
+					break;
+				case -4: // Falta usuario
+					$data["error"] = "Falta indicar el usuario relacionado la actividad.";
+					break;
+				default: // Error no definido
+					$data["error"] = "Error al crear la actividad. Revise que todos los datos obligatorios están completados. <br/>Error nº ".mysql_errno().": ".mysql_error().".";
+					break;
+			}
+			$data['estados']=$this->Actividades_estado_model->getEstados();
+			$data['prioridades']=$this->Actividades_prioridad_model->getPrioridades();
+			$data['tipos']=$this->Actividades_tipo_model->getTipos();
+			$data["actividad"]=$actividad;
+			$this->load->view('header');
+			$this->load->view('actividades/nuevo', $data);
+			$this->load->view('sidebars/actividades/nuevo');
+			$this->load->view('footer');
+			$this->load->view("actividades/js/include_formulario");
+		}
 	}
 }
 
