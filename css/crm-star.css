@@ -39,7 +39,8 @@
 	margin: 0;
 }
 .navbar .alerta .badge{
-	font-size: 12px;
+	font-size: 18px;
+	font-weight: normal;
 }
 
 /*Alerta en el nav*/
@@ -73,24 +74,24 @@
 }
 
 @-moz-keyframes blinker {  
-    0% { background-color: #d9534f; }
-    5% { background-color:#fff; }
-    20% { background-color: #d9534f; }
-    100% { background-color: #d9534f; }
+    0% { background-color: #d9534f; color:#fff; }
+    2% { background-color:#fff; color: #d9534f; }
+    20% { background-color: #d9534f; color:#fff; }
+    100% { background-color: #d9534f; color:#fff; }
 }
 
 @-webkit-keyframes blinker { 
-    0% { background-color: #d9534f; }
-    5% { background-color:#fff; }
-    20% { background-color: #d9534f; }
-    100% { background-color: #d9534f; }
+    0% { background-color: #d9534f; color:#fff; }
+    2% { background-color:#fff; color: #d9534f; }
+    20% { background-color: #d9534f; color:#fff; }
+    100% { background-color: #d9534f; color:#fff; }
 }
 
 @keyframes blinker {  
-    0% { background-color: #d9534f; }
-    5% { background-color:#fff; }
-    20% { background-color: #d9534f; }
-    100% { background-color: #d9534f; }
+    0% { background-color: #d9534f; color:#fff; }
+    2% { background-color:#fff; color: #d9534f; }
+    20% { background-color: #d9534f; color:#fff; }
+    100% { background-color: #d9534f; color:#fff; }
 }
 
 /*Usuario*/
