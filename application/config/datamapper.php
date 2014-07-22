@@ -6,8 +6,8 @@
  * Global configuration settings that apply to all DataMapped models.
  */
 
-$config['prefix'] = '';
-$config['join_prefix'] = '';
+$config['prefix'] = 'ci_';
+$config['join_prefix'] = 'join_';
 $config['error_prefix'] = '<p>';
 $config['error_suffix'] = '</p>';
 $config['created_field'] = 'created';

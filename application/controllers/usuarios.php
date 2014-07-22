@@ -59,11 +59,34 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function nuevo(){
+
+		$usuario = new Usuario();
+		$usuario->nick = "aruiz";
+		$usuario->password = "123456";
+		$usuario->nombre = "Agustín";
+		$usuario->apellidos = "Ruiz Linares";
+		$usuario->nif = "15510111S";
+		$usuario->email = "arl00029@red.ujaen.es";
+		$usuario->telfOficina = "953445566";
+		$usuario->telfMovil = "600123456";
+		$usuario->otrosDatos = "Es el primer usuario que se crea";
+
+		if($usuario->save()){
+			echo 'USUARIO CREADO CORRECTAMENTE';
+		}else{
+			echo 'NO SE HA PODIDO CREAR EL USUARIO';
+			foreach ($usuario->error->all as $error)
+			{
+				echo '<br/> - '.$error;
+			}
+		}
+
 		// Cargar las vistas
 		$this->load->view('header');
 		$this->load->view('usuarios/nuevo');
 		$this->load->view('sidebars/usuarios/nuevo');
 		$this->load->view('footer');
+
 	}
 
 	public function nuevo2(){
