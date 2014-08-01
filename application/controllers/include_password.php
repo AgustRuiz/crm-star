@@ -12,8 +12,12 @@ function generarPassword($longitud=6){
 
 function hashPassword($psswd){
 	// return $psswd;
-	return md5($psswd);
+	// return md5($psswd);
 	// return crypt($psswd);
+
+	if(!empty($psswd)){
+		return sha1($psswd);
+	}
 }
 
 ?>

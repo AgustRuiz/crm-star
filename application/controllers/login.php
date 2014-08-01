@@ -18,18 +18,26 @@ class Login extends CI_Controller {
 		$password = $this->input->post('password');
 		if($nick!="" && $password!=""){
 			// Se ha recibido los datos
-			$hash=hashPassword($password);
-			$usuario = $this->Usuarios_model->getLogin($nick, $hash);
-			if($usuario==null){
+
+			$hash = hashPassword($password);
+			
+			$usuario = new Usuario();
+			$usuario->where('nick', $nick)->where('password', $hash)->get();
+
+			if($usuario->result_count()==0){
 				// Error
-				$data['error']="Usuario no encontrado";
+				$data['error']="El nombre de usuario y contraseña introducidos no está registrado en el sistema";
 			}else{
-				// Todo bien
-				// foreach ($usuario as $clave => $valor) {
-				// 	$this->session->set_userdata($clave, $valor);
-				// }
-					$this->session->set_userdata($usuario);
+				// Creamos array con los datos de la sesión (los que hagan falta)
+				$datosSesion = array(
+					'id' => $usuario->id,
+					'nick' => $usuario->nick,
+					'password' => $usuario->password,
+					'nombre' => $usuario->nombre,
+					'apellidos' => $usuario->apellidos
+					);
 				// Crear sesión y redirigir
+				$this->session->set_userdata($datosSesion);
 				header("Location: ".$this->config->base_url());
 				die();
 			}

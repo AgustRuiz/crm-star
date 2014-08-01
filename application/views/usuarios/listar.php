@@ -13,10 +13,10 @@
 				<tbody id="contenedor">
 					<?php if(isset($listaUsuarios)) { foreach ($listaUsuarios as $fila) { ?>
 						<tr>
-							<td><?=$fila['id']?></td>
-							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila['id']?>"><strong><?=$fila['nombre']?> <?=$fila['apellidos']?></strong></a></td>
-							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila['id']?>"><?=$fila['nick']?></a></td>
-							<td><a href="mailto:<?=$fila['email']?>"><?=$fila['email']?></a></td>
+							<td><?=$fila->id?></td>
+							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->id?>"><strong><?=$fila->nombre?> <?=$fila->apellidos?></strong></a></td>
+							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->id?>"><?=$fila->nick?></a></td>
+							<td><a href="mailto:<?=$fila->email?>"><?=$fila->email?></a></td>
 						</tr>
 					<?php } } else { ?>
 						<tr><td colspan="4" class="text-center"><em>No hay usuarios</em></td></tr>
