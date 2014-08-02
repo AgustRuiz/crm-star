@@ -11,7 +11,6 @@ class Usuarios extends CI_Controller {
 		}
 		// Carga de recursos
 		$this->load->library('pagination');
-		$this->load->model('Usuarios_model');
 	}
 
 	public function index(){

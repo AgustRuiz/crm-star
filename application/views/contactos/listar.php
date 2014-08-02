@@ -12,9 +12,9 @@
 				<tbody id="contenedor">
 					<?php if(isset($listaContactos)){ foreach ($listaContactos as $fila) { ?>
 						<tr>
-							<td><?=$fila['id']?></td>
-							<td><a href="<?=$this->config->base_url().'contactos/ver/'.$fila['id']?>"><?=$fila['nombre'].' '.$fila['apellidos'];?></a></td>
-							<td><span class="<?=$fila['estilo_estado']?>"><?=$fila['estado'];?></span></td>
+							<td><?=$fila->id?></td>
+							<td><a href="<?=$this->config->base_url().'contactos/ver/'.$fila->id?>"><?=trim($fila->nombre.' '.$fila->apellidos)?></a></td>
+							<td><span class="<?=$fila->contactos_estado->estilo_estado;?>"><?=$fila->contactos_estado->estado;?></span></td>
 						</tr>
 					<?php } } else { ?>
 						<tr><td colspan="4" class="text-center"><em>No hay contactos</em></td></tr>

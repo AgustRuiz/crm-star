@@ -71,5 +71,5 @@ class Usuario extends DataMapper{
 	}
 
 }
-/* End of file usuarios.php */
+/* End of file usuario.php */
 /* Location: ./application/models/usuario.php */

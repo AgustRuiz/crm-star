@@ -11,8 +11,6 @@ class Contactos extends CI_Controller {
 		}
 		// Carga de recursos
 		$this->load->library('pagination');
-		$this->load->model('Contactos_model');
-		$this->load->model('Contactos_estado_model');
 	}
 
 	public function index(){
@@ -20,10 +18,14 @@ class Contactos extends CI_Controller {
 	}
 
 	public function listar($offset='0'){
-		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
-		$total = $this->Contactos_model->countContactos();
-		$data['listaContactos'] = $this->Contactos_model->getContactos($limit, $offset);
+
+		// Obtener listado (parcial)
+		$contactos = new Contacto();
+		$data['listaContactos'] = $contactos->get($limit, $offset);
+
+		// Paginación
+		$total = $contactos->count();
 		$config['base_url'] = base_url().'contactos/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -46,7 +48,8 @@ class Contactos extends CI_Controller {
 
 	public function ver($id=null){
 		$this->load->view('header');
-		$data['contacto']=$this->Contactos_model->getContacto($id);
+		$contacto = new Contacto();
+		$data['contacto']=$contacto->get_by_id($id);
 		if($data['contacto']!=null){
 			$this->load->view('contactos/ver', $data);
 			$this->load->view('sidebars/contactos/ver');
@@ -59,56 +62,94 @@ class Contactos extends CI_Controller {
 
 	public function nuevo(){
 		$this->load->view('header');
-		$data['estados']=$this->Contactos_estado_model->getEstados();
+		$estados = new Contactos_estado();
+		$estados->order_by('id', 'asc');
+		$data['estados']=$estados->get();
 		$this->load->view('contactos/nuevo', $data);
 		$this->load->view('sidebars/contactos/nuevo');
 		$this->load->view('footer');
 	}
 
 	public function nuevo2(){
+		// Recoger formulario
 		$contacto = recogerFormulario($this->input);
-		$resultado = $this->Contactos_model->insertar($contacto);
-		if($resultado>0){
+		// Recoger estado
+		$estado = new Contactos_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$contacto->contactos_estado = $estado;
+		// Recoger correos
+		$correos = recogerCorreos($this->input);
+		$contacto->contactos_email = $correos;
+
+		// $resultado = $this->Contactos_model->insertar($contacto);
+		if($contacto->save(array($estado))){
 			//Inserción correcta
 			$data = array(
 				"success" => "Contacto creado correctamente"
 				);
-			$data['contacto']=$this->Contactos_model->getContacto($this->db->insert_id());
-			$data['estados']=$this->Contactos_estado_model->getEstados();
+
+			//Guardar correos
+			if($correos!=null){
+				foreach ($correos as $email) {
+					$email->save();
+				}
+				$contacto->save($correos);
+			}
 			// Cargar las vistas
+			$c = new Contacto();
+			$data["contacto"] = $c->get_by_id($contacto->id);
 			$this->load->view('header');
 			$this->load->view('contactos/ver', $data);
 			$this->load->view('sidebars/contactos/ver');
 			$this->load->view('footer');
 		}else{
-			if($resultado==-1){
-				// Error en la inserción
-				$data["error"] = "El nombre no puede estar vacío";
-			}else{
-				// Error por NIF duplicado
-				$data["error"] = "Ya existe un contacto con ese NIF";
+			// Error al crear el contacto
+			$data['error'] = 'Error al crear el contacto:<ul>';
+			foreach ($contacto->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
 			}
+			$data['error'] .= '</ul>';
+			$estados = new Contactos_estado();
+			$estados->order_by('id', 'asc');
+			$data['estados']=$estados->get();
 			$data["contacto"] = $contacto;
-			$data['estados']=$this->Contactos_estado_model->getEstados();
 			$this->load->view('header');
 			$this->load->view('contactos/nuevo', $data);
 			$this->load->view('sidebars/contactos/nuevo');
 			$this->load->view('footer');
-
 		}
 	}
 
 	public function eliminar($id=null){
 		$this->load->view('header');
-		$result=$this->Contactos_model->eliminarContacto($id);
-		if($result>0){
-			$data=array("success"=>"Contacto eliminado");
+
+		$contacto = new Contacto();
+
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
 		}else{
-			$data['error']="No ha podido eliminarse el contacto";
-			$data['contacto']['id']=$id;
+			$contacto->get_by_id($id);
+			if($contacto->result_count()==0){
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}else{
+				$correos = $contacto->contactos_email; // Almacenamos el listado de correos para eliminarlos después
+				if($contacto->delete()){
+					// Eliminamos los correos
+					foreach ($correos as $e) {
+						$e->delete();
+					}
+					$data=array("success"=>"Contacto eliminado");
+				}else{
+					$data['error']="No ha podido eliminarse el contacto";
+					$data['contacto']['id']=$id;
+				}
+				$this->load->view('contactos/eliminar', $data);
+				$this->load->view('sidebars/contactos/eliminar');
+			}
 		}
-		$this->load->view('contactos/eliminar', $data);
-		$this->load->view('sidebars/contactos/eliminar');
 		$this->load->view('footer');
 	}
 
@@ -119,8 +160,14 @@ class Contactos extends CI_Controller {
 			$this->load->view('sidebars/error404');
 		}
 		else{
-			$data['contacto']=$this->Contactos_model->getContacto($id);
-			$data['estados']=$this->Contactos_estado_model->getEstados();
+			$data['contacto']= new Contacto();
+			$data['contacto']->get_by_id($id);
+			if($data['contacto']->contactos_email->count()==0){
+				$data['contacto']->contactos_email = null;
+			}
+			$data['estados'] = new Contactos_estado();
+			$data['estados']->order_by('id', 'asc')->get();
+
 			$this->load->view('contactos/editar', $data);
 			$this->load->view('sidebars/contactos/editar');
 		}
@@ -193,53 +240,54 @@ class Contactos extends CI_Controller {
 /* FUNCIONES AUXILIARES */
 function recogerFormulario($input, $id_contacto=null)
 {
-	unset($return);
+	$contacto = new Contacto();
 
-	$return = array(
-		'nombre' => strip_tags(trim($input->post('txtNombre'))),
-		'apellidos' => strip_tags(trim($input->post('txtApellidos'))),
-		'nif' => (strip_tags(trim($input->post('txtNIF')))=="")?null:strip_tags(trim($input->post('txtNIF'))),
-		'id_estado' => $input->post('cmbEstado'),
-		'direccion' => nl2br(strip_tags(trim($input->post('txtDireccion')))),
-		'ciudad' => strip_tags(trim($input->post('txtCiudad'))),
-		'provincia' => strip_tags(trim($input->post('txtProvincia'))),
-		'cp' => strip_tags(trim($input->post('txtCP'))),
-		'pais' => strip_tags(trim($input->post('txtPais'))),
-		'telfOficina' => strip_tags(trim($input->post('txtTelfOficina'))),
-		'telfMovil' => strip_tags(trim($input->post('txtTelfMovil'))),
-		'fax' => strip_tags(trim($input->post('txtFax'))),
-		'otrosDatos' => nl2br(strip_tags(trim($input->post('txtOtrosDatos'))))
-		);
+	$contacto->nombre = strip_tags(trim($input->post('txtNombre')));
+	$contacto->apellidos = strip_tags(trim($input->post('txtApellidos')));
+	$contacto->nif = (strip_tags(trim($input->post('txtNIF')))=="")?null:strtoupper(strip_tags(trim($input->post('txtNIF'))));
+	$contacto->direccion = nl2br(strip_tags(trim($input->post('txtDireccion'))));
+	$contacto->ciudad = strip_tags(trim($input->post('txtCiudad')));
+	$contacto->provincia = strip_tags(trim($input->post('txtProvincia')));
+	$contacto->cp = strip_tags(trim($input->post('txtCP')));
+	$contacto->pais = strip_tags(trim($input->post('txtPais')));
+	$contacto->telfOficina = strip_tags(trim($input->post('txtTelfOficina')));
+	$contacto->telfMovil = strip_tags(trim($input->post('txtTelfMovil')));
+	$contacto->fax = strip_tags(trim($input->post('txtFax')));
+	$contacto->otrosDatos = nl2br(strip_tags(trim($input->post('txtOtrosDatos'))));
+
+	$contacto->contactos_email = null;
+
 	if($id_contacto!=null){
-		$return['id']=$id_contacto;
+		$contacto->id = $id_contacto;
 	}
+	return $contacto;
+}
 
-	// Recogida de correos
+function recogerCorreos($input)
+{
 	unset($correos);
+	$correos = null;
 	$principal=$input->post('radPrincipal');
 	$noValido=$input->post('chkNoValido', TRUE);
 	if($input->post('txtEmail')!=null){
-		unset($correos);
-		foreach ($input->post('txtEmail') as $id => $mail) {
-			$mail = strip_tags(trim($mail));
-			if($mail=="") continue;
+		foreach ($input->post('txtEmail') as $id => $txtCorreo) {
+			$txtCorreo = strip_tags(trim($txtCorreo));
+			if($txtCorreo=="") continue;
 
-			$correos[$id]['id'] = $id;
-			($id<=0)?$correos[$id]['id']=null:$correos[$id]['id']=$id; 
-			$correos[$id]['id_contacto'] = $id_contacto;
-			$correos[$id]['correo'] = $mail;
-			($principal==$id)? $correos[$id]['principal']=1:$correos[$id]['principal']=0; 
-			(isset($noValido[$id])&&$principal!=$id)? $correos[$id]['noValido']=1:$correos[$id]['noValido']=0;
+			$email = new Contactos_email();
+			$email->idTemp = $id;
+			$email->correo = $txtCorreo;
+			// ¿Es principal?
+			($principal==$id)? $email->principal=1:$email->principal=0; 
+			// ¿Es no válido?
+			(isset($noValido[$id])&&$principal!=$id)? $email->noValido=1:$email->noValido=0;
+
+			// Almacenar en el array
+			// $email->save();
+			$correos[] = $email;
 		}
-		if(isset($correos))
-			$return['correos']=$correos;
-		else
-			$return['correos']=null;
-	}else{
-		$return['correos']=null;
 	}
-
-	return $return;
+	return $correos;
 }
 
 /* End of file contactos.php */
