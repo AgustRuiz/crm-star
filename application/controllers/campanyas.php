@@ -11,9 +11,6 @@ class Campanyas extends CI_Controller {
 		}
 		// Carga de recursos
 		$this->load->library('pagination');
-		$this->load->model('Campanyas_model');
-		$this->load->model('Campanyas_estado_model');
-		$this->load->model('Campanyas_tipo_model');
 	}
 
 	public function index(){
@@ -23,8 +20,13 @@ class Campanyas extends CI_Controller {
 	public function listar($offset='0'){
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
-		$data['listaCampanyas'] = $this->Campanyas_model->getCampanyas($limit, $offset);
-		$total = count($this->Campanyas_model->getCampanyas(null, null));
+
+		// Obtener listado (parcial)
+		$campanyas = new Campanya();
+		$data['listaCampanyas'] = $campanyas->get($limit, $offset);
+
+		// Paginación
+		$total = $campanyas->count();
 		$config['base_url'] = base_url().'campanyas/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -48,8 +50,13 @@ class Campanyas extends CI_Controller {
 	public function listarUsuario($offset='0'){
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
-		$data['listaCampanyas'] = $this->Campanyas_model->getCampanyasUsuario($limit, $offset, $this->session->userdata('id'));
-		$total = count($this->Campanyas_model->getCampanyasUsuario(null, null, $this->session->userdata('id')));
+
+		// Obtener listado (parcial)
+		$campanyas = new Campanya();
+		$data['listaCampanyas'] = $campanyas->where_related_usuario('id', $this->session->userdata('id'))->get($limit, $offset);
+
+		// Paginación
+		$total = $campanyas->result_count();
 		$config['base_url'] = base_url().'campanyas/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -71,8 +78,10 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function nuevo(){
-		$data['estados']=$this->Campanyas_estado_model->getEstados();
-		$data['tipos']=$this->Campanyas_tipo_model->getTipos();
+		$data['estados']=new Campanyas_estado();
+		$data['estados']->get();
+		$data['tipos']=new Campanyas_tipo();
+		$data['tipos']->get();
 		$this->load->view("header");
 		$this->load->view("campanyas/nuevo", $data);
 		$this->load->view("sidebars/campanyas/nuevo");
@@ -110,15 +119,21 @@ class Campanyas extends CI_Controller {
 	public function ver($id=null){
 		$this->load->view('header');
 		
-		$data['campanya']=$this->Campanyas_model->getCampanya($id);
-		if($data['campanya']!=null){
-			$this->load->view('campanyas/ver', $data);
-			$this->load->view('sidebars/campanyas/ver');
-		}else{
+		if($id==null){
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
+		}else{
+			$data['campanya'] = new Campanya();
+			$data['campanya']->get_by_id($id);
+			if($data['campanya']->result_count()>0){
+				$this->load->view('campanyas/ver', $data);
+				$this->load->view('sidebars/campanyas/ver');
+			}else{
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}
+			$this->load->view('footer');
 		}
-		$this->load->view('footer');
 	}
 
 	public function editar($id=null){
@@ -221,35 +236,32 @@ class Campanyas extends CI_Controller {
 /* FUNCIONES AUXILIARES */
 function recogerFormulario($input, $id_campanya=null)
 {
-	unset($return);
+	$campanya = new Campanya();
 
-	$return = array(
-		'nombre' => strip_tags(trim($input->post('txtNombre'))),
-		// 'fechaInicio' => date("Y-n-j", strip_tags(trim($input->post('txtFechaInicioTimestamp')))),
-		// 'fechaFin' => strip_tags(trim($input->post('txtFechaFinTimestamp'))),
-		'estado' => strip_tags(trim($input->post('cmbEstado'))),
-		'tipo' => strip_tags(trim($input->post('cmbTipo'))),
-		'objetivo' => nl2br(strip_tags(trim($input->post('txtObjetivo')))),
-		'descripcion' => nl2br(strip_tags(trim($input->post('txtDescripcion'))))
-		// 'usuario' => strip_tags(trim($input->post('txtIdUsuario')))
-		);
+	$campanya->nombre = strip_tags(trim($input->post('txtNombre')));
+	$campanya->estado = strip_tags(trim($input->post('cmbEstado')));
+	$campanya->tipo = strip_tags(trim($input->post('cmbTipo')));
+	$campanya->objetivo = nl2br(strip_tags(trim($input->post('txtObjetivo'))));
+	$campanya->descripcion = nl2br(strip_tags(trim($input->post('txtDescripcion'))));
+
 	if($id_campanya!=null){
-		$return['id']=$id_campanya;
+		$campanya->id = $id_campanya;
 	}
 	if($input->post('txtFechaInicioTimestamp')!=''){
-		$return['fechaInicio'] = date("Y-n-j", strip_tags(trim($input->post('txtFechaInicioTimestamp'))));
+		$campanya->fechaInicio = date("Y-n-j", strip_tags(trim($input->post('txtFechaInicioTimestamp'))));
 	}else{
-		$return['fechaInicio'] = 0;
+		$campanya->fechaInicio = 0;
 	}
 	if($input->post('txtFechaFinTimestamp')!=''){
-		$return['fechaFin'] = date("Y-n-j", strip_tags(trim($input->post('txtFechaFinTimestamp'))));
+		$campanya->fechaFin = date("Y-n-j", strip_tags(trim($input->post('txtFechaFinTimestamp'))));
 	}else{
-		$return['fechaFin'] = 0;
+		$campanya->fechaFin = 0;
 	}
 	if(strip_tags(trim($input->post('txtIdUsuario')))!=""){
-		$return['usuario'] = strip_tags(trim($input->post('txtIdUsuario')));
+		$campanya->usuario = strip_tags(trim($input->post('txtIdUsuario')));
+		$campanya->usuarioNombre = strip_tags(trim($input->post('txtNombreUsuario')));
 	}else{
-		$return['usuario'] = 0;
+		$campanya->usuario = 0;
 	}
 
 	return $return;

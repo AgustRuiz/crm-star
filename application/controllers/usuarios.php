@@ -231,13 +231,24 @@ class Usuarios extends CI_Controller {
 		}
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
+
+		$data['listaUsuarios'] = new Usuario();
 		if($consulta==null){
-			$data['listaUsuarios'] = $this->Usuarios_model->getUsuarios($limit, $offset, $consulta);
-			$total = $this->Usuarios_model->countUsuarios($consulta);
+			$data['listaUsuarios']->get($limit, $offset);
+			$total = $data['listaUsuarios']->count();
 			$config['per_page'] = $limit;
 		}else{
-			$data['listaUsuarios'] = $this->Usuarios_model->getUsuarios(null, null, $consulta);
-			$total = $this->Usuarios_model->countUsuarios($consulta);
+			$data['listaUsuarios']->ilike('nick', $consulta);
+			$data['listaUsuarios']->or_ilike('nombre', $consulta);
+			$data['listaUsuarios']->or_ilike('apellidos', $consulta);
+			$data['listaUsuarios']->or_ilike('nif', $consulta);
+			$data['listaUsuarios']->or_ilike('email', $consulta);
+			$data['listaUsuarios']->or_ilike('telfOficina', $consulta);
+			$data['listaUsuarios']->or_ilike('telfMovil', $consulta);
+			$data['listaUsuarios']->or_ilike('fax', $consulta);
+			$data['listaUsuarios']->or_ilike('otrosDatos', $consulta);
+			$data['listaUsuarios']->get();
+			$total = $data['listaUsuarios']->result_count();
 			$config['per_page'] = $limit = $total;
 		}
 		$config['base_url'] = base_url().'usuarios/include_busqueda_usuario/';

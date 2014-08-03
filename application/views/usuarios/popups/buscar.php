@@ -47,10 +47,10 @@
 			<tbody id="contenedor">
 				<?php if(isset($listaUsuarios)){ foreach ($listaUsuarios as $fila) { ?>
 				<tr>
-					<td><?=$fila['id']?></td>
-					<td><strong><?=$fila['nombre']?> <?=$fila['apellidos']?></strong></td>
-					<td><?=$fila['nick']?></td>
-					<td><a href="#" class="btn btn-default pull-right" onclick="asignarUsuario('<?=$fila['id']?>', '<?=$fila['nombre']?> <?=$fila['apellidos']?>');"><span class="glyphicon glyphicon-plus"></span></a></td>
+					<td><?=$fila->id?></td>
+					<td><strong><?=trim($fila->nombre.' '.$fila->apellidos)?></strong></td>
+					<td><?=$fila->nick?></td>
+					<td><a href="#" class="btn btn-default pull-right" onclick="asignarUsuario('<?=$fila->id?>', '<?=trim($fila->nombre.' '.$fila->apellidos)?>');"><span class="glyphicon glyphicon-plus"></span></a></td>
 				</tr>
 				<?php } } else { ?>
 				<tr>

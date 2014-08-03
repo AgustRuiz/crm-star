@@ -41,10 +41,10 @@
 			<select class="form-control" id="cmbTipo" name="cmbTipo">
 				<?php
 				foreach ($tipos as $tipo) {
-					if(isset($campanya) && $tipo['id_tipo']==$campanya['id_tipo']){
-						echo '<option value="'.$tipo['id_tipo'].'" selected="selected">'.$tipo['tipo'].'</option>';
+					if(isset($campanya) && $tipo->id == $campanya->campanyas_tipo->id){
+						echo '<option value="'.$tipo->id.'" selected="selected">'.$tipo->tipo.'</option>';
 					}else{
-						echo '<option value="'.$tipo['id_tipo'].'">'.$tipo['tipo'].'</option>';
+						echo '<option value="'.$tipo->id.'">'.$tipo->tipo.'</option>';
 					}
 				}
 				?>
@@ -57,10 +57,10 @@
 			<select class="form-control" id="cmbEstado" name="cmbEstado">
 				<?php
 				foreach ($estados as $estado) {
-					if(isset($campanya) && $estado['id_estado']==$campanya['id_estado']){
-						echo '<option value="'.$estado['id_estado'].'" selected="selected">'.$estado['estado'].'</option>';
+					if(isset($campanya) && $estado->id == $campanya->campanyas_estado->id){
+						echo '<option value="'.$estado->id.'" selected="selected">'.$estado->estado.'</option>';
 					}else{
-						echo '<option value="'.$estado['id_estado'].'">'.$estado['estado'].'</option>';
+						echo '<option value="'.$estado->id.'">'.$estado->estado.'</option>';
 					}
 				}
 				?>
@@ -98,7 +98,7 @@
 							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
 							<h4>Usuario responsable de campaña</h4>
 						</div>
-						<iframe class="iframe-modal" id="iframeModalUsuarioResponsable" style="height:30px;"></iframe>
+						<iframe class="iframe-modal" id="iframeModalUsuarioResponsable" style="height:500px;"></iframe>
 					</div>
 				</div>
 			</div><!-- Fin de modal de búsqueda de usuario -->

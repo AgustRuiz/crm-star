@@ -12,13 +12,13 @@
 					</tr>
 				</thead>
 				<tbody id="contenedor">
-					<?php if(isset($listaCampanyas)) {foreach ($listaCampanyas as $fila) { ?>
+					<?php if(isset($listaCampanyas) && $listaCampanyas->result_count()>0) {foreach ($listaCampanyas as $fila) { ?>
 						<tr>
-							<td><?=$fila['id']?></td>
-							<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila['id']?>"><strong><?=$fila['nombre']?></strong></a></td>
-							<td><?=$fila['tipo']?></td>
-							<td><span class="<?=$fila['estilo_estado']?>"><?=$fila['estado']?></span></td>
-							<td><? if($fila['usuario']!=0){ ?><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila['usuario']?>"><?=$fila['usuario_nombre']?> <?=$fila['usuario_apellidos']?></a><? } ?></td>
+							<td><?=$fila->id?></td>
+							<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->id?>"><strong><?=$fila->nombre?></strong></a></td>
+							<td><?=$fila->campanyas_tipo->tipo?></td>
+							<td><span class="<?=$fila->campanyas_estado->estilo_estado?>"><?=$fila->campanyas_estado->estado?></span></td>
+							<td><? if($fila->usuario->count()>0){ ?><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->usuario->id?>"><?=trim($fila->usuario->nombre.' '.$fila->usuario->apellidos)?></a><? } ?></td>
 						</tr>
 					<?php } } else { ?>
 						<tr>

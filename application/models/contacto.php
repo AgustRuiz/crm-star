@@ -7,7 +7,6 @@ class Contacto extends DataMapper{
 	var $table = 'contactos';	// Nombre de la tabla al mapear
 	// var $model = 'template';	// Nombre del modelo
 	var $cascade_delete = false;
-
 	var $auto_populate_has_many = true;
 	var $auto_populate_has_one = true;
 
