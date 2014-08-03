@@ -95,10 +95,10 @@
 						?>
 						<div class="form" id="correo0">
 							<div class="col-md-7 padding0">
-								<input type="text" class="form-control" id="txtEmail" name="txtEmail[<?=$email->idTemp?>]" placeholder="Correo electrónico" value="<?=$email->correo?>" />
+								<input type="text" class="form-control" id="txtEmail" name="txtEmail[<?=$email->id?>]" placeholder="Correo electrónico" value="<?=$email->correo?>" />
 							</div>
-							<label class=" col-md-2"><input type="radio" name="radPrincipal" value="<?=$email->idTemp?>" <?php if($email->principal==1) echo 'checked="checked"'; ?> /> Principal</label>
-							<label class="col-md-2"><input type="checkbox" name="chkNoValido[<?=$email->idTemp?>]" <?php if($email->noValido==1) echo 'checked="checked"'; ?> /> No válido</label>
+							<label class=" col-md-2"><input type="radio" name="radPrincipal" value="<?=$email->id?>" <?php if($email->principal==1) echo 'checked="checked"'; ?> /> Principal</label>
+							<label class="col-md-2"><input type="checkbox" name="chkNoValido[<?=$email->id?>]" <?php if($email->noValido==1) echo 'checked="checked"'; ?> /> No válido</label>
 							<div class="btn btn-default pull-right col-md-1" onclick="removeElement(this);"><span class="glyphicon glyphicon-minus-sign"></span></div>
 						</div>
 

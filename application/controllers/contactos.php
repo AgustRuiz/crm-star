@@ -77,9 +77,6 @@ class Contactos extends CI_Controller {
 		$estado = new Contactos_estado();
 		$estado->get_by_id($this->input->post('cmbEstado'));
 		$contacto->contactos_estado = $estado;
-		// Recoger correos
-		$correos = recogerCorreos($this->input);
-		$contacto->contactos_email = $correos;
 
 		// $resultado = $this->Contactos_model->insertar($contacto);
 		if($contacto->save(array($estado))){
@@ -88,13 +85,15 @@ class Contactos extends CI_Controller {
 				"success" => "Contacto creado correctamente"
 				);
 
-			//Guardar correos
+			// Recoger y guardar los correos
+			$correos = recogerCorreos($this->input);
 			if($correos!=null){
 				foreach ($correos as $email) {
 					$email->save();
 				}
 				$contacto->save($correos);
 			}
+
 			// Cargar las vistas
 			$c = new Contacto();
 			$data["contacto"] = $c->get_by_id($contacto->id);
@@ -175,29 +174,70 @@ class Contactos extends CI_Controller {
 	}
 
 	public function editar2($id=null){
-		$contacto = recogerFormulario($this->input, $id);
-		$resultado = $this->Contactos_model->actualizar($contacto);
+		// Recuperar contacto actual
+		$contacto = new Contacto();
+		$contacto->get_by_id($id);
 
-		if($resultado>0){
+		// Recoger formulario y cargar los datos en el actual
+		$contactoEditado = recogerFormulario($this->input);
+		$contacto->nombre =  $contactoEditado->nombre;
+		$contacto->apellidos = $contactoEditado->apellidos;
+		$contacto->nif = $contactoEditado->nif;
+		$contacto->direccion = $contactoEditado->direccion;
+		$contacto->ciudad = $contactoEditado->ciudad;
+		$contacto->provincia = $contactoEditado->provincia;
+		$contacto->cp = $contactoEditado->cp;
+		$contacto->pais = $contactoEditado->pais;
+		$contacto->telfOficina = $contactoEditado->telfOficina;
+		$contacto->telfMovil = $contactoEditado->telfMovil;
+		$contacto->fax = $contactoEditado->fax;
+		$contacto->otrosDatos = $contactoEditado->otrosDatos;
+		$contacto->contactos_email = null;
+
+		// Recoger estado
+		$estado = new Contactos_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$contacto->contactos_estado = $estado;
+
+		// Recoger correos
+		$correos = recogerCorreos($this->input);
+		$contacto->contactos_email = $correos;
+
+		if($contacto->save($estado)){
 			//Edición correcta
 			$data["success"] = "Contacto editado correctamente";
-			$data['contacto']=$this->Contactos_model->getContacto($id);
-			$data['estados']=$this->Contactos_estado_model->getEstados();
+
+			// Guardar los correos nuevos, actualizar los existentes y borrar los eliminados
+			$idCorreos = null;
+			if($correos!=null){
+				foreach ($correos as $email) {
+					$email->save();
+					$idCorreos[] = $email->id;
+				}
+				$contacto->save($correos);
+				$c = new contactos_email();
+				$c->where_not_in('id', $idCorreos)->get()->delete_all();
+			}
+			
+			// Cargar las vistas
+			$c = new Contacto();
+			$data["contacto"] = $c->get_by_id($contacto->id);
 			$this->load->view('header');
 			$this->load->view('contactos/ver', $data);
 			$this->load->view('sidebars/contactos/ver');
 			$this->load->view('footer');
 		}else{
 			//Error al editar
-			if($resultado==-1){
-				// Error en la inserción
-				$data["error"] = "El nombre no puede estar vacío";
-			}else{
-				// Error por NIF duplicado
-				$data["error"] = "Ya existe un contacto con ese NIF";
+			$data['error'] = 'Error al editar el contacto:<ul>';
+			foreach ($contacto->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
 			}
+			$data['error'] .= '</ul>';
+
 			$data["contacto"] = $contacto;
-			$data['estados']=$this->Contactos_estado_model->getEstados();
+			$data['estados'] = new Contactos_estado();
+			$data['estados']->order_by('id', 'asc')->get();
 			$this->load->view('header');
 			$this->load->view('contactos/editar', $data);
 			$this->load->view('sidebars/contactos/editar');
@@ -276,6 +316,9 @@ function recogerCorreos($input)
 
 			$email = new Contactos_email();
 			$email->idTemp = $id;
+			if($id>0){
+				$email->id=$id;
+			}
 			$email->correo = $txtCorreo;
 			// ¿Es principal?
 			($principal==$id)? $email->principal=1:$email->principal=0; 
