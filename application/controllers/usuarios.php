@@ -119,22 +119,27 @@ class Usuarios extends CI_Controller {
 
 	public function eliminar($id=null){
 		$this->load->view('header');
+		$usuario = new Usuario();
 		if($id==null){
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
 		}else{
-			$usuario = new Usuario();
 			$usuario->get_by_id($id);
-			if($usuario->delete()){
-				$data=array("success"=>"Usuario eliminado");
+			if($usuario->result_count()==0){
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
 			}else{
-				$data['error']="No ha podido eliminarse el usuario";
-				$data['usuario']['id']=$id;
+				if($usuario->delete()){
+					$data=array("success"=>"Usuario eliminado");
+				}else{
+					$data['error']="No ha podido eliminarse el usuario";
+					$data['usuario']['id']=$id;
+				}
+				$this->load->view('usuarios/eliminar', $data);
+				$this->load->view('sidebars/usuarios/eliminar');
 			}
-			$this->load->view('usuarios/eliminar', $data);
-			$this->load->view('sidebars/usuarios/eliminar');
+			$this->load->view('footer');
 		}
-		$this->load->view('footer');
 	}
 
 	public function editar($id=null){

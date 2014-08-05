@@ -78,7 +78,6 @@ class Contactos extends CI_Controller {
 		$estado->get_by_id($this->input->post('cmbEstado'));
 		$contacto->contactos_estado = $estado;
 
-		// $resultado = $this->Contactos_model->insertar($contacto);
 		if($contacto->save(array($estado))){
 			//Inserción correcta
 			$data = array(
