@@ -90,25 +90,50 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function nuevo2(){
-		// Recoger el formulario e insertar el nuevo registro
+		// Recoger el formulario
 		$campanya = recogerFormulario($this->input);
-		$resultado = $this->Campanyas_model->insertar($campanya);
+		// Recoger el tipo de campaña
+		$tipo = new Campanyas_tipo();
+		$tipo->get_by_id($this->input->post('cmbTipo'));
+		$campanya->campanyas_tipo = $tipo;
+		// Recoger el estado de la campaña
+		$estado = new Campanyas_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$campanya->campanyas_estado = $estado;
+		// Recoger el usuario
+		$usuario = new Usuario();
+		$usuario->get_by_id($this->input->post('txtIdUsuario'));
+		$campanya->usuario = $usuario;
 
 		$this->load->view("header");
-		if($resultado>0){
+		if($campanya->save(array($tipo, $estado, $usuario))){
 			// Inserción correcta
 			$data['success'] = "Campaña creada correctamente.";
-			$data['campanya']=$this->Campanyas_model->getCampanya($this->db->insert_id());
+			$data['campanya'] = new Campanya();
+			$data['campanya']->get_by_id($campanya->id);
 			$this->load->view('campanyas/ver', $data);
 			$this->load->view('sidebars/campanyas/ver');
 		}else{
 			// Fallo al insertar
-			$data['error'] = "Ha ocurrido un error durante la creación de la campaña. (error: ".$resultado.")";
+			$data['error'] = "Ha ocurrido un error durante la creación de la campaña:<ul";
+			foreach ($campanya->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
+			}
+			$data['error'] .= '</ul>';
+
+
+
+
 			$data['campanya'] = $campanya;
-			$data['campanya']['usuario_nombre'] = $this->input->post('txtNombreUsuario');
-			$data['campanya']['usuario_apellidos'] = "";
-			$data['estados']=$this->Campanyas_estado_model->getEstados();
-			$data['tipos']=$this->Campanyas_tipo_model->getTipos();
+			// $data['campanya']['usuario_nombre'] = $this->input->post('txtNombreUsuario');
+			// $data['campanya']['usuario_apellidos'] = "";
+
+			$data['estados']=new Campanyas_estado();
+			$data['estados']->get();
+			$data['tipos']=new Campanyas_tipo();
+			$data['tipos']->get();
+
 			$this->load->view("campanyas/nuevo", $data);
 			$this->load->view("sidebars/campanyas/nuevo");
 		}
@@ -190,16 +215,27 @@ class Campanyas extends CI_Controller {
 
 	public function eliminar($id=null){
 		$this->load->view('header');
-		$result=$this->Campanyas_model->eliminar($id);
-		if($result>0){
-			$data=array("success"=>"Campaña eliminada");
+		$campanya = new Campanya();
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
 		}else{
-			$data['error']="No ha podido eliminarse la campaña";
-			$data['campanya']['id']=$id;
+			$campanya->get_by_id($id);
+			if($campanya->result_count()==0){
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}else{
+				if($campanya->delete()){
+					$data=array("success"=>"Campaña eliminada");
+				}else{
+					$data['error']="No ha podido eliminarse la campaña";
+					$data['campanya']['id']=$id;
+				}
+				$this->load->view('campanyas/eliminar', $data);
+				$this->load->view('sidebars/campanyas/eliminar');
+			}
+			$this->load->view('footer');
 		}
-		$this->load->view('campanyas/eliminar', $data);
-		$this->load->view('sidebars/campanyas/eliminar');
-		$this->load->view('footer');
 	}
 
 	public function include_busqueda_campanya($offset='0'){
@@ -257,14 +293,9 @@ function recogerFormulario($input, $id_campanya=null)
 	}else{
 		$campanya->fechaFin = 0;
 	}
-	if(strip_tags(trim($input->post('txtIdUsuario')))!=""){
-		$campanya->usuario = strip_tags(trim($input->post('txtIdUsuario')));
-		$campanya->usuarioNombre = strip_tags(trim($input->post('txtNombreUsuario')));
-	}else{
-		$campanya->usuario = 0;
-	}
 
-	return $return;
+
+	return $campanya;
 }
 
 /* End of file campanyas.php */

@@ -10,11 +10,11 @@
 	$(function () {
 		<?php
 		if(isset($campanya)){
-			if($campanya['fechaInicio']!=0){
-				$fechaInicio = date("d-m-Y", strtotime($campanya['fechaInicio']));
+			if($campanya->fechaInicio!=0){
+				$fechaInicio = date("d-m-Y", strtotime($campanya->fechaInicio));
 			}
-			if($campanya['fechaFin']!=0){
-				$fechaFin = date("d-m-Y", strtotime($campanya['fechaFin']));
+			if($campanya->fechaFin!=0){
+				$fechaFin = date("d-m-Y", strtotime($campanya->fechaFin));
 			}
 		}
 		?>

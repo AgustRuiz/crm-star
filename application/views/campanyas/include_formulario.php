@@ -2,7 +2,7 @@
 	<div class="form-group required">
 		<label for="txtNombre" class="col-sm-2 control-label" title="Campo obligatorio">Nombre</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="txtNombre" name="txtNombre" required="required" placeholder="Nombre de la campaña (OBLIGATORIO)" value="<?php if(isset($campanya)) echo $campanya['nombre']; ?>"/>
+			<input type="text" class="form-control" id="txtNombre" name="txtNombre" required="required" placeholder="Nombre de la campaña (OBLIGATORIO)" value="<?php if(isset($campanya)) echo $campanya->nombre; ?>"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -70,21 +70,21 @@
 	<div class="form-group">
 		<label for="txtDescripcion" class="col-sm-2 control-label">Descripción</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $campanya['descripcion']); ?></textarea>
+			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $campanya->descripcion); ?></textarea>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtObjetivo" class="col-sm-2 control-label">Objetivo</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtObjetivo" name="txtObjetivo" rows="4" placeholder="Objetivo de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $campanya['objetivo']); ?></textarea>
+			<textarea class="form-control" id="txtObjetivo" name="txtObjetivo" rows="4" placeholder="Objetivo de la campaña"><?php if(isset($campanya)) echo str_replace('<br />', "", $campanya->objetivo); ?></textarea>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario responsable</label>
 		<div class="col-sm-10">
 			<div class="input-group col-sm-11 col-xs-11 pull-left">
-				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($campanya)) echo $campanya['usuario']; ?>"/>
-				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($campanya)) echo $campanya['usuario_nombre'].' '.$campanya['usuario_apellidos']; ?>" readonly="readonly"/>
+				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($campanya)) echo $campanya->usuario->id; ?>"/>
+				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($campanya)) echo trim($campanya->usuario->nombre.' '.$campanya->usuario->apellidos); ?>" readonly="readonly"/>
 				<span class="input-group-addon" onclick="abrirModalUsuarioResponsable()"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
 			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearUsuario();">
