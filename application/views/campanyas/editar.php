@@ -7,12 +7,12 @@
 				<strong>Oops!</strong> <?=$error?>
 			</div>
 			<?php } ?>
-			<form class="form-horizontal" role="form" method="post" action="<?=$this->config->base_url()?>index.php/campanyas/editar2/<?php if(isset($campanya)) echo $campanya['id']; ?>" accept-charset="utf-8">
+			<form class="form-horizontal" role="form" method="post" action="<?=$this->config->base_url()?>index.php/campanyas/editar2/<?php if(isset($campanya)) echo $campanya->id; ?>" accept-charset="utf-8">
 				<?php include('include_formulario.php'); ?>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<button type="submit" class="btn btn-success" name="submit" value="submit">Guardar campaña</button>
-						<a href="<?=(isset($campanya))?$this->config->base_url().'campanyas/ver/'.$campanya['id']:$this->config->base_url().'campanyas'?>" rol="button" class="btn btn-danger">Cancelar</a>
+						<a href="<?=(isset($campanya))?$this->config->base_url().'campanyas/ver/'.$campanya->id:$this->config->base_url().'campanyas'?>" rol="button" class="btn btn-danger">Cancelar</a>
 					</div>
 				</div>
 				<div class="form-group">

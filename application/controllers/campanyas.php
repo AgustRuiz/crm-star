@@ -122,12 +122,7 @@ class Campanyas extends CI_Controller {
 			}
 			$data['error'] .= '</ul>';
 
-
-
-
 			$data['campanya'] = $campanya;
-			// $data['campanya']['usuario_nombre'] = $this->input->post('txtNombreUsuario');
-			// $data['campanya']['usuario_apellidos'] = "";
 
 			$data['estados']=new Campanyas_estado();
 			$data['estados']->get();
@@ -164,10 +159,14 @@ class Campanyas extends CI_Controller {
 	public function editar($id=null){
 		$this->load->view('header');
 
-		$data['estados']=$this->Campanyas_estado_model->getEstados();
-		$data['tipos']=$this->Campanyas_tipo_model->getTipos();
-		$data['campanya']=$this->Campanyas_model->getCampanya($id);
-		if($data['campanya']!=null){
+		$data['estados']=new Campanyas_estado();
+		$data['estados']->get();
+		$data['tipos']=new Campanyas_tipo();
+		$data['tipos']->get();
+		$data['campanya']=new Campanya();
+		$data['campanya']->get_by_id($id);
+
+		if($data['campanya']->result_count()>0){
 			$this->load->view('campanyas/editar', $data);
 			$this->load->view('sidebars/campanyas/editar');
 		}else{
@@ -180,37 +179,60 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function editar2($id=null){
-		// Recoger el formulario e insertar el nuevo registro
-		$campanya = recogerFormulario($this->input, $id);
-		$resultado = $this->Campanyas_model->actualizar($campanya);
+		// Recoger el formulario
+		$campanya = new Campanya();
+		$campanya->get_by_id($id);
+		$campanyaEditada = recogerFormulario($this->input);
+		$campanya->nombre = $campanyaEditada->nombre;
+		$campanya->fechaInicio = $campanyaEditada->fechaInicio;
+		$campanya->fechaFin = $campanyaEditada->fechaFin;
+		$campanya->objetivo = $campanyaEditada->objetivo;
+		$campanya->descripcion = $campanyaEditada->descripcion;
+		// Recoger el tipo de campaña
+		$tipo = new Campanyas_tipo();
+		$tipo->get_by_id($this->input->post('cmbTipo'));
+		$campanya->campanyas_tipo = $tipo;
+		// Recoger el estado de la campaña
+		$estado = new Campanyas_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$campanya->campanyas_estado = $estado;
+		// Recoger el usuario
+		$usuario = new Usuario();
+		$usuario->get_by_id($this->input->post('txtIdUsuario'));
+		if($usuario->result_count()==0){
+			$campanya->delete($campanya->usuario);
+		}
+		$campanya->usuario = $usuario;
 
-		if($resultado>0){
-			//Edición correcta
-			$data["success"] = "Campaña editada correctamente";
-			$data['campanya']=$this->Campanyas_model->getCampanya($id);
-			$this->load->view('header');
+		$this->load->view("header");
+		if($campanya->save(array($tipo, $estado, $usuario))){
+			// Edición correcta
+			$data['success'] = "Campaña editada correctamente.";
+			$data['campanya'] = new Campanya();
+			$data['campanya']->get_by_id($campanya->id);
 			$this->load->view('campanyas/ver', $data);
 			$this->load->view('sidebars/campanyas/ver');
-			$this->load->view('footer');
 		}else{
-			//Error al editar
-			switch($resultado){
-				default: // Error no identificado
-				$data['error']='Ha ocurrido un error durante la edición de la campaña.';
-				break;
+			// Fallo al insertar
+			$data['error'] = "Ha ocurrido un error durante la edición de la campaña:<ul>";
+			foreach ($campanya->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
 			}
-			$data['campanya']=$campanya;
-			$data['campanya']['usuario_nombre'] = $this->input->post('txtNombreUsuario');
-			$data['campanya']['usuario_apellidos'] = "";
-			$data['estados']=$this->Campanyas_estado_model->getEstados();
-			$data['tipos']=$this->Campanyas_tipo_model->getTipos();
-			$this->load->view('header');
+			$data['error'] .= '</ul>';
+
+			$data['campanya'] = $campanya;
+
+			$data['estados']=new Campanyas_estado();
+			$data['estados']->get();
+			$data['tipos']=new Campanyas_tipo();
+			$data['tipos']->get();
+
 			$this->load->view('campanyas/editar', $data);
 			$this->load->view('sidebars/campanyas/editar');
-			$this->load->view('footer');
-			$this->load->view("campanyas/js/include_formulario");
 		}
-
+		$this->load->view("footer");
+		$this->load->view("campanyas/js/include_formulario");
 	}
 
 	public function eliminar($id=null){
