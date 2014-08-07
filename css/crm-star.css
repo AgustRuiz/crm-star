@@ -321,6 +321,10 @@
 	/*color:#5bc0de;*/
 	/*color:#5cb85c;*/
 }
+.prioridad-actividades-baja-icono{
+	color: #428bca;
+}
+
 .prioridad-actividades-media{
 	/*font-style: italic;*/
 	font-weight: bold;
@@ -328,6 +332,10 @@
 	/*color:#5bc0de;*/
 	color:#f0ad4e;
 }
+.prioridad-actividades-media-icono{
+	color: #f0ad4e;
+}
+
 .prioridad-actividades-alta{
 	font-weight: bold;
 	color:#d9534f;
@@ -335,4 +343,7 @@
 	border-radius: 5px;
 	border: 1px solid #d9534f;
 	display: inline-block;
+}
+.prioridad-actividades-alta-icono{
+	color: #d9534f;
 }

@@ -17,7 +17,7 @@
 							<td><?=$fila->id?></td>
 							<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->id?>"><strong><?=$fila->nombre?></strong></a></td>
 							<td><?=$fila->campanyas_tipo->tipo?></td>
-							<td><span class="<?=$fila->campanyas_estado->estilo_estado?>"><?=$fila->campanyas_estado->estado?></span></td>
+							<td><span class="<?=$fila->campanyas_estado->estilo?>"><?=$fila->campanyas_estado->estado?></span></td>
 							<td><? if($fila->usuario->count()>0){ ?><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->usuario->id?>"><?=trim($fila->usuario->nombre.' '.$fila->usuario->apellidos)?></a><? } ?></td>
 						</tr>
 					<?php } } else { ?>

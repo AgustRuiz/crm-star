@@ -8,23 +8,24 @@
 						<th>Asunto</th>
 						<th>Inicio</th>
 						<th>Tipo</th>
-						<th>Prioridad</th>
-						<th>Estado</th>
+						<!-- <th>Prioridad</th> -->
+						<th colspan="2">Prioridad/Estado</th>
 						<th>Contacto</th>
 						<th>Usuario</th>
 					</tr>
 				</thead>
 				<tbody id="contenedor">
-					<?php if(isset($listaActividades)) {foreach ($listaActividades as $fila) { ?>
+					<?php if(isset($listaActividades) && $listaActividades->result_count()>0) {foreach ($listaActividades as $fila) { ?>
 						<tr>
-							<td><?=$fila['id']?></td>
-							<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila['id']?>"><strong><?=$fila['nombre']?></strong></a></td>
-							<td><?=$fila['inicio']?></td>
-							<td><span class="<?=$fila['estilo_tipo']?>"><?=$fila['tipo']?></span></td>
-							<td><span class="<?=$fila['estilo_prioridad']?>"><?=$fila['prioridad']?></span></td>
-							<td><span class="<?=$fila['estilo_estado']?>"><?=$fila['estado']?></span></td>
-							<td><a href="<?=$this->config->base_url()?>contactos/ver/<?=$fila['contacto']?>"><?=$fila['contacto_nombre']?> <?=$fila['contacto_apellidos']?></a></td>
-							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila['usuario']?>"><?=$fila['usuario_nombre']?> <?=$fila['usuario_apellidos']?></a></td>
+							<td><?=$fila->id?></td>
+							<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
+							<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
+							<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
+							<!-- <td><span class="<?=$fila->actividades_prioridad->estilo?>"><?=$fila->actividades_prioridad->prioridad?></span></td> -->
+							<td><span class="<?=$fila->actividades_prioridad->estilo_icono?>" title="<?=$fila->actividades_prioridad->etiqueta_icono?>"></span></td>
+							<td><span class="<?=$fila->actividades_estado->estilo?>"><?=$fila->actividades_estado->estado?></span></td>
+							<td><a href="<?=$this->config->base_url()?>contactos/ver/<?=$fila->contacto->id?>"><?=trim($fila->contacto->nombre.' '.$fila->contacto->apellidos)?></a></td>
+							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->usuario->id?>"><?=trim($fila->usuario->nombre.' '.$fila->usuario->apellidos)?></a></td>
 						</tr>
 					<?php } } else { ?>
 						<tr>

@@ -15,11 +15,11 @@
 	$(function () {
 		<?php
 		if(isset($actividad)){
-			if($actividad['inicio']!=0){
-				$fechaInicio = date("d-m-Y H:i", strtotime($actividad['inicio']));
+			if($actividad->inicio!=0){
+				$fechaInicio = date("d-m-Y H:i", strtotime($actividad->inicio));
 			}
-			if($actividad['fin']!=0){
-				$fechaFin = date("d-m-Y H:i", strtotime($actividad['fin']));
+			if($actividad->fin!=0){
+				$fechaFin = date("d-m-Y H:i", strtotime($actividad->fin));
 			}
 		}
 		?>

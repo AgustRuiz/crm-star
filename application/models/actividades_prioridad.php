@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Campanyas_estado extends DataMapper{
+class Actividades_prioridad extends DataMapper{
 
-	var $table = 'campanyas_estados';	// Nombre de la tabla al mapear
+	var $table = 'actividades_prioridades';	// Nombre de la tabla al mapear
 	// var $model = 'template';	// Nombre del modelo
 	var $cascade_delete = false;
 
@@ -14,20 +14,20 @@ class Campanyas_estado extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('');
-	public $has_many = array('campanya');
+	public $has_many = array('actividad');
 
 	// Validación de campos
 	public $validation = array(
-		'estado' => array(
-			'label' => 'Descripción del estado',
+		'prioridad' => array(
+			'label' => 'Descripción de la prioridad',
 			'rules' => array('required', 'trim', 'max_length' => 30),
 			),
-		'estilo_estado' => array(
-			'label' => 'Estilo del estado',
+		'estilo_prioridad' => array(
+			'label' => 'Estilo de la prioridad',
 			'rules' => array('required', 'trim', 'max_length' => 30),
 			)
 		);
 
 }
-/* End of file campanyas_estado.php */
-/* Location: ./application/models/campanyas_estado.php */
+/* End of file actividades_prioridad.php */
+/* Location: ./application/models/actividades_prioridad.php */

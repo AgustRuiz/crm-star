@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Campanyas_estado extends DataMapper{
+class Actividades_tipo extends DataMapper{
 
-	var $table = 'campanyas_estados';	// Nombre de la tabla al mapear
+	var $table = 'actividades_tipos';	// Nombre de la tabla al mapear
 	// var $model = 'template';	// Nombre del modelo
 	var $cascade_delete = false;
 
@@ -14,20 +14,20 @@ class Campanyas_estado extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('');
-	public $has_many = array('campanya');
+	public $has_many = array('actividad');
 
 	// Validación de campos
 	public $validation = array(
-		'estado' => array(
-			'label' => 'Descripción del estado',
+		'tipo' => array(
+			'label' => 'Descripción del tipo',
 			'rules' => array('required', 'trim', 'max_length' => 30),
 			),
-		'estilo_estado' => array(
-			'label' => 'Estilo del estado',
+		'estilo_tipo' => array(
+			'label' => 'Estilo del tipo',
 			'rules' => array('required', 'trim', 'max_length' => 30),
 			)
 		);
 
 }
-/* End of file campanyas_estado.php */
-/* Location: ./application/models/campanyas_estado.php */
+/* End of file actividades_tipo.php */
+/* Location: ./application/models/actividades_tipo.php */

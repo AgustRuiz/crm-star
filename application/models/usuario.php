@@ -16,7 +16,7 @@ class Usuario extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('');
-	public $has_many = array('campanya');
+	public $has_many = array('campanya', 'actividad');
 
 	// Validación de campos
 	public $validation = array(

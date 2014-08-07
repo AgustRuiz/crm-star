@@ -267,13 +267,21 @@ class Campanyas extends CI_Controller {
 		}
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
+
+		$data['listaCampanyas'] = new Campanya();
 		if($consulta==null){
-			$data['listaCampanyas'] = $this->Campanyas_model->getCampanyas($limit, $offset, null);
+			$data['listaCampanyas']->get($limit, $offset);
+			$total = $data['listaCampanyas']->count();
+			$config['per_page'] = $limit;
 		}else{
-			$data['listaCampanyas'] = $this->Campanyas_model->getCampanyas(null, null, $consulta);
+			$data['listaCampanyas']->ilike('nombre', $consulta);
+			$data['listaCampanyas']->or_ilike('objetivo', $consulta);
+			$data['listaCampanyas']->or_ilike('descripcion', $consulta);
+			// Falta contemplar los correos electrónicos
+			$data['listaCampanyas']->get();
+			$total = $data['listaCampanyas']->result_count();
+			$config['per_page'] = $limit = $total;
 		}
-		$total = $this->Campanyas_model->countCampanyas($consulta);
-		$config['per_page'] = $limit;
 		$config['base_url'] = base_url().'campanyas/include_busqueda_contacto/';
 		$config['total_rows'] = $total;
 		$config['uri_segment'] = '3';
@@ -315,7 +323,6 @@ function recogerFormulario($input, $id_campanya=null)
 	}else{
 		$campanya->fechaFin = 0;
 	}
-
 
 	return $campanya;
 }

@@ -21,7 +21,7 @@
 						<div class="col-md-2 col-xs-3 text-right titulo">NIF</div>
 						<div class="col-md-4 col-xs-9 dato"><?=$contacto->nif?></div>
 						<div class="col-md-2 col-xs-3 text-right titulo">Estado</div>
-						<div class="col-md-4 col-xs-9 dato"><span class="<?=$contacto->contactos_estado->estilo_estado?>"><?=$contacto->contactos_estado->estado?></span></div>
+						<div class="col-md-4 col-xs-9 dato"><span class="<?=$contacto->contactos_estado->estilo?>"><?=$contacto->contactos_estado->estado?></span></div>
 					</div>
 
 					<div class="row col-md-12"><h5>Dirección</h5></div>

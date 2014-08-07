@@ -49,12 +49,12 @@
 			<tbody id="contenedor">
 				<?php if(isset($listaCampanyas)){ foreach ($listaCampanyas as $fila) { ?>
 				<tr>
-					<td><?=$fila['id']?></td>
-					<td><strong><?=$fila['nombre']?></strong></td>
-					<td><?=$fila['tipo']?></td>
-					<td><span class="<?=$fila['estilo_estado']?>"><?=$fila['estado']?></span></td>
-					<td><?=$fila['usuario_nombre']?> <?=$fila['usuario_apellidos']?></td>
-					<td><a href="#" class="btn btn-default pull-right" onclick="asignarCampanya('<?=$fila['id']?>', '<?=$fila['nombre']?>');"><span class="glyphicon glyphicon-plus"></span></a></td>
+					<td><?=$fila->id?></td>
+					<td><strong><?=$fila->nombre?></strong></td>
+					<td><?=$fila->campanyas_tipo->tipo?></td>
+					<td><span class="<?=$fila->campanyas_estado->estilo?>"><?=$fila->campanyas_estado->estado?></span></td>
+					<td><?=trim($fila->usuario->nombre.' '.$fila->usuario->apellidos)?></td>
+					<td><a href="#" class="btn btn-default pull-right" onclick="asignarCampanya('<?=$fila->id?>', '<?=$fila->nombre?>');"><span class="glyphicon glyphicon-plus"></span></a></td>
 				</tr>
 				<?php } } else { ?>
 				<tr>

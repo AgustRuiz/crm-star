@@ -10,10 +10,6 @@ class Actividades extends CI_Controller {
 		}
 		// Carga de recursos
 		$this->load->library('pagination');
-		$this->load->model('Actividades_model');
-		$this->load->model('Actividades_estado_model');
-		$this->load->model('Actividades_prioridad_model');
-		$this->load->model('Actividades_tipo_model');
 	}
 
 	public function index(){
@@ -21,23 +17,28 @@ class Actividades extends CI_Controller {
 	}
 
 	public function listar($offset=0){
-		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
-		$data['listaActividades'] = $this->Actividades_model->getActividades($limit, $offset);
-		$total = count($this->Actividades_model->getActividades(null, null));
+
+		// Obtener listado (parcial)
+		$actividades = new Actividad();
+		$data['listaActividades'] = $actividades->get($limit, $offset);
+
+		// Paginación
+		$total = $actividades->count();
 		$config['base_url'] = base_url().'actividades/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
 		$config['uri_segment'] = '3';
 		$this->pagination->initialize($config);
 		$data['pag_links'] = $this->pagination->create_links();
-		// Número de usuarios
+		// Número de actividades
 		$data['numContacts'] = $total;
 		$data['initialRow'] = $offset+1;
 		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
 		// Offset y Orden
 		$data['offset'] = $offset;
 
+		// Cargar las vistas
 		$this->load->view('header');
 		$this->load->view('actividades/listar', $data);
 		$this->load->view('sidebars/actividades/listar');
@@ -45,23 +46,28 @@ class Actividades extends CI_Controller {
 	}
 
 	public function listarUsuario($offset='0'){
-		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
-		$data['listaActividades'] = $this->Actividades_model->getActividadesUsuario($limit, $offset, $this->session->userdata('id'));
-		$total = count($this->Actividades_model->getActividadesUsuario(null, null, $this->session->userdata('id')));
-		$config['base_url'] = base_url().'actividades/listarUsuario/';
+
+		// Obtener listado (parcial)
+		$actividades = new Actividad();
+		$data['listaActividades'] = $actividades->where_related_usuario('id', $this->session->userdata('id'))->get($limit, $offset);
+
+		// Paginación
+		$total = $actividades->result_count();
+		$config['base_url'] = base_url().'actividades/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
 		$config['uri_segment'] = '3';
 		$this->pagination->initialize($config);
 		$data['pag_links'] = $this->pagination->create_links();
-		// Número de usuarios
+		// Número de actividades
 		$data['numContacts'] = $total;
 		$data['initialRow'] = $offset+1;
 		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
 		// Offset y Orden
 		$data['offset'] = $offset;
 
+		// Cargar las vistas
 		$this->load->view('header');
 		$this->load->view('actividades/listar', $data);
 		$this->load->view('sidebars/actividades/listarUsuario');
@@ -71,21 +77,30 @@ class Actividades extends CI_Controller {
 	public function ver($id=null){
 		$this->load->view('header');
 		
-		$data['actividad']=$this->Actividades_model->getActividad($id);
-		if($data['actividad']!=null){
-			$this->load->view('actividades/ver', $data);
-			$this->load->view('sidebars/actividades/ver');
-		}else{
+		if($id==null){
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
+		}else{
+			$data['actividad'] = new Actividad();
+			$data['actividad']->get_by_id($id);
+			if($data['actividad']->result_count()>0){
+				$this->load->view('actividades/ver', $data);
+				$this->load->view('sidebars/actividades/ver');
+			}else{
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}
+			$this->load->view('footer');
 		}
-		$this->load->view('footer');
 	}
 
 	public function nuevo(){
-		$data['estados']=$this->Actividades_estado_model->getEstados();
-		$data['prioridades']=$this->Actividades_prioridad_model->getPrioridades();
-		$data['tipos']=$this->Actividades_tipo_model->getTipos();
+		$data['estados'] = new Actividades_estado();
+		$data['estados']->get();
+		$data['prioridades'] = new Actividades_prioridad();
+		$data['prioridades']->get();
+		$data['tipos'] = new Actividades_tipo();
+		$data['tipos']->get();
 		
 		$this->load->view('header');
 		$this->load->view('actividades/nuevo', $data);
@@ -95,57 +110,97 @@ class Actividades extends CI_Controller {
 	}
 
 	public function nuevo2(){
+		// Recoger el formulario
 		$actividad = recogerFormulario($this->input);
-		$resultado = $this->Actividades_model->insertar($actividad);
-		if($resultado>0){
-			$data["success"] = "Actividad creada correctamente.";
-			$data['campanya']=$this->Actividades_model->getActividad($this->db->insert_id());
-			$this->load->view('header');
+		// Recoger Tipo
+		$tipo = new Actividades_tipo();
+		$tipo->get_by_id($this->input->post('cmbTipo'));
+		$actividad->actividades_tipo = $tipo;
+		// Recoger Prioridad
+		$prioridad = new Actividades_prioridad();
+		$prioridad->get_by_id($this->input->post('cmbPrioridad'));
+		$actividad->actividades_prioridad = $prioridad;
+		// Recoger Estado
+		$estado = new Actividades_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$actividad->actividades_estado = $estado;
+		// Recoger Contacto
+		$contacto = new Contacto();
+		if($this->input->post('txtIdContacto')!=''){
+			$contacto->get_by_id($this->input->post('txtIdContacto'));
+		}
+		$actividad->contacto = $contacto;
+		// Recoger Campaña
+		$campanya = new Campanya();
+		if($this->input->post('txtIdCampanya')!=''){
+			$campanya->get_by_id($this->input->post('txtIdCampanya'));
+		}
+		$actividad->campanya = $campanya;
+		// Recoger Usuario
+		$usuario = new Usuario();
+		if($this->input->post('txtIdUsuario')!=''){
+			$usuario->get_by_id($this->input->post('txtIdUsuario'));
+		}
+		$actividad->usuario = $usuario;
+
+		$this->load->view("header");
+		if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $usuario))){
+			// Inserción correcta
+			$data['success'] = "Actividad creada correctamente.";
+			$data['actividad'] = new Actividad();
+			$data['actividad']->get_by_id($actividad->id);
 			$this->load->view('actividades/ver', $data);
-			$this->load->view('sidebars/actividades/nuevo');
-		$this->load->view('footer');
+			$this->load->view('sidebars/actividades/ver');
 		}else{
-			switch($resultado){
-				case -1: // Falta nombre
-					$data["error"] = "Falta el nombre de la actividad.";
-					break;
-				case -2: // Falta fechaInicio
-					$data["error"] = "Falta indicar el inicio de la actividad.";
-					break;
-				case -3: // Falta contacto
-					$data["error"] = "Falta indicar el contacto relacionado con la actividad.";
-					break;
-				case -4: // Falta usuario
-					$data["error"] = "Falta indicar el usuario relacionado la actividad.";
-					break;
-				default: // Error no definido
-					$data["error"] = "Error al crear la actividad. Revise que todos los datos obligatorios están completados. <br/>Error nº ".mysql_errno().": ".mysql_error().".";
-					break;
+			// Fallo al insertar
+			$data['error'] = "Ha ocurrido un error durante la creación de la actividad:<ul>";
+			foreach ($actividad->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
 			}
-			$data['estados']=$this->Actividades_estado_model->getEstados();
-			$data['prioridades']=$this->Actividades_prioridad_model->getPrioridades();
-			$data['tipos']=$this->Actividades_tipo_model->getTipos();
+			$data['error'] .= '</ul>';
+
+			$data['estados'] = new Actividades_estado();
+			$data['estados']->get();
+
+			$data['prioridades'] = new Actividades_prioridad();
+			$data['prioridades']->get();
+
+			$data['tipos'] = new Actividades_tipo();
+			$data['tipos']->get();
+
 			$data["actividad"]=$actividad;
-			$this->load->view('header');
+
 			$this->load->view('actividades/nuevo', $data);
 			$this->load->view('sidebars/actividades/nuevo');
-			$this->load->view('footer');
-			$this->load->view("actividades/js/include_formulario");
 		}
+		$this->load->view('footer');
+		$this->load->view("actividades/js/include_formulario");
 	}
 
 	public function eliminar($id=null){
 		$this->load->view('header');
-		$result=$this->Actividades_model->eliminar($id);
-		if($result>0){
-			$data=array("success"=>"Actividad eliminada");
+		$actividad = new Actividad();
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
 		}else{
-			$data['error']="No ha podido eliminarse la actividad";
-			$data['actividad']['id']=$id;
+			$actividad->get_by_id($id);
+			if($actividad->result_count()==0){
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}else{
+				if($actividad->delete()){
+					$data=array("success"=>"Actividad eliminada");
+				}else{
+					$data['error']="No ha podido eliminarse la actividad";
+					$data['actividad']['id']=$id;
+				}
+				$this->load->view('actividades/eliminar', $data);
+				$this->load->view('sidebars/actividades/eliminar');
+			}
+			$this->load->view('footer');
 		}
-		$this->load->view('actividades/eliminar', $data);
-		$this->load->view('sidebars/actividades/eliminar');
-		$this->load->view('footer');
 	}
 
 	public function editar($id=null){
@@ -155,109 +210,140 @@ class Actividades extends CI_Controller {
 			$this->load->view('sidebars/error404');
 		}
 		else{
-			$data['actividad']=$this->Actividades_model->getActividad($id);
-			$data['estados']=$this->Actividades_estado_model->getEstados();
-			$data['prioridades']=$this->Actividades_prioridad_model->getPrioridades();
-			$data['tipos']=$this->Actividades_tipo_model->getTipos();
+			$data['actividad'] = new Actividad();
+			$data['actividad']->get_by_id($id);
+			if($data['actividad']->result_count() == 0){
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}else{
+				if($data['actividad']->usuario->id != $this->session->userdata('id')){
+					$data['error']="No puedes editar una actividad que no te pertenezca.";
+					$this->load->view('actividades/ver', $data);
+					$this->load->view('sidebars/actividades/ver');
+				}else{
+					$data['estados'] = new Actividades_estado();
+					$data['estados']->get();
+					$data['prioridades'] = new Actividades_prioridad();
+					$data['prioridades']->get();
+					$data['tipos'] = new Actividades_tipo();
+					$data['tipos']->get();
+					$this->load->view('actividades/editar', $data);
+					$this->load->view('sidebars/actividades/editar');
+				}
+			}
+		}
+		$this->load->view('footer');
+		$this->load->view("actividades/js/include_formulario");
+	}
+
+	public function editar2($id=null){
+		// Recoger el formulario
+		$actividadEditada = recogerFormulario($this->input);
+		$actividad = new Actividad();
+		$actividad->get_by_id($id);
+		$actividad->asunto = $actividadEditada->asunto;
+		$actividad->inicio = $actividadEditada->inicio;
+		$actividad->fin = $actividadEditada->fin;
+		$actividad->descripcion = $actividadEditada->descripcion;
+		$actividad->resultado = $actividadEditada->resultado;
+		// Recoger Tipo
+		$tipo = new Actividades_tipo();
+		$tipo->get_by_id($this->input->post('cmbTipo'));
+		$actividad->actividades_tipo = $tipo;
+		// Recoger Prioridad
+		$prioridad = new Actividades_prioridad();
+		$prioridad->get_by_id($this->input->post('cmbPrioridad'));
+		$actividad->actividades_prioridad = $prioridad;
+		// Recoger Estado
+		$estado = new Actividades_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$actividad->actividades_estado = $estado;
+		// Recoger Contacto
+		$contacto = new Contacto();
+		$contacto->get_by_id($this->input->post('txtIdContacto'));
+		if($contacto->result_count() == 0){
+			$actividad->delete($actividad->contacto);
+		}else{
+			$actividad->contacto = $contacto;
+		}
+		// Recoger Campaña
+		$campanya = new Campanya();
+		$campanya->get_by_id($this->input->post('txtIdCampanya'));
+		if($campanya->result_count == 0){
+			$actividad->delete($actividad->campanya);
+		}else{
+			$actividad->campanya = $campanya;
+		}
+		// Recoger Usuario
+		$usuario = new Usuario();
+		$usuario->get_by_id($this->input->post('txtIdUsuario'));
+		if($usuario->result_count() == 0){
+			$actividad->delete($actividad->usuario);
+		}else{
+			$actividad->usuario = $usuario;
+		}
+
+		$this->load->view("header");
+		if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $usuario))){
+			// Inserción correcta
+			$data['success'] = "Actividad creada correctamente.";
+			$data['actividad'] = new Actividad();
+			$data['actividad']->get_by_id($actividad->id);
+			$this->load->view('actividades/ver', $data);
+			$this->load->view('sidebars/actividades/ver');
+		}else{
+			// Fallo al insertar
+			$data['error'] = "Ha ocurrido un error durante la creación de la actividad:<ul>";
+			foreach ($actividad->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
+			}
+			$data['error'] .= '</ul>';
+
+			$data['estados'] = new Actividades_estado();
+			$data['estados']->get();
+
+			$data['prioridades'] = new Actividades_prioridad();
+			$data['prioridades']->get();
+
+			$data['tipos'] = new Actividades_tipo();
+			$data['tipos']->get();
+
+			$data["actividad"]=$actividad;
+
 			$this->load->view('actividades/editar', $data);
 			$this->load->view('sidebars/actividades/editar');
 		}
 		$this->load->view('footer');
-			$this->load->view("actividades/js/include_formulario");
-	}
-
-	public function editar2($id=null){
-		// Recoger el formulario e insertar el nuevo registro
-		$actividad = recogerFormulario($this->input, $id);
-		$resultado = $this->Actividades_model->actualizar($actividad);
-
-		if($resultado>0){
-			//Edición correcta
-			$data["success"] = "Actividad editada correctamente";
-			$data['actividad']=$this->Actividades_model->getActividad($id);
-			$this->load->view('header');
-			$this->load->view('actividades/ver', $data);
-			$this->load->view('sidebars/actividades/ver');
-			$this->load->view('footer');
-		}else{
-			switch($resultado){
-				case -1: // Falta nombre
-					$data["error"] = "Falta el nombre de la actividad.";
-					break;
-				case -2: // Falta fechaInicio
-					$data["error"] = "Falta indicar el inicio de la actividad.";
-					break;
-				case -3: // Falta contacto
-					$data["error"] = "Falta indicar el contacto relacionado con la actividad.";
-					break;
-				case -4: // Falta usuario
-					$data["error"] = "Falta indicar el usuario relacionado la actividad.";
-					break;
-				default: // Error no definido
-					$data["error"] = "Error al crear la actividad. Revise que todos los datos obligatorios están completados. <br/>Error nº ".mysql_errno().": ".mysql_error().".";
-					break;
-			}
-			$data['estados']=$this->Actividades_estado_model->getEstados();
-			$data['prioridades']=$this->Actividades_prioridad_model->getPrioridades();
-			$data['tipos']=$this->Actividades_tipo_model->getTipos();
-			$data["actividad"]=$actividad;
-			$this->load->view('header');
-			$this->load->view('actividades/nuevo', $data);
-			$this->load->view('sidebars/actividades/nuevo');
-			$this->load->view('footer');
-			$this->load->view("actividades/js/include_formulario");
-		}
+		$this->load->view("actividades/js/include_formulario");
 	}
 }
 
 /* FUNCIONES AUXILIARES */
 function recogerFormulario($input, $id=null){
-	unset($return);
+	$actividad = new Actividad();
 
-	$return = array(
-		'nombre' => (strip_tags(trim($input->post('txtNombre')))=="")?null:strip_tags(trim($input->post('txtNombre'))),
-		'tipo' => strip_tags(trim($input->post('cmbTipo'))),
-		'prioridad' => strip_tags(trim($input->post('cmbPrioridad'))),
-		'estado' => strip_tags(trim($input->post('cmbEstado'))),
-		'usuario' => strip_tags(trim($input->post('txtIdUsuario'))),
-		'usuario_nombre' => strip_tags(trim($input->post('txtNombreUsuario'))),
-		'descripcion' => nl2br(strip_tags(trim($input->post('txtDescripcion')))),
-		'resultado' => nl2br(strip_tags(trim($input->post('txtResultado'))))
-		);
+	$actividad->asunto = strip_tags(trim($input->post('txtAsunto')));
+	$actividad->descripcion = nl2br(strip_tags(trim($input->post('txtDescripcion'))));
+	$actividad->resultado = nl2br(strip_tags(trim($input->post('txtResultado'))));
+
 	if($id!=null){
-		$return['id']=$id;
+		$actividad->id=$id;
 	}
-	if($input->post('txtInicioTimestamp')!=''){
-		$return['inicio'] = date("Y-n-j H:i", strip_tags(trim($input->post('txtInicioTimestamp'))));
-		$return['inicioTimestamp'] = strip_tags(trim($input->post('txtInicioTimestamp')));
+
+	if($input->post('txtInicioTimestamp')!=0){
+		$actividad->inicio = date("Y-n-j H:i:s", strip_tags(trim($input->post('txtInicioTimestamp'))));
 	}else{
-		$return['inicio'] = 0;
-		$return['inicioTimestamp'] = 0;
+		$actividad->inicio = null;
 	}
-	if($input->post('txtFinTimestamp')!=''){
-		$return['fin'] = date("Y-n-j H:i", strip_tags(trim($input->post('txtFinTimestamp'))));
-		$return['finTimestamp'] = strip_tags(trim($input->post('txtFinTimestamp')));
+
+	if($input->post('txtFinTimestamp')!=0){
+		$actividad->fin = date("Y-n-j H:i:s", strip_tags(trim($input->post('txtFinTimestamp'))));
 	}else{
-		$return['fin'] = 0;
-		$return['finTimestamp'] = 0;
+		$actividad->fin = null;
 	}
-	if(strip_tags(trim($input->post('txtIdContacto')))!=""){
-		$return['contacto'] = strip_tags(trim($input->post('txtIdContacto')));
-		$return['contacto_nombre'] = strip_tags(trim($input->post('txtNombreContacto')));
-		$return['contacto_apellidos'] = null;
-	}else{
-		$return['contacto'] = null;
-		$return['contacto_nombre'] = null;
-		$return['contacto_apellidos'] = null;
-	}
-	if(strip_tags(trim($input->post('txtIdCampanya')))!=""){
-		$return['campanya'] = strip_tags(trim($input->post('txtIdCampanya')));
-		$return['campanya_nombre'] = strip_tags(trim($input->post('txtNombreCampanya')));;
-	}else{
-		$return['campanya'] = null;
-		$return['campanya_nombre'] = null;
-	}
-	return $return;
+
+	return $actividad;
 }
 
 /* End of file actividades.php */

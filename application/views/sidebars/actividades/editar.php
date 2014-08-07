@@ -10,11 +10,11 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-body">
-						¿Seguro desea eliminar la actividad "<?=$actividad['nombre']?>" Esta operación no tiene vuelta atrás...
+						¿Seguro desea eliminar la actividad "<?=$actividad->asunto?>" Esta operación no tiene vuelta atrás...
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-						<a href="<?=$this->config->base_url().'actividades/eliminar/'.$actividad['id']?>" class="btn btn-danger">Eliminar</a>
+						<a href="<?=$this->config->base_url().'actividades/eliminar/'.$actividad->id?>" class="btn btn-danger">Eliminar</a>
 					</div>
 				</div>
 			</div>

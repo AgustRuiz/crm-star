@@ -45,12 +45,12 @@
 				</tr>
 			</thead>
 			<tbody id="contenedor">
-				<?php if(isset($listaContactos)){ foreach ($listaContactos as $fila) { ?>
+				<?php if(isset($listaContactos) && $listaContactos->result_count()>0){ foreach ($listaContactos as $fila) { ?>
 				<tr>
-					<td><?=$fila['id']?></td>
-					<td><strong><?=$fila['nombre']?> <?=$fila['apellidos']?></strong></td>
-					<td><span class="<?=$fila['estilo_estado']?>"><?=$fila['estado']?></span></td>
-					<td><a href="#" class="btn btn-default pull-right" onclick="asignarContacto('<?=$fila['id']?>', '<?=$fila['nombre']?> <?=$fila['apellidos']?>');"><span class="glyphicon glyphicon-plus"></span></a></td>
+					<td><?=$fila->id?></td>
+					<td><strong><?=trim($fila->nombre.' '.$fila->apellidos)?></strong></td>
+					<td><span class="<?=$fila->contactos_estado->estilo?>"><?=$fila->contactos_estado->estado?></span></td>
+					<td><a href="#" class="btn btn-default pull-right" onclick="asignarContacto(<?=$fila->id?>, '<?=trim($fila->nombre.' '.$fila->apellidos)?>')"><span class="glyphicon glyphicon-plus"></span></a></td>
 				</tr>
 				<?php } } else { ?>
 				<tr>

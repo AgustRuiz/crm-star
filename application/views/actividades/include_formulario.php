@@ -1,8 +1,8 @@
 <fieldset>
 	<div class="form-group required">
-		<label for="txtNombre" class="col-sm-2 control-label">Asunto</label>
+		<label for="txtAsunto" class="col-sm-2 control-label">Asunto</label>
 		<div class="col-sm-10">
-			<input type='text' class="form-control" name="txtNombre" id="txtNombre" required="required" placeholder="Nombre de la actividad" value="<? if(isset($actividad)) echo $actividad['nombre'];?>" />
+			<input type='text' class="form-control" name="txtAsunto" id="txtAsunto" required="required" placeholder="Nombre de la actividad" value="<? if(isset($actividad)) echo $actividad->asunto;?>" />
 		</div>
 	</div>
 	<div class="form-group required">
@@ -41,10 +41,10 @@
 			<select class="form-control" id="cmbTipo" name="cmbTipo">
 				<?php
 				foreach ($tipos as $tipo) {
-					if(isset($actividad) && $tipo['id_tipo']==$actividad['id_tipo']){
-						echo '<option value="'.$tipo['id_tipo'].'" selected="selected">'.$tipo['tipo'].'</option>';
+					if(isset($actividad) && $actividad->actividades_tipo->id == $tipo->id){
+						echo '<option value="'.$tipo->id.'" selected="selected">'.$tipo->tipo.'</option>';
 					}else{
-						echo '<option value="'.$tipo['id_tipo'].'">'.$tipo['tipo'].'</option>';
+						echo '<option value="'.$tipo->id.'">'.$tipo->tipo.'</option>';
 					}
 				}
 				?>
@@ -57,12 +57,10 @@
 			<select class="form-control" id="cmbPrioridad" name="cmbPrioridad">
 				<?php
 				foreach ($prioridades as $prioridad) {
-					if(isset($actividad) && $prioridad['id_prioridad']==$actividad['id_prioridad']){
-						echo '<option value="'.$prioridad['id_prioridad'].'" selected="selected">'.$prioridad['prioridad'].'</option>';
-					}else if($prioridad['id_prioridad'] == 2){
-						echo '<option value="'.$prioridad['id_prioridad'].'" selected="selected">'.$prioridad['prioridad'].'</option>';
+					if(isset($actividad) && $prioridad->id == $actividad->actividades_prioridad->id){
+						echo '<option value="'.$prioridad->id.'" selected="selected">'.$prioridad->prioridad.'</option>';
 					}else{
-						echo '<option value="'.$prioridad['id_prioridad'].'">'.$prioridad['prioridad'].'</option>';
+						echo '<option value="'.$prioridad->id.'">'.$prioridad->prioridad.'</option>';
 					}
 				}
 				?>
@@ -75,10 +73,10 @@
 			<select class="form-control" id="cmbEstado" name="cmbEstado">
 				<?php
 				foreach ($estados as $estado) {
-					if(isset($actividad) && $estado['id_estado']==$actividad['id_estado']){
-						echo '<option value="'.$estado['id_estado'].'" selected="selected">'.$estado['estado'].'</option>';
+					if(isset($actividad) && $estado->id == $actividad->actividades_estado->id){
+						echo '<option value="'.$estado->id.'" selected="selected">'.$estado->estado.'</option>';
 					}else{
-						echo '<option value="'.$estado['id_estado'].'">'.$estado['estado'].'</option>';
+						echo '<option value="'.$estado->id.'">'.$estado->estado.'</option>';
 					}
 				}
 				?>
@@ -89,8 +87,8 @@
 		<label for="txtNombreContacto" class="col-sm-2 control-label">Contacto</label>
 		<div class="col-sm-10">
 			<div class="input-group col-sm-11 col-xs-11 pull-left">
-				<input type="hidden" id="txtIdContacto" name="txtIdContacto" value="<?php if(isset($actividad)) echo $actividad['contacto']; ?>"/>
-				<input type="text" class="form-control" id="txtNombreContacto" name="txtNombreContacto" placeholder="" value="<? if(isset($actividad)) echo $actividad['contacto_nombre'].' '.$actividad['contacto_apellidos']; ?>" readonly="readonly"/>
+				<input type="hidden" id="txtIdContacto" name="txtIdContacto" value="<? if(isset($actividad) && $actividad->contacto!=null) echo $actividad->contacto->id; ?>"/>
+				<input type="text" class="form-control" id="txtNombreContacto" name="txtNombreContacto" placeholder="" value="<? if(isset($actividad) && $actividad->contacto!=null) echo trim($actividad->contacto->nombre.' '.$actividad->contacto->apellidos); ?>" readonly="readonly"/>
 				<span class="input-group-addon" onclick="abrirModalContacto()"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
 			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearContacto();">
@@ -114,8 +112,8 @@
 		<label for="txtNombreCampanya" class="col-sm-2 control-label">Campaña</label>
 		<div class="col-sm-10">
 			<div class="input-group col-sm-11 col-xs-11 pull-left">
-				<input type="hidden" id="txtIdCampanya" name="txtIdCampanya" value="<?php if(isset($actividad)) echo $actividad['campanya']; ?>"/>
-				<input type="text" class="form-control" id="txtNombreCampanya" name="txtNombreCampanya" placeholder="" value="<? if(isset($actividad)) echo $actividad['campanya_nombre'];?>" readonly="readonly"/>
+				<input type="hidden" id="txtIdCampanya" name="txtIdCampanya" value="<?php if(isset($actividad) && $actividad->campanya!=null) echo $actividad->campanya->id; ?>"/>
+				<input type="text" class="form-control" id="txtNombreCampanya" name="txtNombreCampanya" placeholder="" value="<? if(isset($actividad) && $actividad->campanya!=null) echo $actividad->campanya->nombre;?>" readonly="readonly"/>
 				<span class="input-group-addon" onclick="abrirModalCampanya()"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
 			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearCampanya();">
@@ -136,24 +134,24 @@
 		</div>
 	</div>
 	<div class="form-group required">
-		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario</label>
+		<label for="txtAsuntoUsuario" class="col-sm-2 control-label">Usuario</label>
 		<div class="col-sm-10">
 			<div class="input-group col-sm-12 col-xs-12 pull-left">
 				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?=$this->session->userdata('id');?>"/>
-				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<?=$this->session->userdata('nombre')?> <?=$this->session->userdata('apellidos')?>" readonly="readonly"/>
+				<input type="text" class="form-control" id="txtAsuntoUsuario" name="txtAsuntoUsuario" placeholder="" value="<?=trim($this->session->userdata('nombre').' '.$this->session->userdata('apellidos'))?>" readonly="readonly"/>
 			</div>
 		</div>
 	</div>
 	<div class="form-group required">
 		<label for="txtDescripcion" class="col-sm-2 control-label">Descripción</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la actividad" required="required"><?php if(isset($actividad)) echo str_replace('<br />', "", $actividad['descripcion']); ?></textarea>
+			<textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="4" placeholder="Descripción de la actividad" required="required"><?php if(isset($actividad)) echo str_replace('<br />', "", $actividad->descripcion); ?></textarea>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="txtResultado" class="col-sm-2 control-label">Resultado</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtResultado" name="txtResultado" rows="4" placeholder="Resultado de la actividad"><?php if(isset($actividad)) echo str_replace('<br />', "", $actividad['resultado']); ?></textarea>
+			<textarea class="form-control" id="txtResultado" name="txtResultado" rows="4" placeholder="Resultado de la actividad"><?php if(isset($actividad)) echo str_replace('<br />', "", $actividad->resultado); ?></textarea>
 		</div>
 	</div>
 </fieldset>

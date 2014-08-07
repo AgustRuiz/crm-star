@@ -251,13 +251,29 @@ class Contactos extends CI_Controller {
 		}
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
+
+		$data['listaContactos'] = new Contacto();
 		if($consulta==null){
-			$data['listaContactos'] = $this->Contactos_model->getContactos($limit, $offset, $consulta);
-			$total = $this->Contactos_model->countContactos($consulta);
+			$data['listaContactos']->get($limit, $offset);
+			$total = $data['listaContactos']->count();
 			$config['per_page'] = $limit;
 		}else{
-			$data['listaContactos'] = $this->Contactos_model->getContactos(null, null, $consulta);
-			$total = $this->Contactos_model->countContactos($consulta);
+			$data['listaContactos']->ilike('nombre', $consulta);
+			$data['listaContactos']->or_ilike('apellidos', $consulta);
+			$data['listaContactos']->or_ilike('nif', $consulta);
+			$data['listaContactos']->or_ilike('direccion', $consulta);
+			$data['listaContactos']->or_ilike('ciudad', $consulta);
+			$data['listaContactos']->or_ilike('provincia', $consulta);
+			$data['listaContactos']->or_ilike('cp', $consulta);
+			$data['listaContactos']->or_ilike('pais', $consulta);
+			$data['listaContactos']->or_ilike('telfOficina', $consulta);
+			$data['listaContactos']->or_ilike('telfMovil', $consulta);
+			$data['listaContactos']->or_ilike('fax', $consulta);
+			$data['listaContactos']->or_ilike('otrosDatos', $consulta);
+			$data['listaContactos']->or_ilike_related_contactos_email('correo', $consulta);
+			// Falta contemplar los correos electrónicos
+			$data['listaContactos']->get();
+			$total = $data['listaContactos']->result_count();
 			$config['per_page'] = $limit = $total;
 		}
 		$config['base_url'] = base_url().'contactos/include_busqueda_contacto/';

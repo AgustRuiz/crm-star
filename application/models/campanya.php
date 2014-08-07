@@ -18,7 +18,7 @@ class Campanya extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('campanyas_estado', 'campanyas_tipo', 'usuario');
-	public $has_many = array('');
+	public $has_many = array('actividad');
 
 	// Validación de campos
 	public $validation = array(

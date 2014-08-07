@@ -18,7 +18,7 @@ class Contacto extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('contactos_estado');
-	public $has_many = array('contactos_email');
+	public $has_many = array('contactos_email', 'actividad');
 
 	// Validación de campos
 	public $validation = array(
