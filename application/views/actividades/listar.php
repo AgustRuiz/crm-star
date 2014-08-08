@@ -6,6 +6,7 @@
 					<tr>
 						<th>#</th>
 						<th>Asunto</th>
+						<th>Campaña</th>
 						<th>Inicio</th>
 						<th>Tipo</th>
 						<!-- <th>Prioridad</th> -->
@@ -15,10 +16,11 @@
 					</tr>
 				</thead>
 				<tbody id="contenedor">
-					<?php if(isset($listaActividades) && $listaActividades->result_count()>0) {foreach ($listaActividades as $fila) { ?>
-						<tr>
+					<?php if(isset($listaActividades) && $listaActividades->result_count()>0) { foreach ($listaActividades as $fila) { ?>
+						<tr <? if(time()-strtotime($fila->inicio)>0) echo 'class="pasado"'; else echo 'class="pendiente"';?>>
 							<td><?=$fila->id?></td>
 							<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
+							<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a></td>
 							<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
 							<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
 							<!-- <td><span class="<?=$fila->actividades_prioridad->estilo?>"><?=$fila->actividades_prioridad->prioridad?></span></td> -->
@@ -29,12 +31,12 @@
 						</tr>
 					<?php } } else { ?>
 						<tr>
-							<td colspan="8" class="text-center"><em>No hay actividades</em></td>
+							<td colspan="9" class="text-center"><em>No hay actividades</em></td>
 						</tr>
 					<?php } ?>
 				</tbody>
 				<tfoot>	
-					<tr><th colspan="8">
+					<tr><th colspan="9">
 						<?=$initialRow?>-<?=$finalRow?> de <?=$numContacts?>	
 						<ul class="pagination pull-right" id="pagination">
 							<?=$pag_links;?>

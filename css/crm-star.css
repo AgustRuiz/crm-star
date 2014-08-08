@@ -177,9 +177,38 @@
 	/*position: relative;*/
 }
 
-.ficha .titulo{
-	background-color: #F5F5F5;
+.container-fluid .dato{
+	border-left: 1px solid #f5f5f5;
 }
+
+/*.ficha .titulo{
+	border-left: 1px solid #ddd;
+}*/
+
+.ficha .titulo{
+	background-color: #f5f5f5;
+}
+
+/*Espacio entre fieldsets en Ver*/
+fieldset + fieldset{
+	margin-top: 3rem;
+}
+
+/*Filas de tabla pasadas de fecha*/
+tbody tr.pasado td{
+	background-color: #f6f6f6;
+}
+tbody tr.pasado:nth-child(odd) td{
+	background-color: #f3f3f3;
+}
+tbody tr.pasado:hover td{
+	background-color: #f0f0f0;
+}
+
+tr.pendiente + tr.pasado td, tr.pasado + tr.pendiente td{
+	border-top: 2px solid #aaa;
+}
+
 
 /****** IFRAME MODAL ******/
 .iframe-modal{
@@ -315,7 +344,7 @@
 
 /*Estilos de Prioridades*/
 .prioridad-actividades-baja{
-	font-style: italic;
+	/*font-style: italic;*/
 	font-weight: bold;
 	color:#428bca;
 	/*color:#5bc0de;*/
@@ -337,12 +366,9 @@
 }
 
 .prioridad-actividades-alta{
+	/*font-style: italic;*/
 	font-weight: bold;
 	color:#d9534f;
-	padding: 0px 2px;
-	border-radius: 5px;
-	border: 1px solid #d9534f;
-	display: inline-block;
 }
 .prioridad-actividades-alta-icono{
 	color: #d9534f;

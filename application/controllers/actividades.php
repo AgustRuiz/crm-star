@@ -21,7 +21,7 @@ class Actividades extends CI_Controller {
 
 		// Obtener listado (parcial)
 		$actividades = new Actividad();
-		$data['listaActividades'] = $actividades->get($limit, $offset);
+		$data['listaActividades'] = $actividades->order_by('inicio', 'desc')->get($limit, $offset);
 
 		// Paginación
 		$total = $actividades->count();
@@ -50,7 +50,7 @@ class Actividades extends CI_Controller {
 
 		// Obtener listado (parcial)
 		$actividades = new Actividad();
-		$data['listaActividades'] = $actividades->where_related_usuario('id', $this->session->userdata('id'))->get($limit, $offset);
+		$data['listaActividades'] = $actividades->where_related_usuario('id', $this->session->userdata('id'))->order_by('inicio', 'desc')->get($limit, $offset);
 
 		// Paginación
 		$total = $actividades->result_count();

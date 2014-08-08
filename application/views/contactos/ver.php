@@ -75,4 +75,47 @@
 					</div>
 				</div>
 			</fieldset>
+			<fieldset>
+				<legend class="row">Actividades</legend>
+				<div class="row clearfix">
+					<table class="table table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Asunto</th>
+								<th>Campaña</th>
+								<th>Inicio</th>
+								<th>Tipo</th>
+								<th colspan="2">Prioridad/Estado</th>
+								<th>Usuario</th>
+							</tr>
+						</thead>
+						<tbody id="contenedor">
+							<?php foreach($contacto->actividad->order_by('inicio', 'desc')->get() as $fila){ ?>
+							<tr <? if(time()-strtotime($fila->inicio)>0) echo 'class="pasado"'; else echo 'class="pendiente"';?>>
+								<td><?=$fila->id?></td>
+								<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
+								<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a></td>
+								<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
+								<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
+								<td><span class="<?=$fila->actividades_prioridad->estilo_icono?>" title="<?=$fila->actividades_prioridad->etiqueta_icono?>"></span></td>
+								<td><span class="<?=$fila->actividades_estado->estilo?>"><?=$fila->actividades_estado->estado?></span></td>
+								<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->usuario->id?>"><?=trim($fila->usuario->nombre.' '.$fila->usuario->apellidos)?></a></td>
+							</tr>
+							<? } ?>
+						</tbody>
+						<tfoot>	
+							<tr>
+								<? if($contacto->actividad->count() == 0){?>
+								<td colspan="9"><em><div class="text-center">No hay actividades</div></em></td>
+								<? } else if($contacto->actividad->count() == 1){?>
+								<th colspan="9">1 actividad</th>
+								<? } else {?>
+								<th colspan="9"><?=$contacto->actividad->count()?> actividades</th>
+								<? } ?>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</fieldset>
   </div><!--/row-->

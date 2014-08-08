@@ -60,7 +60,11 @@
 					if(isset($actividad) && $prioridad->id == $actividad->actividades_prioridad->id){
 						echo '<option value="'.$prioridad->id.'" selected="selected">'.$prioridad->prioridad.'</option>';
 					}else{
-						echo '<option value="'.$prioridad->id.'">'.$prioridad->prioridad.'</option>';
+						if(!isset($actividad) && $prioridad->id == 2){
+							echo '<option value="'.$prioridad->id.'" selected="selected">'.$prioridad->prioridad.'</option>';
+						}else{
+							echo '<option value="'.$prioridad->id.'">'.$prioridad->prioridad.'</option>';
+						}
 					}
 				}
 				?>

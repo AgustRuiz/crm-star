@@ -22,8 +22,11 @@
 						<div class="col-md-2 col-xs-3 text-right titulo">Contraseña</div>
 						<div class="col-md-4 col-xs-9 dato"><a href="#" data-toggle="modal" data-target="#modalPassword">Reiniciar contraseña</a></div>
 					</div>
-
-					<div class="row col-md-12"><h5>Datos generales</h5></div>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Datos generales</legend>
+				<div class="container-fluid ficha">
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Nombre</div>
 						<div class="col-md-4 col-xs-9 dato"><?=$usuario->nombre?></div>
@@ -31,11 +34,10 @@
 						<div class="col-md-4 col-xs-9 dato"><?=$usuario->apellidos?></div>
 					</div>
 					<div class="row clearfix">
-						<div class="col-md-2 col-md-offset-6 col-xs-3 text-right titulo">NIF</div>
-						<div class="col-md-4 col-xs-9 dato"><?=$usuario->nif?></div>
+						<div class="col-md-2 col-xs-3 text-right titulo">NIF</div>
+						<div class="col-md-10 col-xs-9 dato"><?=$usuario->nif?></div>
 					</div>
-					
-					<div class="row col-md-12"><h5>Métodos de contacto</h5></div>
+
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Correo</div>
 						<div class="col-md-4 col-xs-9 dato"><a href="mailto:<?=$usuario->email?>"><?=$usuario->email?></a></div>
@@ -49,11 +51,59 @@
 						<div class="col-md-4 col-xs-9 dato"><?=$usuario->fax?></div>
 					</div>
 
-					<div class="col-md-12"><h5>Otros</h5></div>
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Otros datos</div>
 						<div class="col-md-10 col-xs-9 dato"><?=$usuario->otrosDatos?></div>
 					</div>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Campañas asignadas</legend>
+				<div class="container-fluid ficha">
+
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Actividades</legend>
+				<div class="container-fluid ficha">
+					<table class="table table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Asunto</th>
+								<th>Campaña</th>
+								<th>Inicio</th>
+								<th>Tipo</th>
+								<th colspan="2">Prioridad/Estado</th>
+								<th>Contacto</th>
+							</tr>
+						</thead>
+						<tbody id="contenedor">
+							<?php foreach($usuario->actividad as $fila){ ?>
+							<tr>
+								<td><?=$fila->id?></td>
+								<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
+								<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a></td>
+								<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
+								<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
+								<td><span class="<?=$fila->actividades_prioridad->estilo_icono?>" title="<?=$fila->actividades_prioridad->etiqueta_icono?>"></span></td>
+								<td><span class="<?=$fila->actividades_estado->estilo?>"><?=$fila->actividades_estado->estado?></span></td>
+								<td><a href="<?=$this->config->base_url()?>contactos/ver/<?=$fila->contacto->id?>"><?=trim($fila->contacto->nombre.' '.$fila->contacto->apellidos)?></a></td>
+							</tr>
+							<? } ?>
+						</tbody>
+						<tfoot>	
+							<tr>
+								<? if($usuario->actividad->count() == 0){?>
+								<td colspan="9"><em><div class="text-center">No hay actividades</div></em></td>
+								<? } else if($usuario->actividad->count() == 1){?>
+								<th colspan="9">1 actividad</th>
+								<? } else {?>
+								<th colspan="9"><?=$usuario->actividad->count()?> actividades</th>
+								<? } ?>
+							</tr>
+						</tfoot>
+					</table>
 				</div>
 			</fieldset>
 			<!-- Modal reenviar contraseña -->
