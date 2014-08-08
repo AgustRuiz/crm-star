@@ -190,14 +190,20 @@ class Actividades extends CI_Controller {
 				$this->load->view('errores/error404');
 				$this->load->view('sidebars/error404');
 			}else{
-				if($actividad->delete()){
-					$data=array("success"=>"Actividad eliminada");
+				if($data['actividad']->usuario->id != $this->session->userdata('id')){
+					$data['error']="No puedes eliminar una actividad que no te pertenezca.";
+					$this->load->view('actividades/ver', $data);
+					$this->load->view('sidebars/actividades/ver');
 				}else{
-					$data['error']="No ha podido eliminarse la actividad";
-					$data['actividad']['id']=$id;
+					if($actividad->delete()){
+						$data=array("success"=>"Actividad eliminada");
+					}else{
+						$data['error']="No ha podido eliminarse la actividad";
+						$data['actividad']['id']=$id;
+					}
+					$this->load->view('actividades/eliminar', $data);
+					$this->load->view('sidebars/actividades/eliminar');
 				}
-				$this->load->view('actividades/eliminar', $data);
-				$this->load->view('sidebars/actividades/eliminar');
 			}
 			$this->load->view('footer');
 		}
