@@ -60,7 +60,37 @@
 			<fieldset>
 				<legend>Campañas asignadas</legend>
 				<div class="container-fluid ficha">
-
+					<table class="table table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Nombre de la Campaña</th>
+								<th>Tipo</th>
+								<th>Estado</th>
+							</tr>
+						</thead>
+						<tbody id="contenedor">
+							<?php foreach($usuario->campanya as $fila){ ?>
+							<tr>
+								<td><?=$fila->id?></td>
+								<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->id?>"><strong><?=$fila->nombre?></strong></a></td>
+								<td><span class="<?=$fila->campanyas_tipo->estilo?>"><?=$fila->campanyas_tipo->tipo?></span></td>
+								<td><span class="<?=$fila->campanyas_estado->estilo?>"><?=$fila->campanyas_estado->estado?></span></td>
+							</tr>
+							<? } ?>
+						</tbody>
+						<tfoot>
+							<tr>
+								<? if($usuario->campanya->count() == 0){?>
+								<td colspan="9"><em><div class="text-center">No hay campañas asignadas</div></em></td>
+								<? } else if($usuario->campanya->count() == 1){?>
+								<th colspan="9">1 campañas</th>
+								<? } else {?>
+								<th colspan="9"><?=$usuario->campanya->count()?> campañas</th>
+								<? } ?>
+							</tr>
+						</tfoot>
+					</table>
 				</div>
 			</fieldset>
 			<fieldset>
@@ -80,7 +110,7 @@
 						</thead>
 						<tbody id="contenedor">
 							<?php foreach($usuario->actividad as $fila){ ?>
-							<tr>
+							<tr <? if(time()-strtotime($fila->inicio)>0) echo 'class="pasado"'; else echo 'class="pendiente"';?>>
 								<td><?=$fila->id?></td>
 								<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
 								<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a></td>
