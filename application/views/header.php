@@ -55,21 +55,12 @@
 					<li <?php if($this->router->fetch_class()=="contactos") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>contactos">Contactos</a></li>
 					<li <?php if($this->router->fetch_class()=="campanyas") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>campanyas">Campañas</a></li>
 					<li <?php if($this->router->fetch_class()=="actividades") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>actividades">Actividades</a></li>
+					<li <?php if($this->router->fetch_class()=="alertas") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>alertas">Alertas</a></li>
 					<li <?php if($this->router->fetch_class()=="usuarios") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>usuarios">Usuarios</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
 					<li rel="popover-alertas" class="popover-dismiss"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">21</span></a></li>
-
-
-
-
-
-
-
-
-
-
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -80,10 +71,6 @@
 						</ul>
 					</li>
 				</ul>
-
-
-
-
 			</div><!-- /.nav-collapse -->
 		</div><!-- /.container -->
 </div><!-- /.navbar -->
