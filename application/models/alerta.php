@@ -15,7 +15,7 @@ class Alerta extends DataMapper{
 	} 
 
 	// Relaciones
-	public $has_one = array('');
+	public $has_one = array('usuario');
 	public $has_many = array('');
 
 	// Validación de campos
