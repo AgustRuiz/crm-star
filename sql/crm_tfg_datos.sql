@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-08-2014 a las 00:30:23
+-- Tiempo de generación: 09-08-2014 a las 22:58:23
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -28,22 +28,25 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `ci_actividades` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `asunto` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `asunto` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
   `inicio` datetime NOT NULL,
   `fin` datetime NOT NULL,
   `descripcion` text COLLATE latin1_spanish_ci NOT NULL,
   `resultado` text COLLATE latin1_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=35 ;
 
 --
 -- Volcado de datos para la tabla `ci_actividades`
 --
 
 INSERT INTO `ci_actividades` (`id`, `asunto`, `inicio`, `fin`, `descripcion`, `resultado`) VALUES
-(30, 'Actividad completa', '2014-08-12 11:30:00', '2014-08-12 13:30:00', 'Aquí está la descripción de la tarea realizada', 'Aquí está el resultado de la actividad realizada'),
-(31, 'Actividad de Agustín', '2014-08-08 00:25:00', '2014-08-08 00:55:00', 'Correo electrónico a Agustín', '');
+(30, 'Actividad completa', '2014-09-24 11:30:00', '2014-09-24 11:30:00', 'Aquí está la descripción de la tarea realizada', 'Aquí está el resultado de la actividad realizada'),
+(31, 'Actividad de Agustín', '2014-08-08 00:25:00', '2014-08-08 00:55:00', 'Correo electrónico a Agustín', ''),
+(32, 'Otra', '2014-11-13 13:30:00', '2014-11-13 13:30:00', 'Descripción', ''),
+(33, 'Otra más', '2014-05-14 13:32:00', '2014-05-14 14:02:00', 'asdf', ''),
+(34, 'Aún estás a tiempo', '2014-08-08 13:56:00', '2014-08-08 14:26:00', 'fbfbf', '');
 
 -- --------------------------------------------------------
 
@@ -118,6 +121,35 @@ INSERT INTO `ci_actividades_tipos` (`id`, `tipo`, `estilo`) VALUES
 (4, 'Fax', 'tipo-actividades-fax'),
 (5, 'Tarea', 'tipo-actividades-tarea'),
 (6, 'Reunión', 'tipo-actividades-reunion');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_alertas`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_alertas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `asunto` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
+  `descripcion` text COLLATE latin1_spanish_ci NOT NULL,
+  `fechaHora` datetime NOT NULL,
+  `emergente` tinyint(1) NOT NULL DEFAULT '1',
+  `visualizado` tinyint(1) NOT NULL DEFAULT '0',
+  `email` tinyint(1) NOT NULL DEFAULT '0',
+  `emailEnviado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=12 ;
+
+--
+-- Volcado de datos para la tabla `ci_alertas`
+--
+
+INSERT INTO `ci_alertas` (`id`, `asunto`, `descripcion`, `fechaHora`, `emergente`, `visualizado`, `email`, `emailEnviado`) VALUES
+(7, 'Prueba', 'Descripción', '2014-08-09 20:16:00', 1, 0, 1, 0),
+(8, 'Asunto', 'Descripción de la alerta', '2014-08-09 22:30:00', 1, 0, 1, 0),
+(9, 'Muy viejo', '', '2014-08-06 20:33:00', 1, 0, 0, 0),
+(10, 'Aún tienes tiempo', '', '2014-08-09 22:10:00', 1, 0, 0, 0),
+(11, 'Para el lunes', 'D', '2014-08-11 10:30:00', 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -313,15 +345,18 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_estados` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_estado_id` (`actividades_estado_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_actividades_actividades_estados`
 --
 
 INSERT INTO `ci_join_actividades_actividades_estados` (`id`, `actividad_id`, `actividades_estado_id`) VALUES
-(14, 30, 3),
-(15, 31, 6);
+(14, 30, 1),
+(15, 31, 1),
+(16, 32, 1),
+(17, 33, 1),
+(18, 34, 1);
 
 -- --------------------------------------------------------
 
@@ -336,7 +371,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_prioridades` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_prioridad_id` (`actividades_prioridad_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_actividades_actividades_prioridades`
@@ -344,7 +379,10 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_prioridades` (
 
 INSERT INTO `ci_join_actividades_actividades_prioridades` (`id`, `actividad_id`, `actividades_prioridad_id`) VALUES
 (15, 30, 1),
-(16, 31, 3);
+(16, 31, 3),
+(17, 32, 2),
+(18, 33, 2),
+(19, 34, 2);
 
 -- --------------------------------------------------------
 
@@ -359,7 +397,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_tipos` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_tipo_id` (`actividades_tipo_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=28 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_actividades_actividades_tipos`
@@ -367,7 +405,32 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_tipos` (
 
 INSERT INTO `ci_join_actividades_actividades_tipos` (`id`, `actividad_id`, `actividades_tipo_id`) VALUES
 (23, 30, 6),
-(24, 31, 2);
+(24, 31, 2),
+(25, 32, 1),
+(26, 33, 1),
+(27, 34, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_actividades_alertas`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_actividades_alertas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `alerta_id` bigint(20) unsigned NOT NULL,
+  `actividad_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `alerta_id` (`alerta_id`,`actividad_id`),
+  KEY `actividad_id` (`actividad_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `ci_join_actividades_alertas`
+--
+
+INSERT INTO `ci_join_actividades_alertas` (`id`, `alerta_id`, `actividad_id`) VALUES
+(4, 8, 30);
 
 -- --------------------------------------------------------
 
@@ -384,6 +447,15 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_campanyas` (
   KEY `campanya_id` (`campanya_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=8 ;
 
+--
+-- Volcado de datos para la tabla `ci_join_actividades_campanyas`
+--
+
+INSERT INTO `ci_join_actividades_campanyas` (`id`, `actividad_id`, `campanya_id`) VALUES
+(5, 30, 1),
+(6, 32, 1),
+(7, 34, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -397,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_contactos` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`,`contacto_id`),
   KEY `contacto_id` (`contacto_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_actividades_contactos`
@@ -405,7 +477,10 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_contactos` (
 
 INSERT INTO `ci_join_actividades_contactos` (`id`, `actividad_id`, `contacto_id`) VALUES
 (14, 30, 28),
-(15, 31, 28);
+(15, 31, 28),
+(16, 32, 3),
+(17, 33, 28),
+(18, 34, 28);
 
 -- --------------------------------------------------------
 
@@ -420,7 +495,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_usuarios` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`,`usuario_id`),
   KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=18 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_actividades_usuarios`
@@ -428,7 +503,36 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_usuarios` (
 
 INSERT INTO `ci_join_actividades_usuarios` (`id`, `actividad_id`, `usuario_id`) VALUES
 (13, 30, 1),
-(14, 31, 13);
+(14, 31, 13),
+(15, 32, 1),
+(16, 33, 1),
+(17, 34, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_alertas_usuarios`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_alertas_usuarios` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `alerta_id` bigint(20) unsigned NOT NULL,
+  `usuario_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `alerta_id` (`alerta_id`,`usuario_id`),
+  KEY `usuario_id` (`usuario_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=12 ;
+
+--
+-- Volcado de datos para la tabla `ci_join_alertas_usuarios`
+--
+
+INSERT INTO `ci_join_alertas_usuarios` (`id`, `alerta_id`, `usuario_id`) VALUES
+(7, 7, 1),
+(8, 8, 1),
+(9, 9, 1),
+(10, 10, 1),
+(11, 11, 1);
 
 -- --------------------------------------------------------
 
@@ -499,14 +603,20 @@ CREATE TABLE IF NOT EXISTS `ci_join_campanyas_usuarios` (
   PRIMARY KEY (`id`),
   KEY `campanya_id` (`campanya_id`),
   KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=15 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_campanyas_usuarios`
 --
 
 INSERT INTO `ci_join_campanyas_usuarios` (`id`, `campanya_id`, `usuario_id`) VALUES
-(8, 1, 13);
+(8, 1, 13),
+(9, 3, 13),
+(10, 4, 1),
+(11, 5, 1),
+(12, 6, 1),
+(13, 7, 1),
+(14, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -700,6 +810,13 @@ ALTER TABLE `ci_join_actividades_actividades_tipos`
   ADD CONSTRAINT `ci_join_actividades_actividades_tipos_ibfk_2` FOREIGN KEY (`actividades_tipo_id`) REFERENCES `ci_actividades_tipos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `ci_join_actividades_alertas`
+--
+ALTER TABLE `ci_join_actividades_alertas`
+  ADD CONSTRAINT `ci_join_actividades_alertas_ibfk_1` FOREIGN KEY (`alerta_id`) REFERENCES `ci_alertas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_actividades_alertas_ibfk_3` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `ci_join_actividades_campanyas`
 --
 ALTER TABLE `ci_join_actividades_campanyas`
@@ -719,6 +836,13 @@ ALTER TABLE `ci_join_actividades_contactos`
 ALTER TABLE `ci_join_actividades_usuarios`
   ADD CONSTRAINT `ci_join_actividades_usuarios_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ci_join_actividades_usuarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_alertas_usuarios`
+--
+ALTER TABLE `ci_join_alertas_usuarios`
+  ADD CONSTRAINT `ci_join_alertas_usuarios_ibfk_1` FOREIGN KEY (`alerta_id`) REFERENCES `ci_alertas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_alertas_usuarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_campanyas_campanyas_estados`
