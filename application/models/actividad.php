@@ -16,13 +16,13 @@ class Actividad extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('actividades_tipo', 'actividades_prioridad', 'actividades_estado', 'campanya', 'contacto', 'usuario');
-	public $has_many = array('');
+	public $has_many = array('alerta');
 
 	// Validación de campos
 	public $validation = array(
 		'asunto' => array(
 			'label' => 'Asunto de la actividad',
-			'rules' => array('required', 'trim', 'min_length' => 3, 'max_length' => 50)
+			'rules' => array('required', 'trim', 'min_length' => 3, 'max_length' => 100)
 			),
 		'inicio' => array(
 			'label' => 'Fecha de inicio',

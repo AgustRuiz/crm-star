@@ -212,7 +212,7 @@ tr.pendiente + tr.pasado td, tr.pasado + tr.pendiente td{
 
 /****** IFRAME MODAL ******/
 .iframe-modal{
-	/*min-height: 200px;*/
+	/*min-height: 300px;*/
 	width: 100%;
 	/*margin: 5px;*/
 	padding: 5px;

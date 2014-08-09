@@ -15,18 +15,18 @@ class Alerta extends DataMapper{
 	} 
 
 	// Relaciones
-	public $has_one = array('usuario');
+	public $has_one = array('usuario', 'actividad');
 	public $has_many = array('');
 
 	// Validación de campos
 	public $validation = array(
 		'asunto' => array(
 			'label' => 'Asunto de la alerta',
-			'rules' => array('required', 'trim', 'min_length' => 3, 'max_length' => 50)
+			'rules' => array('required', 'trim', 'min_length' => 3, 'max_length' => 100)
 			),
 		'descripcion' => array(
 			'label' => 'Descripcion de la alerta',
-			'rules' => array('trim', 'required')
+			'rules' => array('trim')
 			),
 		'fechaHora' => array(
 			'label' => 'Fecha y hora de la alerta',
@@ -38,15 +38,15 @@ class Alerta extends DataMapper{
 			),
 		'emergente' => array(	// Por defecto, true
 			'label' => 'Es emergente',
-			'rules' => array('boolean', 'required')
+			'rules' => array('boolean')
 			),
 		'visualizado' => array(	// Por defecto, false
 			'label' => 'Visualizado',
-			'rules' => array('boolean', 'required')
+			'rules' => array('boolean')
 			),
 		'email' => array(	// Por defecto, false
 			'label' => 'Mandar por email',
-			'rules' => array('boolean', 'required')
+			'rules' => array('boolean')
 			),
 		'emailEnviado' => array( // Por defecto, false
 			'label' => 'Email enviado',

@@ -21,8 +21,7 @@ class Alertas extends CI_Controller {
 
 		// Obtener listado (parcial)
 		$alertas = new Alerta();
-		$data['listaAlertas'] = $alertas->where_related_usuario('id', $this->session->userdata('id'))->order_by('fechaHora', 'desc')->get($limit, $offset); /////////////////////////////////////////////////////
-
+		$data['listaAlertas'] = $alertas->where_related_usuario('id', $this->session->userdata('id'))->order_by('fechaHora', 'desc')->get($limit, $offset);
 		// Paginación
 		$total = $alertas->result_count();
 		$config['base_url'] = base_url().'alertas/listar/';
@@ -66,47 +65,180 @@ class Alertas extends CI_Controller {
 	}
 
 	public function nuevo(){
-		// Cargar las vistas
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
+		$this->load->view('alertas/nuevo');
 		$this->load->view('sidebars/alertas/nuevo');
 		$this->load->view('footer');
+		$this->load->view("alertas/js/include_formulario");
 	}
 
 	public function nuevo2(){
-		// Cargar las vistas
-		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/alertas/nuevo');
+		// Recoger el formulario
+		$alerta = recogerFormulario($this->input);
+		// Recoger actividad
+		$actividad = new Actividad();
+		if($this->input->post('txtIdActividad')!=''){
+			$actividad->get_by_id($this->input->post('txtIdActividad'));
+		}
+		$alerta->actividad = $actividad;
+		// Agregar usuario
+		$usuario = new Usuario();
+		$usuario->get_by_id($this->session->userdata('id'));
+		$alerta->usuario = $usuario;
+
+		$this->load->view("header");
+		if($alerta->save(array($actividad, $usuario))){
+			// Inserción correcta
+			$data['success'] = "Alerta creada correctamente.";
+			$data['alerta'] = new Alerta();
+			$data['alerta']->get_by_id($alerta->id);
+
+			$this->load->view('alertas/ver', $data);
+			$this->load->view('sidebars/alertas/ver');
+		}else{
+			// Fallo al insertar
+			$data['error'] = "Ha ocurrido un error durante la creación de la alerta:<ul>";
+			foreach ($alerta->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
+			}
+			$data['error'] .= '</ul>';
+			$data["alerta"]=$alerta;
+
+			$this->load->view('alertas/nuevo', $data);
+			$this->load->view('sidebars/alertas/nuevo');
+		}
 		$this->load->view('footer');
+		$this->load->view("alertas/js/include_formulario");
 	}
 
 	public function eliminar($id=null){
-		// Cargar las vistas
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/alertas/eliminar');
+
+		$alerta = new Alerta();
+
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
+		}else{
+			$alerta->get_by_id($id);
+			if($alerta->result_count()==0){
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}else{
+				if($alerta->delete()){
+					$data=array("success"=>"Alerta eliminada");
+				}else{
+					$data['error']="No ha podido eliminarse la alerta";
+					$data['alerta']['id']=$id;
+				}
+				$this->load->view('alertas/eliminar', $data);
+				$this->load->view('sidebars/alertas/eliminar');
+			}
+		}
 		$this->load->view('footer');
 	}
 
 	public function editar($id=null){
-		// Cargar las vistas
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/alertas/editar');
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
+		}
+		else{
+			$data['alerta'] = new Alerta();
+			$data['alerta']->get_by_id($id);
+			if($data['alerta']->result_count() == 0){
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}else{
+				if($data['alerta']->usuario->id != $this->session->userdata('id')){
+					$data['error']="No puedes editar una alerta que no te pertenezca.";
+					$this->load->view('alertas/ver', $data);
+					$this->load->view('sidebars/alertas/ver');
+				}else{
+					$this->load->view('alertas/editar', $data);
+					$this->load->view('sidebars/alertas/editar');
+				}
+			}
+		}
 		$this->load->view('footer');
+		$this->load->view("alertas/js/include_formulario");
 	}
 
 	public function editar2($id=null){
-		// Cargar las vistas
-		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/alertas/editar');
+
+
+		// Recoger formulario
+		$alertaEditada = recogerFormulario($this->input);
+
+		$alerta = new Alerta();
+		$alerta->get_by_id($id);
+		$alerta->asunto = $alertaEditada->asunto;
+		$alerta->descripcion = $alertaEditada->descripcion;
+		$alerta->emergente = $alertaEditada->emergente;
+		$alerta->email = $alertaEditada->email;
+		$alerta->fechaHora = $alertaEditada->fechaHora;
+
+		// Recoger Actividad
+		$actividad = new Actividad();
+		$actividad->get_by_id($this->input->post('txtIdActividad'));
+		if($actividad->result_count() == 0){
+			$alerta->delete($alerta->actividad);
+		}else{
+			$alerta->actividad = $actividad;
+		}
+		//*/
+
+
+
+
+		$this->load->view("header");
+		if($alerta->save(array($actividad))){
+			// Inserción correcta
+			$data['success'] = "Alerta editada correctamente.";
+			$data['alerta'] = new Alerta();
+			$data['alerta']->get_by_id($alerta->id);
+
+			$this->load->view('alertas/ver', $data);
+			$this->load->view('sidebars/alertas/ver');
+		}else{
+			// Fallo al insertar
+			$data['error'] = "Ha ocurrido un error durante la edición de la alerta:<ul>";
+			foreach ($alerta->error->all as $error)
+			{
+				$data['error'] .= '<li>'.$error.'</li>';
+			}
+			$data['error'] .= '</ul>';
+			$data['alerta']=$alerta;
+
+			$this->load->view('alertas/editar', $data);
+			$this->load->view('sidebars/alertas/editar');
+		}
 		$this->load->view('footer');
+		$this->load->view("alertas/js/include_formulario");
 	}
 }
 
 /* FUNCIONES AUXILIARES */
+function recogerFormulario($input, $id=null){
+	$alerta = new Alerta();
+
+	$alerta->asunto = strip_tags(trim($input->post('txtAsunto')));
+	$alerta->descripcion = nl2br(strip_tags(trim($input->post('txtDescripcion'))));
+	$alerta->emergente = strip_tags(trim($input->post('cmbEmergente')));
+	$alerta->email = strip_tags(trim($input->post('cmbEmail')));
+
+	if($id!=null){
+		$alerta->id=$id;
+	}
+
+	if($input->post('txtFechaHoraTimestamp')!=0){
+		$alerta->fechaHora = date("Y-n-j H:i:s", strip_tags(trim($input->post('txtFechaHoraTimestamp'))));
+	}
+
+	return $alerta;
+}
 
 /* End of file alertas.php */
 /* Location: ./application/controllers/alertas.php */

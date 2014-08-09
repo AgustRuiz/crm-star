@@ -323,6 +323,43 @@ class Actividades extends CI_Controller {
 		$this->load->view('footer');
 		$this->load->view("actividades/js/include_formulario");
 	}
+
+	public function include_busqueda_actividad($offset='0'){
+		$consulta=null;
+		if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
+			$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));
+		}
+		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
+
+		$data['listaActividades'] = new Actividad();
+		if($consulta==null){
+			$data['listaActividades']->where_related_usuario('id', $this->session->userdata('id'))->get($limit, $offset);
+			$total = $data['listaActividades']->count();
+			$config['per_page'] = $limit;
+		}else{
+			$data['listaActividades']->ilike('asunto', $consulta);
+			$data['listaActividades']->or_ilike('descripcion', $consulta);
+			// Falta contemplar los correos electrónicos
+			$data['listaActividades']->where_related_usuario('id', $this->session->userdata('id'))->get();
+			$total = $data['listaActividades']->result_count();
+			$config['per_page'] = $limit = $total;
+		}
+
+		$config['base_url'] = base_url().'actividades/include_busqueda_contacto/';
+		$config['total_rows'] = $total;
+		$config['uri_segment'] = '3';
+		$this->pagination->initialize($config);
+		$data['pag_links'] = $this->pagination->create_links();
+		// Número de usuarios
+		$data['numContacts'] = $total;
+		$data['initialRow'] = $offset+1;
+		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+		$data['offset'] = $offset;
+		// Cargar las vistas
+		$this->load->view('actividades/popups/buscar',$data);
+	}
 }
 
 /* FUNCIONES AUXILIARES */

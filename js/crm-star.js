@@ -58,6 +58,18 @@ function asignarCampanya(id, nombre){
 	parent.cerrarModalCampanya();
 }
 
+
+/*** Funciones para Actividades ***/
+
+function asignarActividad(id, asunto){
+	var campoIdActividad = parent.document.getElementById("txtIdActividad");
+	var campoAsuntoActividad = parent.document.getElementById("txtAsuntoActividad");
+	campoIdActividad.value = id;
+	campoAsuntoActividad.value = asunto;
+	campoAsuntoActividad.title = asunto;
+	parent.cerrarModalActividad();
+}
+
 /*** Popover de Alertas ***/
 $(document).ready(function() {
 	$("[rel=popover-alertas]").popover({
