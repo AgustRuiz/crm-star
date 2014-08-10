@@ -26,10 +26,6 @@
 </head>
 <body style="overflow:hidden;" onload="setHeightIframeElement();">
 	<div id="contenido">
-
-
-
-
 		<div class="container-fluid">
 			<div class="row popup-alertas">
 				<? $fecha = ''; ?>
@@ -52,7 +48,7 @@
 					// echo '<div class="panel-body">';
 					echo '<ul class="list-group">';
 				} ?>
-				<a href="#" class="list-group-item">
+				<a href="#" class="list-group-item"  onclick="parent.mostrarModalAlertaEmergente('<?=date("d-m-Y H:i", strtotime($fila->fechaHora));?>', '<?=$fila->asunto?>', '<?=$fila->descripcion?>');">
 					<span class="label label-primary"><?=date("H:i", strtotime($fila->fechaHora));?></span>
 					<?=$fila->asunto?>
 				</a>
@@ -61,12 +57,6 @@
 					<em>No hay alertas pendientes</em>
 				</div>
 				<? } ?>
-
-
-
-
-
-
 			</div>
 		</div>
 

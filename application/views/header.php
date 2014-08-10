@@ -63,7 +63,7 @@ $numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'
 					<li <?php if($this->router->fetch_class()=="actividades") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>actividades">Actividades</a></li>
 					<li <?php if($this->router->fetch_class()=="alertas") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>alertas">Alertas</a></li>
 					<li <?php if($this->router->fetch_class()=="usuarios") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>usuarios">Usuarios</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-bell" data-toggle="modal" data-target="#modal-alerta-emergente"></span></a></li>
+					<!-- <li><a href="#" onclick="mostrarModalAlertaEmergente('fechaHora', 'asunto', 'descripcion');"><span class="glyphicon glyphicon-bell"></span></a></li> -->
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -90,17 +90,17 @@ $numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'
 				<div class="campana"></div>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4>Alerta programada</h4>
+					<h4>Alerta programada: <span class="label label-primary" id="alerta-emergente-fechaHora">--------</span></h4>
 				</div>
 				<div class="modal-body">
-					<h3>Para el lunes...</h3>
-					<p>Recuerda traer caramelos y chucherías varias para celebrar tu cumpleaños (bieeen!).</p>
+					<h3 id="alerta-emergente-asunto">------------</h3>
+					<p id="alerta-emergente-descripcion">-------------</p>
 				</div>
 				<div class="modal-footer">
 					<div class="form-group">
-						<button type="button" class="btn btn-success" data-dismiss="modal">Entendido</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal" style="z-index:1;">Entendido</button>
 						<div class="col-xs-6">
-							<select class="form-control">
+							<select class="form-control" onchange="alert('No implementado aún...');">
 								<option>Posponer alerta...</option>
 								<option>5 minutos después</option>
 								<option>15 minutos después</option>

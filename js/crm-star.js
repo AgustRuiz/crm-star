@@ -81,3 +81,10 @@ $(document).ready(function() {
 		content : '<div class="div-iframe-alertas"><iframe src="alertas/popup_alertas" class="iframe-alertas" id="iframe-alertas"></iframe></div>' //Contenido
 	});
 });
+
+function mostrarModalAlertaEmergente(fechaHora, asunto, descripcion){
+	$("#alerta-emergente-fechaHora").html(fechaHora);
+	$("#alerta-emergente-asunto").html(asunto);
+	$("#alerta-emergente-descripcion").html(descripcion);
+	$("#modal-alerta-emergente").modal('show');
+}
