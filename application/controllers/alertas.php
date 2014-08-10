@@ -219,6 +219,23 @@ class Alertas extends CI_Controller {
 		$data['listaAlertas'] = $alertas->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->order_by('fechaHora', 'asc')->get();
 		$this->load->view("alertas/popups/listar", $data);
 	}
+
+	public function getAlertaJson(){
+		$ahora = date("Y-m-d H:i", time());
+		$alerta = new Alerta();
+		$alerta->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->get(1);
+		if($alerta->result_count()>0){
+			$alertaJson=array(
+				'id' => $alerta->id,
+				'asunto' => $alerta->asunto,
+				'descripcion' => $alerta->descripcion,
+				'fechaHora' => date("d-m-Y H:i", strtotime($alerta->fechaHora))
+				);
+			echo json_encode($alertaJson);
+		}else{
+			echo json_encode(null);
+		}
+	}
 }
 
 /* FUNCIONES AUXILIARES */
