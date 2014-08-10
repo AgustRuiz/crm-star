@@ -31,6 +31,12 @@
 <link rel="icon" href="<?=$this->config->base_url()?>favicon.ico" type="image/x-icon">
 </head>
 
+<?
+$alerta = new Alerta();
+$ahora = date("Y-m-d H:i", time());
+$numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->get()->result_count();
+?>
+
 <body>
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
@@ -46,7 +52,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<button rel="popover-alertas" class="popover-alertas navbar-toggle"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">??</span></a></button>
+				<button rel="popover-alertas" class="popover-alertas navbar-toggle <? if($numAlertas==0) echo 'hide'; ?>"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me"><?=$numAlertas?></span></a></button>
 				<a class="navbar-brand" href="<?=$this->config->base_url()?>" id="logo-crm-star"></a>
 			</div>
 			<div class="collapse navbar-collapse">
@@ -61,7 +67,7 @@
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li rel="popover-alertas" class="popover-dismiss"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">??</span></a></li>
+					<li rel="popover-alertas" class="popover-dismiss <? if($numAlertas==0) echo 'hide'; ?>"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me"><?=$numAlertas?></span></a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
