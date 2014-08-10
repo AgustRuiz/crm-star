@@ -71,13 +71,13 @@ function asignarActividad(id, asunto){
 }
 
 /*** Popover de Alertas ***/
+
 $(document).ready(function() {
 	$("[rel=popover-alertas]").popover({
 		placement : 'bottom', //Posición (top, bottom, left, right)
 		trigger: 'click',
-		title : 'Esto es una prueba de notificaciones de alertas', //Título
 		html: 'true', //Necesario para mostrar HTML
-		content : '<img src="http://www.hd-report.com/wp-content/uploads/2008/08/mr-evil.jpg" width="251" height="201" />Más info <a href="http://getbootstrap.com/javascript/#popovers-examples" target="_blank">aquí</a>' //Contenido
+		title : '<strong>Alertas</strong> <span class="glyphicon glyphicon-refresh pull-right" title="Actualizar" onclick="document.getElementById(\'iframe-alertas\').contentWindow.location.reload();"></span>', //Título
+		content : '<div class="div-iframe-alertas"><iframe src="alertas/popup_alertas" class="iframe-alertas" id="iframe-alertas"></iframe></div>' //Contenido
 	});
 });
-

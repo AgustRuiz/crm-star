@@ -46,7 +46,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<button rel="popover-alertas" class="popover-alertas navbar-toggle"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">21</span></a></button>
+				<button rel="popover-alertas" class="popover-alertas navbar-toggle"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">??</span></a></button>
 				<a class="navbar-brand" href="<?=$this->config->base_url()?>" id="logo-crm-star"></a>
 			</div>
 			<div class="collapse navbar-collapse">
@@ -57,10 +57,11 @@
 					<li <?php if($this->router->fetch_class()=="actividades") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>actividades">Actividades</a></li>
 					<li <?php if($this->router->fetch_class()=="alertas") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>alertas">Alertas</a></li>
 					<li <?php if($this->router->fetch_class()=="usuarios") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>usuarios">Usuarios</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-bell" data-toggle="modal" data-target="#modal-alerta-emergente"></span></a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li rel="popover-alertas" class="popover-dismiss"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">21</span></a></li>
+					<li rel="popover-alertas" class="popover-dismiss"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me">??</span></a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -73,4 +74,37 @@
 				</ul>
 			</div><!-- /.nav-collapse -->
 		</div><!-- /.container -->
-</div><!-- /.navbar -->
+	</div><!-- /.navbar -->
+
+
+	<!-- #modal-alerta-emergente -->
+	<div class="modal fade" id="modal-alerta-emergente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="campana"></div>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4>Alerta programada</h4>
+				</div>
+				<div class="modal-body">
+					<h3>Para el lunes...</h3>
+					<p>Recuerda traer caramelos y chucherías varias para celebrar tu cumpleaños (bieeen!).</p>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group">
+						<button type="button" class="btn btn-success" data-dismiss="modal">Entendido</button>
+						<div class="col-xs-6">
+							<select class="form-control">
+								<option>Posponer alerta...</option>
+								<option>5 minutos después</option>
+								<option>15 minutos después</option>
+								<option>30 minutos después</option>
+								<option>1 hora después</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Fin de #modal-alerta-emergente -->

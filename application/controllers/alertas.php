@@ -167,8 +167,6 @@ class Alertas extends CI_Controller {
 	}
 
 	public function editar2($id=null){
-
-
 		// Recoger formulario
 		$alertaEditada = recogerFormulario($this->input);
 
@@ -188,11 +186,7 @@ class Alertas extends CI_Controller {
 		}else{
 			$alerta->actividad = $actividad;
 		}
-		//*/
-
-
-
-
+		
 		$this->load->view("header");
 		if($alerta->save(array($actividad))){
 			// Inserción correcta
@@ -217,6 +211,13 @@ class Alertas extends CI_Controller {
 		}
 		$this->load->view('footer');
 		$this->load->view("alertas/js/include_formulario");
+	}
+
+	public function popup_alertas(){
+		$ahora = date("Y-m-d H:i", time());
+		$alertas = new Alerta();
+		$data['listaAlertas'] = $alertas->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->order_by('fechaHora', 'asc')->get();
+		$this->load->view("alertas/popups/listar", $data);
 	}
 }
 

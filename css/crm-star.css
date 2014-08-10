@@ -94,6 +94,158 @@
     100% { background-color: #d9534f; color:#fff; }
 }
 
+/* Listado de alertas */
+.popup-alertas .panel-heading, .popup-alertas .panel-body, .popup-alertas .list-group-item{
+	padding: 8px;
+	margin: 0;
+}
+.popup-alertas .list-group-item + .list-group-item{
+	border-top: 0;
+}
+
+.campana{
+	/*background-color: #ff0;*/
+	background-image: url("../img/campana.svg");
+	background-size: 53%;
+	background-position: bottom center;
+	background-repeat: no-repeat;
+	display: block;
+	height: 400px;
+	width: 400px;
+	position: absolute;
+	top: -50%;
+	right: 0%;
+
+	/*z-index: 999;*/
+	
+	opacity: 0.1;
+	filter: alpha(opacity=10); /* For IE8 and earlier */
+
+
+
+
+
+	
+    -ms-transform: rotate(30deg); /* IE 9 */
+    -webkit-transform: rotate(30deg); /* Chrome, Safari, Opera */
+    transform: rotate(30deg);
+
+
+
+
+
+
+
+    -webkit-animation-name: campana;
+    -webkit-animation-duration: 5s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: campana;
+    -moz-animation-duration: 5s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: campana;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes campana { 
+    0% { -webkit-transform: rotate(0deg); }
+    2% { -webkit-transform: rotate(50deg); }
+    6% { -webkit-transform: rotate(-45deg); }
+    10% { -webkit-transform: rotate(40deg); }
+    14% { -webkit-transform: rotate(-35deg); }
+    18% { -webkit-transform: rotate(30deg); }
+    22% { -webkit-transform: rotate(-25deg); }
+    26% { -webkit-transform: rotate(20deg); }
+    30% { -webkit-transform: rotate(-15deg); }
+    34% { -webkit-transform: rotate(10deg); }
+    38% { -webkit-transform: rotate(-5deg); }
+    45% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(0deg); }
+}
+
+@-moz-keyframes campana {
+    0% { -moz-animation: rotate(0deg); }
+    2% { -moz-animation: rotate(50deg); }
+    6% { -moz-animation: rotate(-45deg); }
+    10% { -moz-animation: rotate(40deg); }
+    14% { -moz-animation: rotate(-35deg); }
+    18% { -moz-animation: rotate(30deg); }
+    22% { -moz-animation: rotate(-25deg); }
+    26% { -moz-animation: rotate(20deg); }
+    30% { -moz-animation: rotate(-15deg); }
+    34% { -moz-animation: rotate(10deg); }
+    38% { -moz-animation: rotate(-5deg); }
+    45% { -moz-animation: rotate(0deg); }
+    100% { -moz-animation: rotate(0deg); }
+}
+
+@keyframes campana {
+    0% { transform: rotate(0deg); }
+    2% { transform: rotate(50deg); }
+    6% { transform: rotate(-45deg); }
+    10% { transform: rotate(40deg); }
+    14% { transform: rotate(-35deg); }
+    18% { transform: rotate(30deg); }
+    22% { transform: rotate(-25deg); }
+    26% { transform: rotate(20deg); }
+    30% { transform: rotate(-15deg); }
+    34% { transform: rotate(10deg); }
+    38% { transform: rotate(-5deg); }
+    45% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*Usuario*/
 .nav .usuario{
 	margin: 0;
@@ -208,8 +360,6 @@ tbody tr.pasado:hover td{
 tr.pendiente + tr.pasado td, tr.pasado + tr.pendiente td{
 	border-top: 2px solid #aaa;
 }
-
-
 /****** IFRAME MODAL ******/
 .iframe-modal{
 	/*min-height: 300px;*/
@@ -219,6 +369,25 @@ tr.pendiente + tr.pasado td, tr.pasado + tr.pendiente td{
 	border:0;
 	overflow:hidden;
 }
+
+/****** IFRAME MODAL DE ALERTAS ******/
+.div-iframe-alertas{
+	max-height: 60vh;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border:0;
+	overflow-x:hidden;
+	overflow-y:scroll;
+}
+.iframe-alertas{
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	border:0;
+	margin: 0;
+}
+
 
 /****** CONTACTOS ******/
 /*Estilos de estado*/

@@ -8,6 +8,7 @@
 						<th>Asunto</th>
 						<th>Fecha y hora</th>
 						<th colspan="2" class="text-center">Notificaciones</th>
+						<th class="text-center">Visualizado</th>
 					</tr>
 				</thead>
 				<tbody id="contenedor">
@@ -28,6 +29,15 @@
 							<span class="glyphicon glyphicon-envelope" title="Aviso por correo electrónico"></span>
 							<? } else { ?>
 							<!-- <span class="glyphicon glyphicon-ban-circle"></span> -->
+							<? } ?>
+						</td>
+						<td class="text-center">
+							<? if(time()-strtotime($fila->fechaHora)>0) { ?>
+							<? if($fila->visualizado==1) { ?>
+							<span class="glyphicon glyphicon-eye-open" title="Visualizado"></span>
+							<? } else { ?>
+							<span class="glyphicon glyphicon-eye-close" title="No visualizado"></span>
+							<? } ?>
 							<? } ?>
 						</td>
 					</tr>
