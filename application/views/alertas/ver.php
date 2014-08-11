@@ -49,7 +49,7 @@
 							<? if($alerta->emergente == true) { ?>
 							<span class="glyphicon glyphicon-ok"></span> <strong>Sí</strong>
 							<? } else { ?>
-							<span class="glyphicon glyphicon-remove"></span> <strong>No</strong>
+							<span class="glyphicon glyphicon-remove"></span> <strong>No</strong> (alerta silenciosa)
 							<? } ?>
 						</div>
 					</div>

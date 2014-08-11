@@ -53,9 +53,7 @@
 					<?=$fila->asunto?>
 				</a>
 				<? } } else { ?>
-				<div class="row">
 					<em>No hay alertas pendientes</em>
-				</div>
 				<? } ?>
 			</div>
 		</div>

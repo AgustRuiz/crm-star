@@ -32,12 +32,8 @@
 							<? } ?>
 						</td>
 						<td class="text-center">
-							<? if(time()-strtotime($fila->fechaHora)>0) { ?>
-							<? if($fila->visualizado==1) { ?>
+							<? if(time()-strtotime($fila->fechaHora)>0 && $fila->visualizado==1) { ?>
 							<span class="glyphicon glyphicon-eye-open" title="Visualizado"></span>
-							<? } else { ?>
-							<span class="glyphicon glyphicon-eye-close" title="No visualizado"></span>
-							<? } ?>
 							<? } ?>
 						</td>
 					</tr>

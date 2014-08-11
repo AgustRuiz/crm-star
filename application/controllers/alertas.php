@@ -86,13 +86,13 @@ class Alertas extends CI_Controller {
 		$usuario->get_by_id($this->session->userdata('id'));
 		$alerta->usuario = $usuario;
 
-		$this->load->view("header");
 		if($alerta->save(array($actividad, $usuario))){
 			// Inserción correcta
 			$data['success'] = "Alerta creada correctamente.";
 			$data['alerta'] = new Alerta();
 			$data['alerta']->get_by_id($alerta->id);
 
+			$this->load->view("header");
 			$this->load->view('alertas/ver', $data);
 			$this->load->view('sidebars/alertas/ver');
 		}else{
@@ -105,6 +105,7 @@ class Alertas extends CI_Controller {
 			$data['error'] .= '</ul>';
 			$data["alerta"]=$alerta;
 
+			$this->load->view("header");
 			$this->load->view('alertas/nuevo', $data);
 			$this->load->view('sidebars/alertas/nuevo');
 		}
@@ -113,16 +114,17 @@ class Alertas extends CI_Controller {
 	}
 
 	public function eliminar($id=null){
-		$this->load->view('header');
 
 		$alerta = new Alerta();
 
 		if($id==null){
+			$this->load->view('header');
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
 		}else{
 			$alerta->get_by_id($id);
 			if($alerta->result_count()==0){
+				$this->load->view('header');
 				$this->load->view('errores/error404');
 				$this->load->view('sidebars/error404');
 			}else{
@@ -132,6 +134,7 @@ class Alertas extends CI_Controller {
 					$data['error']="No ha podido eliminarse la alerta";
 					$data['alerta']['id']=$id;
 				}
+				$this->load->view('header');
 				$this->load->view('alertas/eliminar', $data);
 				$this->load->view('sidebars/alertas/eliminar');
 			}
@@ -178,6 +181,10 @@ class Alertas extends CI_Controller {
 		$alerta->email = $alertaEditada->email;
 		$alerta->fechaHora = $alertaEditada->fechaHora;
 
+		if(strtotime($alerta->fechaHora) >= time()){
+			$alerta->visualizado=0;
+		}
+
 		// Recoger Actividad
 		$actividad = new Actividad();
 		$actividad->get_by_id($this->input->post('txtIdActividad'));
@@ -187,13 +194,13 @@ class Alertas extends CI_Controller {
 			$alerta->actividad = $actividad;
 		}
 		
-		$this->load->view("header");
 		if($alerta->save(array($actividad))){
 			// Inserción correcta
 			$data['success'] = "Alerta editada correctamente.";
 			$data['alerta'] = new Alerta();
 			$data['alerta']->get_by_id($alerta->id);
 
+			$this->load->view("header");
 			$this->load->view('alertas/ver', $data);
 			$this->load->view('sidebars/alertas/ver');
 		}else{
@@ -206,11 +213,21 @@ class Alertas extends CI_Controller {
 			$data['error'] .= '</ul>';
 			$data['alerta']=$alerta;
 
+			$this->load->view("header");
 			$this->load->view('alertas/editar', $data);
 			$this->load->view('sidebars/alertas/editar');
 		}
 		$this->load->view('footer');
 		$this->load->view("alertas/js/include_formulario");
+	}
+
+	public function visualizar($id=null){
+		$alerta = new Alerta();
+		$alerta->get_by_id($id);
+		if($alerta->result_count()==1){
+			$alerta->visualizado='1';
+			$alerta->save();
+		}
 	}
 
 	public function popup_alertas(){
@@ -223,7 +240,7 @@ class Alertas extends CI_Controller {
 	public function getAlertaJson(){
 		$ahora = date("Y-m-d H:i", time());
 		$alerta = new Alerta();
-		$alerta->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->get(1);
+		$alerta->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('emergente', '1')->where('visualizado', '0')->get(1);
 		header('Content-Type: application/json');
 		if($alerta->result_count()>0){
 			$alertaJson=array(
@@ -236,6 +253,14 @@ class Alertas extends CI_Controller {
 		}else{
 			echo json_encode(null);
 		}
+	}
+
+	public function getNumAlertasJson(){
+		$alerta = new Alerta();
+		$ahora = date("Y-m-d H:i", time());
+		$numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->get()->result_count();
+		header('Content-Type: application/json');
+		echo json_encode($numAlertas);
 	}
 }
 

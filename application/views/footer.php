@@ -4,6 +4,10 @@
 	<p>&copy; <a href="http://www.agustruiz.es" target="_blank">Agustín Ruiz</a> 2014</p>
 </footer>
 </div><!--/.container-->
+    <script>
+        window.base_url = "<?=$this->config->base_url();?>";
+        // alert(window.base_url);
+    </script>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -12,6 +16,7 @@
     <!-- Funciones para el menú lateral -->
     <script src="<?php echo $this->config->base_url(); ?>js/offcanvas.js"></script>
     <!-- Funciones de la aplicación -->
-    <script src="<?php echo $this->config->base_url(); ?>js/crm-star.js"></script>
+    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>js/crm-star.js"></script>
+    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>js/alertas.js"></script>
 </body>
 </html>

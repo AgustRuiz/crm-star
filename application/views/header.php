@@ -31,12 +31,6 @@
 <link rel="icon" href="<?=$this->config->base_url()?>favicon.ico" type="image/x-icon">
 </head>
 
-<?
-$alerta = new Alerta();
-$ahora = date("Y-m-d H:i", time());
-$numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->get()->result_count();
-?>
-
 <body>
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
@@ -52,7 +46,7 @@ $numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<button rel="popover-alertas" class="popover-alertas navbar-toggle <? if($numAlertas==0) echo 'hide'; ?>"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me"><?=$numAlertas?></span></a></button>
+				<button rel="popover-alertas" id="popover-alertas-toggle" class="popover-alertas navbar-toggle hidden"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me" id="badge-alertas-toggle">????</span></a></button>
 				<a class="navbar-brand" href="<?=$this->config->base_url()?>" id="logo-crm-star"></a>
 			</div>
 			<div class="collapse navbar-collapse">
@@ -67,7 +61,7 @@ $numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li rel="popover-alertas" class="popover-dismiss <? if($numAlertas==0) echo 'hide'; ?>"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me"><?=$numAlertas?></span></a></li>
+					<li rel="popover-alertas" id="popover-alertas-default" class="popover-dismiss hidden"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me badge-num-alertas" id="badge-alertas-default">??</span></a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -98,9 +92,10 @@ $numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'
 				</div>
 				<div class="modal-footer">
 					<div class="form-group">
-						<button type="button" class="btn btn-success pull-left" data-dismiss="modal" style="z-index:1;">Entendido</button>
-						<div class="col-xs-6 pull-right">
-						<input type="hidden" name="" id="alerta-emergente-id"/>
+						<button type="button" class="btn btn-success pull-left" id="alerta-emergente-visualizar" data-dismiss="modal">Entendido</button>
+						<a href="#" class="btn btn-default pull-left" id="alerta-emergente-enlace">Ir a alerta</a>
+						<div class="col-xs-4 pull-right">
+							<input type="hidden" name="" id="alerta-emergente-id"/>
 							<select class="form-control" onchange="alert('No implementado aún...');">
 								<option>Posponer alerta...</option>
 								<option>5 minutos después</option>
@@ -113,5 +108,6 @@ $numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'
 				</div>
 			</div>
 		</div>
+		<iframe src="" id="iframe-alerta-emergente" class="hidden"></iframe>
 	</div>
-<!-- Fin de #modal-alerta-emergente -->
+	<!-- Fin de #modal-alerta-emergente -->
