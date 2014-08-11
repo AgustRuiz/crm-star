@@ -224,6 +224,7 @@ class Alertas extends CI_Controller {
 		$ahora = date("Y-m-d H:i", time());
 		$alerta = new Alerta();
 		$alerta->where_related_usuario('id', $this->session->userdata('id'))->where('fechaHora <=', $ahora)->where('visualizado', '0')->get(1);
+		header('Content-Type: application/json');
 		if($alerta->result_count()>0){
 			$alertaJson=array(
 				'id' => $alerta->id,

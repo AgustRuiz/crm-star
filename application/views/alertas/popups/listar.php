@@ -48,7 +48,7 @@
 					// echo '<div class="panel-body">';
 					echo '<ul class="list-group">';
 				} ?>
-				<a href="#" class="list-group-item"  onclick="parent.mostrarModalAlertaEmergente('<?=date("d-m-Y H:i", strtotime($fila->fechaHora));?>', '<?=$fila->asunto?>', '<?=$fila->descripcion?>');">
+				<a href="#" class="list-group-item"  onclick="parent.mostrarModalAlertaEmergente('<?=$fila->id?>', '<?=date("d-m-Y H:i", strtotime($fila->fechaHora));?>', '<?=$fila->asunto?>', '<?=$fila->descripcion?>');">
 					<span class="label label-primary"><?=date("H:i", strtotime($fila->fechaHora));?></span>
 					<?=$fila->asunto?>
 				</a>

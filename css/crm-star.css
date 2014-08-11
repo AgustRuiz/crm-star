@@ -110,11 +110,11 @@
 	background-position: bottom center;
 	background-repeat: no-repeat;
 	display: block;
-	height: 400px;
-	width: 400px;
+	height: 350px;
+	width: 350px;
 	position: absolute;
 	top: -50%;
-	right: 0%;
+	right: -15px;
 	
 	opacity: 0.1;
 	filter: alpha(opacity=10); /* For IE8 and earlier */
@@ -141,49 +141,49 @@
 
 @-webkit-keyframes campana { 
     0% { -webkit-transform: rotate(0deg); }
-    2% { -webkit-transform: rotate(50deg); }
-    6% { -webkit-transform: rotate(-45deg); }
-    10% { -webkit-transform: rotate(40deg); }
-    14% { -webkit-transform: rotate(-35deg); }
-    18% { -webkit-transform: rotate(30deg); }
-    22% { -webkit-transform: rotate(-25deg); }
-    26% { -webkit-transform: rotate(20deg); }
-    30% { -webkit-transform: rotate(-15deg); }
-    34% { -webkit-transform: rotate(10deg); }
-    38% { -webkit-transform: rotate(-5deg); }
-    45% { -webkit-transform: rotate(0deg); }
+    1% { -webkit-transform: rotate(50deg); }
+    3% { -webkit-transform: rotate(-45deg); }
+    5% { -webkit-transform: rotate(40deg); }
+    7% { -webkit-transform: rotate(-35deg); }
+    9% { -webkit-transform: rotate(30deg); }
+    11% { -webkit-transform: rotate(-25deg); }
+    13% { -webkit-transform: rotate(20deg); }
+    15% { -webkit-transform: rotate(-15deg); }
+    17% { -webkit-transform: rotate(10deg); }
+    19% { -webkit-transform: rotate(-5deg); }
+    23% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(0deg); }
 }
 
 @-moz-keyframes campana {
     0% { -moz-animation: rotate(0deg); }
-    2% { -moz-animation: rotate(50deg); }
-    6% { -moz-animation: rotate(-45deg); }
-    10% { -moz-animation: rotate(40deg); }
-    14% { -moz-animation: rotate(-35deg); }
-    18% { -moz-animation: rotate(30deg); }
-    22% { -moz-animation: rotate(-25deg); }
-    26% { -moz-animation: rotate(20deg); }
-    30% { -moz-animation: rotate(-15deg); }
-    34% { -moz-animation: rotate(10deg); }
-    38% { -moz-animation: rotate(-5deg); }
-    45% { -moz-animation: rotate(0deg); }
+    1% { -moz-animation: rotate(50deg); }
+    3% { -moz-animation: rotate(-45deg); }
+    5% { -moz-animation: rotate(40deg); }
+    7% { -moz-animation: rotate(-35deg); }
+    9% { -moz-animation: rotate(30deg); }
+    11% { -moz-animation: rotate(-25deg); }
+    13% { -moz-animation: rotate(20deg); }
+    15% { -moz-animation: rotate(-15deg); }
+    17% { -moz-animation: rotate(10deg); }
+    19% { -moz-animation: rotate(-5deg); }
+    23% { -moz-animation: rotate(0deg); }
     100% { -moz-animation: rotate(0deg); }
 }
 
 @keyframes campana {
     0% { transform: rotate(0deg); }
-    2% { transform: rotate(50deg); }
-    6% { transform: rotate(-45deg); }
-    10% { transform: rotate(40deg); }
-    14% { transform: rotate(-35deg); }
-    18% { transform: rotate(30deg); }
-    22% { transform: rotate(-25deg); }
-    26% { transform: rotate(20deg); }
-    30% { transform: rotate(-15deg); }
-    34% { transform: rotate(10deg); }
-    38% { transform: rotate(-5deg); }
-    45% { transform: rotate(0deg); }
+    1% { transform: rotate(50deg); }
+    3% { transform: rotate(-45deg); }
+    5% { transform: rotate(40deg); }
+    7% { transform: rotate(-35deg); }
+    9% { transform: rotate(30deg); }
+    11% { transform: rotate(-25deg); }
+    13% { transform: rotate(20deg); }
+    15% { transform: rotate(-15deg); }
+    17% { transform: rotate(10deg); }
+    19% { transform: rotate(-5deg); }
+    23% { transform: rotate(0deg); }
     100% { transform: rotate(0deg); }
 }
 

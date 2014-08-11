@@ -98,8 +98,9 @@ $numAlertas = $alerta->where_related_usuario('id', $this->session->userdata('id'
 				</div>
 				<div class="modal-footer">
 					<div class="form-group">
-						<button type="button" class="btn btn-success" data-dismiss="modal" style="z-index:1;">Entendido</button>
-						<div class="col-xs-6">
+						<button type="button" class="btn btn-success pull-left" data-dismiss="modal" style="z-index:1;">Entendido</button>
+						<div class="col-xs-6 pull-right">
+						<input type="hidden" name="" id="alerta-emergente-id"/>
 							<select class="form-control" onchange="alert('No implementado aún...');">
 								<option>Posponer alerta...</option>
 								<option>5 minutos después</option>

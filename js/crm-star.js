@@ -82,9 +82,29 @@ $(document).ready(function() {
 	});
 });
 
-function mostrarModalAlertaEmergente(fechaHora, asunto, descripcion){
+
+function mostrarModalAlertaEmergente(id, fechaHora, asunto, descripcion){
+	$("#alerta-emergente-id").val(id);
 	$("#alerta-emergente-fechaHora").html(fechaHora);
 	$("#alerta-emergente-asunto").html(asunto);
 	$("#alerta-emergente-descripcion").html(descripcion);
 	$("#modal-alerta-emergente").modal('show');
 }
+
+function modalAlertaEmergenteLibre(){
+	if($("#modal-alerta-emergente").hasClass('in'))
+		return false;
+	else
+		return true;
+}
+
+function listenerAlertas(){
+	// alert("apetecan");
+	$.getJSON("index.php/alertas/getAlertaJson", function(datos) {
+		if(datos!=null && modalAlertaEmergenteLibre()){
+			mostrarModalAlertaEmergente(datos['id'], datos['fechaHora'], datos['asunto'], 'descripcion');
+		}
+	});
+}
+listenerAlertas();
+setInterval(function(){listenerAlertas()}, 10000);
