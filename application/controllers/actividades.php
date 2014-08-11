@@ -338,10 +338,13 @@ class Actividades extends CI_Controller {
 			$total = $data['listaActividades']->count();
 			$config['per_page'] = $limit;
 		}else{
-			$data['listaActividades']->ilike('asunto', $consulta);
-			$data['listaActividades']->or_ilike('descripcion', $consulta);
-			// Falta contemplar los correos electrónicos
-			$data['listaActividades']->where_related_usuario('id', $this->session->userdata('id'))->get();
+			$data['listaActividades']
+				->where_related_usuario('id', $this->session->userdata('id'))
+				->group_start()
+					->ilike('asunto', $consulta)
+					->or_ilike('descripcion', $consulta)
+				->group_end()
+			->get();
 			$total = $data['listaActividades']->result_count();
 			$config['per_page'] = $limit = $total;
 		}
