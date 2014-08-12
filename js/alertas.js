@@ -36,7 +36,7 @@ $(document).ready(function() {
 
 function mostrarModalAlertaEmergente(id, fechaHora, asunto, descripcion){
 	var enlace = window.base_url+"alertas/ver/"+id;
-	if(enlace != document.URL && enlace.replace('ver', 'editar') != document.URL && enlace.replace('alertas/ver', 'index.php/alertas/editar2') != document.URL){
+	if(document.URL.search("alertas/ver/"+id) == -1 && document.URL.search("alertas/editar/"+id) == -1 && document.URL.search("alertas/editar2/"+id) == -1){
 		$("#alerta-emergente-id").val(id);
 		$("#alerta-emergente-fechaHora").html(fechaHora);
 		$("#alerta-emergente-asunto").html(asunto);
