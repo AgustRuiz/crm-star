@@ -56,7 +56,7 @@
 					<li <?php if($this->router->fetch_class()=="campanyas") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>campanyas">Campañas</a></li>
 					<li <?php if($this->router->fetch_class()=="actividades") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>actividades">Actividades</a></li>
 					<li <?php if($this->router->fetch_class()=="alertas") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>alertas">Alertas</a></li>
-					<li <?php if($this->router->fetch_class()=="usuarios") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>usuarios">Usuarios</a></li>
+					<li <?php if($this->router->fetch_class()=="usuarios" || $this->router->fetch_class()=="perfiles") echo 'class="active"';?>><a href="<?=$this->config->base_url()?>usuarios">Usuarios</a></li>
 					<!-- <li><a href="#" onclick="mostrarModalAlertaEmergente('fechaHora', 'asunto', 'descripcion');"><span class="glyphicon glyphicon-bell"></span></a></li> -->
 				</ul>
 
