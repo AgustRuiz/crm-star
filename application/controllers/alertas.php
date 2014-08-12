@@ -230,6 +230,15 @@ class Alertas extends CI_Controller {
 		}
 	}
 
+	public function posponer($id=null, $minutos){
+		$alerta = new Alerta();
+		$alerta->get_by_id($id);
+		if($alerta->result_count()==1){
+			$alerta->fechaHora = date("Y-n-j H:i", time()+$minutos*60);
+			$alerta->save();
+		}
+	}
+
 	public function popup_alertas(){
 		$ahora = date("Y-m-d H:i", time());
 		$alertas = new Alerta();

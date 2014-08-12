@@ -42,9 +42,23 @@ function mostrarModalAlertaEmergente(id, fechaHora, asunto, descripcion){
 		$("#alerta-emergente-asunto").html(asunto);
 		$("#alerta-emergente-descripcion").html(descripcion);
 		$("#alerta-emergente-enlace").attr('href' ,enlace);
-		$("#alerta-emergente-visualizar").click(function(){$('#iframe-alerta-emergente').attr('src', window.base_url+'alertas/visualizar/'+id); setTimeout(actualizarAlertas(), 5000);});
+		$("#alerta-emergente-visualizar").click(function(){$('#iframe-alerta-emergente').attr('src', window.base_url+'alertas/visualizar/'+id);});
 		$("#modal-alerta-emergente").modal('show');
 	}
+}
+
+function posponerAlerta(){
+	id = $("#alerta-emergente-id").val();
+	minutos = $("#alerta-emergente-posponer").val();
+	if(id != undefined && minutos != undefined){
+		if(minutos>0){
+			$('#iframe-alerta-emergente').attr('src', window.base_url+'alertas/posponer/'+id+'/'+minutos);
+			$("#modal-alerta-emergente").modal('hide');
+		}
+	}else{
+		alert("Ha ocurrido un error y no se puede posponer la alerta");
+	}
+	$("#alerta-emergente-posponer").val(0);
 }
 
 function modalAlertaEmergenteLibre(){
@@ -62,4 +76,4 @@ function listenerAlertas(){
 	});
 }
 listenerAlertas();
-setInterval(function(){listenerAlertas(); actualizarAlertas()}, 15000);
+setInterval(function(){listenerAlertas(); actualizarAlertas()}, 10000);

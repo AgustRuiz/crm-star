@@ -94,14 +94,14 @@
 					<div class="form-group">
 						<button type="button" class="btn btn-success pull-left" id="alerta-emergente-visualizar" data-dismiss="modal">Entendido</button>
 						<a href="#" class="btn btn-default pull-left" id="alerta-emergente-enlace">Ir a alerta</a>
-						<div class="col-xs-4 pull-right">
+						<div class="pull-right">
 							<input type="hidden" name="" id="alerta-emergente-id"/>
-							<select class="form-control" onchange="alert('No implementado aún...');">
-								<option>Posponer alerta...</option>
-								<option>5 minutos después</option>
-								<option>15 minutos después</option>
-								<option>30 minutos después</option>
-								<option>1 hora después</option>
+							<select id="alerta-emergente-posponer" class="form-control" onchange="posponerAlerta();">
+								<option value="0">Posponer alerta...</option>
+								<option value="5">Dentro de 5 minutos</option>
+								<option value="15">Dentro de 15 minutos</option>
+								<option value="30">Dentro de 30 minutos</option>
+								<option value="60">Dentro de 1 hora</option>
 							</select>
 						</div>
 					</div>
