@@ -23,7 +23,7 @@ DirectoryIndex index.php
   	RewriteCond %{REQUEST_URI} ^(.*)//(.*)$
   	RewriteRule . %1/%2 [R=301,L]
   	# Ignore certain files and folders in this rewrite
-  	RewriteCond $1 !^(index\.php|assets|frameworks|uploads|robots\.txt|favicon\.ico|css|js|img|fonts)
+  	RewriteCond $1 !^(index\.php|assets|frameworks|uploads|robots\.txt|favicon\.ico|css|js|img|fonts|audio)
   	# [NC] = no case - case insensitive
   	# [L] = Last rule, last rewrite for this set of conditions
   	# [QSA] = Query String Append, should be used to prevent all redirects from going to your default controller, which happens on 

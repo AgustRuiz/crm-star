@@ -23,7 +23,6 @@ function actualizarAlertas(){
 }
 
 $(document).ready(function() {
-	actualizarAlertas();
 	$("[rel=popover-alertas]").popover({
 		placement : 'bottom', //Posición (top, bottom, left, right)
 		trigger: 'click',
@@ -31,10 +30,11 @@ $(document).ready(function() {
 		title : '<strong>Alertas</strong> <span class="glyphicon glyphicon-refresh pull-right" title="Actualizar" onclick="document.getElementById(\'iframe-alertas\').contentWindow.location.reload(); actualizarAlertas();"></span>', //Título
 		content : '<div class="div-iframe-alertas"><iframe src="'+window.base_url+'index.php/alertas/popup_alertas" class="iframe-alertas" id="iframe-alertas"></iframe></div>' //Contenido
 	});
+	actualizarAlertas();
 });
 
 
-function mostrarModalAlertaEmergente(id, fechaHora, asunto, descripcion){
+function mostrarModalAlertaEmergente(id, fechaHora, asunto, descripcion, audio){
 	var enlace = window.base_url+"alertas/ver/"+id;
 	if(document.URL.search("alertas/ver/"+id) == -1 && document.URL.search("alertas/editar/"+id) == -1 && document.URL.search("alertas/editar2/"+id) == -1){
 		$("#alerta-emergente-id").val(id);
@@ -44,6 +44,9 @@ function mostrarModalAlertaEmergente(id, fechaHora, asunto, descripcion){
 		$("#alerta-emergente-enlace").attr('href' ,enlace);
 		$("#alerta-emergente-visualizar").click(function(){$('#iframe-alerta-emergente').attr('src', window.base_url+'alertas/visualizar/'+id);});
 		$("#modal-alerta-emergente").modal('show');
+		if(audio){
+			campanillaOn();
+		}
 	}
 }
 
@@ -54,6 +57,7 @@ function posponerAlerta(){
 		if(minutos>0){
 			$('#iframe-alerta-emergente').attr('src', window.base_url+'alertas/posponer/'+id+'/'+minutos);
 			$("#modal-alerta-emergente").modal('hide');
+			campanillaOff();
 		}
 	}else{
 		alert("Ha ocurrido un error y no se puede posponer la alerta");
@@ -71,9 +75,19 @@ function modalAlertaEmergenteLibre(){
 function listenerAlertas(){
 	$.getJSON(window.base_url+"index.php/alertas/getAlertaJson", function(datos) {
 		if(datos!=null && modalAlertaEmergenteLibre()){
-			mostrarModalAlertaEmergente(datos['id'], datos['fechaHora'], datos['asunto'], datos['descripcion']);
+			mostrarModalAlertaEmergente(datos['id'], datos['fechaHora'], datos['asunto'], datos['descripcion'], true);
 		}
 	});
 }
 listenerAlertas();
 setInterval(function(){listenerAlertas(); actualizarAlertas()}, 10000);
+
+function campanillaOn(){
+	document.getElementById('reproductor-campanilla').play();
+}
+
+function campanillaOff(){
+	var elemento = document.getElementById('reproductor-campanilla');
+	elemento.pause();
+	elemento.currentTime = 0;
+}

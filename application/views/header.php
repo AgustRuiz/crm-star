@@ -83,7 +83,7 @@
 			<div class="modal-content">
 				<div class="campana"></div>
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<button type="button" class="close" data-dismiss="modal" onclick="campanillaOff();"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 					<h4>Alerta programada: <span class="label label-primary" id="alerta-emergente-fechaHora">--------</span></h4>
 				</div>
 				<div class="modal-body">
@@ -92,7 +92,7 @@
 				</div>
 				<div class="modal-footer">
 					<div class="form-group">
-						<button type="button" class="btn btn-success pull-left" id="alerta-emergente-visualizar" data-dismiss="modal">Entendido</button>
+						<button type="button" class="btn btn-success pull-left" id="alerta-emergente-visualizar" data-dismiss="modal" onclick="campanillaOff();">Entendido</button>
 						<a href="#" class="btn btn-default pull-left" id="alerta-emergente-enlace">Ir a alerta</a>
 						<div class="pull-right">
 							<input type="hidden" name="" id="alerta-emergente-id"/>
@@ -107,6 +107,9 @@
 					</div>
 				</div>
 			</div>
+			<audio id="reproductor-campanilla" preload loop>
+				<source src="<?=$this->config->base_url()?>audio/campanilla-5seg.mp3" type="audio/mp3" />
+			</audio>
 		</div>
 		<iframe src="" id="iframe-alerta-emergente" class="hidden"></iframe>
 	</div>
