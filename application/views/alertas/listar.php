@@ -8,7 +8,7 @@
 						<th>Asunto</th>
 						<th>Fecha y hora</th>
 						<th colspan="2" class="text-center">Notificaciones</th>
-						<th class="text-center">Visualizado</th>
+						<th class="text-center">Visualizada</th>
 					</tr>
 				</thead>
 				<tbody id="contenedor">

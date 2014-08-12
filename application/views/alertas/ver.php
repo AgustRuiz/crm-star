@@ -66,4 +66,31 @@
 					</div>
 				</div>
 			</fieldset>
+
+
+			<?if(time()-strtotime($alerta->fechaHora)>0){?>
+			<?if($alerta->visualizado==1){?>
+			<fieldset>
+				<div class="container-fluid ficha">
+					<div class="row clearfix">
+						<div class="col-md-2 col-xs-3 text-right titulo">Alerta visualizada</div>
+						<div class="col-md-6 col-xs-4 dato"><strong class="text-success">SÍ</strong></div>
+						<a href="<?=$this->config->base_url()?>alertas/ver/<?=$alerta->id?>/false" class="btn btn-info col-md-4 col-xs-5">Marcar NO visualizada</a>
+					</div>
+				</div>
+			</fieldset>
+			<?}else{?>
+			<fieldset>
+				<div class="container-fluid ficha">
+					<div class="row clearfix">
+						<div class="col-md-2 col-xs-3 text-right titulo">Alerta visualizada</div>
+						<div class="col-md-6 col-xs-4 dato"><strong class="text-danger">NO</strong></div>
+						<a href="<?=$this->config->base_url()?>alertas/ver/<?=$alerta->id?>/true" class="btn btn-success col-md-4 col-xs-5">Marcar visualizada</a>
+					</div>
+				</div>
+			</fieldset>
+			<?}}?>
+
+
+
   </div><!--/row-->

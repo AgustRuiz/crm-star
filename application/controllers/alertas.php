@@ -44,7 +44,7 @@ class Alertas extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function ver($id=null){
+	public function ver($id=null, $visualizado=null){
 		$this->load->view('header');
 		
 		if($id==null){
@@ -54,6 +54,11 @@ class Alertas extends CI_Controller {
 			$data['alerta'] = new Alerta();
 			$data['alerta']->get_by_id($id);
 			if($data['alerta']->result_count()>0){
+				if($visualizado!=null){
+					($visualizado=='true')?$data['alerta']->visualizado=1:$data['alerta']->visualizado=0;
+					$data['alerta']->save();
+					header("Location: ".$this->config->base_url()."alertas/ver/".$id);
+				}
 				$this->load->view('alertas/ver', $data);
 				$this->load->view('sidebars/alertas/ver');
 			}else{
