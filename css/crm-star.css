@@ -330,6 +330,31 @@ tr.pendiente + tr.pasado td, tr.pasado + tr.pendiente td{
 }
 
 
+/****** USUARIO ******/
+/*Estilos de estado*/
+.estado-usuario-activo{
+	background-color:#5cb85c;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}
+.estado-usuario-excedencia{
+	background-color:#428bca;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}
+.estado-usuario-despedido{
+	background-color:#d9534f;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+
 /****** CONTACTOS ******/
 /*Estilos de estado*/
 .estado-contacto-indeterminado{
@@ -449,7 +474,6 @@ tr.pendiente + tr.pasado td, tr.pasado + tr.pendiente td{
 	padding: 0px 2px;
 	border-radius: 5px;
 	display: inline-block;
-	
 }
 
 /*Estilos de Prioridades*/

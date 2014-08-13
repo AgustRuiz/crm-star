@@ -22,6 +22,18 @@
 						<div class="col-md-2 col-xs-3 text-right titulo">Contraseña</div>
 						<div class="col-md-4 col-xs-9 dato"><a href="#" data-toggle="modal" data-target="#modalPassword">Reiniciar contraseña</a></div>
 					</div>
+					<div class="row clearfix">
+						<div class="col-md-2 col-xs-3 text-right titulo">Perfil de usuario</div>
+						<div class="col-md-4 col-xs-9 dato"><a href="<?=$this->config->base_url()?>perfiles/ver/<?=$usuario->perfil->id?>"><?=$usuario->perfil->nombre?></a></div>
+						<div class="col-md-2 col-xs-3 text-right titulo">Estado</div>
+						<div class="col-md-4 col-xs-9 dato"><span class="<?=$usuario->usuarios_estado->estilo?>"><?=$usuario->usuarios_estado->estado?></span></div>
+
+
+
+
+
+						
+					</div>
 				</div>
 			</fieldset>
 			<fieldset>

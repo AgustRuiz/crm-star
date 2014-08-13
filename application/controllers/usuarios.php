@@ -74,9 +74,14 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function nuevo(){
+		$data['perfiles'] = new Perfil();
+		$data['perfiles']->order_by('id', 'desc')->get();
+
+		$data['estados'] = new Usuarios_estado();
+		$data['estados']->get();
 		// Cargar las vistas
 		$this->load->view('header');
-		$this->load->view('usuarios/nuevo');
+		$this->load->view('usuarios/nuevo', $data);
 		$this->load->view('sidebars/usuarios/nuevo');
 		$this->load->view('footer');
 	}
@@ -84,8 +89,16 @@ class Usuarios extends CI_Controller {
 	public function nuevo2(){
 		$usuario = recogerFormulario($this->input);
 		$usuario->password = $password = generarPassword();
+		// Recoger Perfil
+		$perfil = new Perfil();
+		$perfil->get_by_id($this->input->post('cmbPerfil'));
+		$usuario->perfil = $perfil;
+		// Recoger Estado
+		$estado = new Usuarios_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$usuario->usuarios_estado = $estado;
 
-		if($usuario->save()){
+		if($usuario->save(array($perfil, $estado))){
 			// Usuario creado correctamente
 			include('include_mail.php');
 			mail_altaUsuario($usuario->email, $usuario->nick, $usuario->password, $this->config->base_url());
@@ -108,6 +121,11 @@ class Usuarios extends CI_Controller {
 			}
 			$data['error'] .= '</ul>';
 			$data['usuario']=$usuario;
+
+			$data['perfiles'] = new Perfil();
+			$data['perfiles']->order_by('id', 'desc')->get();
+			$data['estados'] = new Usuarios_estado();
+			$data['estados']->get();
 
 			// Cargar las vistas
 			$this->load->view('header');
@@ -149,6 +167,10 @@ class Usuarios extends CI_Controller {
 			$this->load->view('sidebars/error404');
 		}
 		else{
+			$data['perfiles'] = new Perfil();
+			$data['perfiles']->order_by('id', 'desc')->get();
+			$data['estados'] = new Usuarios_estado();
+			$data['estados']->get();
 			$usuario = new Usuario();
 			$data['usuario']=$usuario->get_by_id($id);
 			$this->load->view('usuarios/editar', $data);
@@ -174,7 +196,17 @@ class Usuarios extends CI_Controller {
 		$usuario->fax = $usuarioEditado->fax;
 		$usuario->otrosDatos = $usuarioEditado->otrosDatos;	
 
-		if($usuario->save()){
+		// Recoger Perfil
+		$perfil = new Perfil();
+		$perfil->get_by_id($this->input->post('cmbPerfil'));
+		$usuario->perfil = $perfil;
+
+		// Recoger Estado
+		$estado = new Usuarios_estado();
+		$estado->get_by_id($this->input->post('cmbEstado'));
+		$usuario->usuarios_estado = $estado;
+
+		if($usuario->save(array($perfil, $estado))){
 			//Edición correcta
 			$data["success"] = "Usuario editado correctamente";
 			$data['usuario'] = $usuarioEditado;
@@ -191,6 +223,12 @@ class Usuarios extends CI_Controller {
 			}
 			$data['error'] .= '</ul>';
 			$data['usuario']=$usuario;
+
+			$data['perfiles'] = new Perfil();
+			$data['perfiles']->order_by('id', 'desc')->get();
+
+			$data['estados'] = new Usuarios_estado();
+			$data['estados']->get();
 
 			// Cargar las vistas
 			$this->load->view('header');
@@ -281,7 +319,8 @@ function recogerFormulario($input, $id=null)
 	$usuario->nick = (strip_tags(trim($input->post('txtNick')))=="")?null:strip_tags(trim($input->post('txtNick')));
 	$usuario->nombre = (strip_tags(trim($input->post('txtNombre')))=="")?null:strip_tags(trim($input->post('txtNombre')));
 	$usuario->apellidos = strip_tags(trim($input->post('txtApellidos')));
-	$usuario->nif = strtoupper((strip_tags(trim($input->post('txtNIF')))=="")?null:strip_tags(trim($input->post('txtNIF'))));
+	$usuario->nif = strtoupper(strip_tags(trim($input->post('txtNIF'))));
+	if($usuario->nif=='')$usuario->nif=null;
 	$usuario->email = (strip_tags(trim($input->post('txtEmail')))=="")?null:strip_tags(trim($input->post('txtEmail')));
 	$usuario->telfOficina = strip_tags(trim($input->post('txtTelfOficina')));
 	$usuario->telfMovil = strip_tags(trim($input->post('txtTelfMovil')));
@@ -294,22 +333,6 @@ function recogerFormulario($input, $id=null)
 	}
 	return $usuario;
 }
-
-// function devolverFormulario($objeto){
-// 	unset($usuario);
-// 	$usuario['id']=$objeto->id;
-// 	$usuario['nick']=$objeto->nick;
-// 	$usuario['password']=$objeto->password;
-// 	$usuario['nombre']=$objeto->nombre;
-// 	$usuario['apellidos']=$objeto->apellidos;
-// 	$usuario['nif']=$objeto->nif;
-// 	$usuario['email']=$objeto->email;
-// 	$usuario['telfOficina']=$objeto->telfOficina;
-// 	$usuario['telfMovil']=$objeto->telfMovil;
-// 	$usuario['fax']=$objeto->fax;
-// 	$usuario['otrosDatos']=$objeto->otrosDatos;
-// 	return $usuario;
-// }
 
 include('include_password.php');
 /* End of file usuarios.php */

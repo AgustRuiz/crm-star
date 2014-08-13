@@ -25,7 +25,10 @@ class Login extends CI_Controller {
 
 			if($usuario->result_count()==0){
 				// Error
-				$data['error']="El nombre de usuario y contraseña introducidos no está registrado en el sistema";
+				$data['error']="El nombre de usuario y/o contraseña introducidos no está registrado en el sistema";
+			}else if($usuario->usuarios_estado->id!=1){
+				// Error
+				$data['error']="El usuario que intenta usar se encuentra en la siguiente situación: '<em>".$usuario->usuarios_estado->estado."</em>'. El acceso ha sido denegado.";
 			}else{
 				// Creamos array con los datos de la sesión (los que hagan falta)
 				$datosSesion = array(

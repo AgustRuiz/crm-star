@@ -24,6 +24,38 @@
 			<input type="text" class="form-control" id="txtNick" name="txtNick" required="required" placeholder="Identificador de usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->nick; ?>"/>
 		</div>
 	</div>
+	<div class="form-group required">
+		<label for="cmbPerfil" class="col-sm-2 control-label" title="Campo obligatorio">Perfil de usuario</label>
+		<div class="col-sm-10">
+			<select class="form-control" id="cmbPerfil" name="cmbPerfil">
+				<?php
+				foreach ($perfiles as $perfil) {
+					if(isset($usuario) && $usuario->perfil->id == $perfil->id){
+						echo '<option value="'.$perfil->id.'" selected="selected">'.$perfil->nombre.'</option>';
+					}else{
+						echo '<option value="'.$perfil->id.'">'.$perfil->nombre.'</option>';
+					}
+				}
+				?>
+			</select>
+		</div>
+	</div>
+	<div class="form-group required">
+		<label for="cmbEstado" class="col-sm-2 control-label" title="Campo obligatorio">Estado de usuario</label>
+		<div class="col-sm-10">
+			<select class="form-control" id="cmbEstado" name="cmbEstado">
+				<?php
+				foreach ($estados as $estado) {
+					if(isset($usuario) && $usuario->usuarios_estado->id == $estado->id){
+						echo '<option value="'.$estado->id.'" selected="selected">'.$estado->estado.'</option>';
+					}else{
+						echo '<option value="'.$estado->id.'">'.$estado->estado.'</option>';
+					}
+				}
+				?>
+			</select>
+		</div>
+	</div>
 	<hr/>
 	<div class="form-group required">
 		<label for="txtEmail" class="col-sm-2 control-label">Correo electrónico</label>

@@ -6,25 +6,34 @@
 					<tr>
 						<th>#</th>
 						<th>Nombre</th>
+						<th>Total</th>
 					</tr>
 				</thead>
 				<tbody id="contenedor">
 					<?php if(isset($listaPerfiles) && $listaPerfiles->result_count()>0) { foreach ($listaPerfiles as $fila) { ?>
-						<tr>
-							<td><?=$fila->id?></td>
-							<td><a href="<?=$this->config->base_url()?>perfiles/ver/<?=$fila->id?>"><strong><?=$fila->nombre?></strong></a></td>
+					<tr>
+						<td><?=$fila->id?></td>
+						<td><a href="<?=$this->config->base_url()?>perfiles/ver/<?=$fila->id?>"><strong><?=$fila->nombre?></strong></a></td>
+						<td><?
+							$num = $fila->usuario->result_count();
+							if($num==1){
+								echo '1 usuario';
+							}else{
+								echo $num.' usuarios';
+							}
+							?></td>
 						</tr>
-					<?php } } else { ?>
+						<?php } } else { ?>
 						<tr><td colspan="2" class="text-center"><em>No hay perfiles de usuario</em></td></tr>
-					<?php } ?>
-				</tbody>
-				<tfoot>	
-					<tr><th colspan="2">
-						<?=$initialRow?>-<?=$finalRow?> de <?=$numContacts?>	
-						<ul class="pagination pull-right" id="pagination">
-							<?=$pag_links;?>
-						</ul>
-					</th></tr>
-				</tfoot>
-			</table>
+						<?php } ?>
+					</tbody>
+					<tfoot>	
+						<tr><th colspan="2">
+							<?=$initialRow?>-<?=$finalRow?> de <?=$numContacts?>	
+							<ul class="pagination pull-right" id="pagination">
+								<?=$pag_links;?>
+							</ul>
+						</th></tr>
+					</tfoot>
+				</table>
   </div><!--/row-->
