@@ -21,9 +21,6 @@
 	</div>
 	<div class="list-group">
 		<a href="<?=$this->config->base_url()?>perfiles" class="list-group-item">Listar perfiles de usuario</a>
-		<a href="<?=$this->config->base_url()?>perfiles/nuevo" class="list-group-item">Nuevo perfil de usuario</a>
-		<a href="#" class="list-group-item disabled">Editar perfil de usuario</a>
-		<a href="#" class="list-group-item disabled">Eliminar perfil de usuario</a>
 	</div>
 </div><!--/span-->
 </div><!--/row-->
