@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-08-2014 a las 01:36:29
+-- Tiempo de generación: 13-08-2014 a las 20:52:54
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `ci_alertas` (
   `email` tinyint(1) NOT NULL DEFAULT '0',
   `emailEnviado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_alertas_usuarios` (
   PRIMARY KEY (`id`),
   KEY `alerta_id` (`alerta_id`,`usuario_id`),
   KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -398,7 +398,22 @@ CREATE TABLE IF NOT EXISTS `ci_join_perfiles_usuarios` (
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
   KEY `perfil_id` (`perfil_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_usuarios_usuarios_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_usuarios_usuarios_estados` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` bigint(20) unsigned NOT NULL,
+  `usuarios_estado_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `usuarios_perfil_id` (`usuarios_estado_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
 
 -- --------------------------------------------------------
 
@@ -431,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `ci_perfiles` (
   `usuarios_editar` tinyint(1) NOT NULL DEFAULT '0',
   `usuarios_eliminar` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -455,7 +470,20 @@ CREATE TABLE IF NOT EXISTS `ci_usuarios` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nick` (`nick`),
   UNIQUE KEY `nif` (`nif`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_usuarios_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_usuarios_estados` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=4 ;
 
 --
 -- Restricciones para tablas volcadas
@@ -556,6 +584,13 @@ ALTER TABLE `ci_join_contactos_contactos_estados`
 ALTER TABLE `ci_join_perfiles_usuarios`
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_2` FOREIGN KEY (`perfil_id`) REFERENCES `ci_perfiles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_usuarios_usuarios_estados`
+--
+ALTER TABLE `ci_join_usuarios_usuarios_estados`
+  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_2` FOREIGN KEY (`usuarios_estado_id`) REFERENCES `ci_usuarios_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

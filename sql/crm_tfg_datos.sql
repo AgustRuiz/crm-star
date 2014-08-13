@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-08-2014 a las 01:36:15
+-- Tiempo de generación: 13-08-2014 a las 20:52:38
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `ci_alertas` (
   `email` tinyint(1) NOT NULL DEFAULT '0',
   `emailEnviado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=14 ;
 
 --
 -- Volcado de datos para la tabla `ci_alertas`
@@ -148,9 +148,10 @@ INSERT INTO `ci_alertas` (`id`, `asunto`, `descripcion`, `fechaHora`, `emergente
 (7, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Praesent non mattis ante, ut tincidunt augue. Maecenas feugiat lorem mattis ornare dignissim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec faucibus vel elit nec aliquam. Aenean quis ipsum vitae eros malesuada porta. Maecenas enim velit, eleifend vel sem at, fermentum ornare turpis. Duis facilisis lorem tortor, at faucibus tellus sollicitudin a. Integer eu metus nunc. Nam velit purus, viverra aliquet quam nec, imperdiet feugiat massa. Ut lobortis vulputate mauris. Praesent urna lectus, consequat vitae tellus sit amet, condimentum ultricies arcu. Donec vel dignissim tellus.', '2014-08-12 19:07:00', 1, 1, 1, 0),
 (8, 'Hola', 'Si lees esto es que has entrado después de las 22:45 del martes 12 de agosto de 2014.<br />\n¡Qué suerte tienes!', '2014-08-12 22:45:00', 1, 1, 1, 0),
 (9, 'Muy viejo', '', '2014-08-12 14:29:00', 1, 1, 0, 0),
-(10, 'Aún tienes tiempo de atender esta alerta, así que date prisa', '', '2014-08-12 23:16:00', 1, 1, 0, 0),
+(10, 'Aún tienes tiempo de atender esta alerta, así que date prisa', '', '2014-08-13 13:48:00', 1, 1, 0, 0),
 (11, 'Para el lunes', '', '2014-08-12 14:14:00', 1, 1, 0, 0),
-(12, 'Nueva alerta', 'Descripción de la alerta', '2014-08-11 03:11:00', 0, 0, 0, 0);
+(12, 'Nueva alerta', 'Descripción de la alerta', '2014-08-11 03:11:00', 0, 0, 0, 0),
+(13, 'Los simpsons', '', '2014-08-13 14:15:00', 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -515,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_alertas_usuarios` (
   PRIMARY KEY (`id`),
   KEY `alerta_id` (`alerta_id`,`usuario_id`),
   KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=14 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_alertas_usuarios`
@@ -527,7 +528,8 @@ INSERT INTO `ci_join_alertas_usuarios` (`id`, `alerta_id`, `usuario_id`) VALUES
 (9, 9, 1),
 (10, 10, 1),
 (11, 11, 1),
-(12, 12, 13);
+(12, 12, 13),
+(13, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -745,7 +747,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_perfiles_usuarios` (
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
   KEY `perfil_id` (`perfil_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_perfiles_usuarios`
@@ -753,7 +755,60 @@ CREATE TABLE IF NOT EXISTS `ci_join_perfiles_usuarios` (
 
 INSERT INTO `ci_join_perfiles_usuarios` (`id`, `usuario_id`, `perfil_id`) VALUES
 (1, 1, 1),
-(2, 13, 1);
+(2, 13, 1),
+(3, 14, 2),
+(4, 15, 3),
+(5, 16, 4),
+(6, 17, 2),
+(7, 18, 3),
+(8, 19, 4),
+(9, 20, 2),
+(10, 21, 3),
+(11, 22, 4),
+(12, 23, 2),
+(13, 24, 3),
+(14, 25, 4),
+(15, 26, 2),
+(16, 27, 3),
+(17, 28, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_usuarios_usuarios_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_usuarios_usuarios_estados` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` bigint(20) unsigned NOT NULL,
+  `usuarios_estado_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `usuarios_perfil_id` (`usuarios_estado_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
+
+--
+-- Volcado de datos para la tabla `ci_join_usuarios_usuarios_estados`
+--
+
+INSERT INTO `ci_join_usuarios_usuarios_estados` (`id`, `usuario_id`, `usuarios_estado_id`) VALUES
+(1, 1, 1),
+(2, 13, 1),
+(3, 14, 3),
+(4, 15, 2),
+(5, 16, 1),
+(6, 17, 1),
+(7, 18, 1),
+(8, 19, 1),
+(9, 20, 1),
+(10, 21, 1),
+(11, 22, 1),
+(12, 23, 1),
+(13, 24, 1),
+(14, 25, 1),
+(15, 26, 1),
+(16, 27, 1),
+(17, 28, 1);
 
 -- --------------------------------------------------------
 
@@ -786,14 +841,17 @@ CREATE TABLE IF NOT EXISTS `ci_perfiles` (
   `usuarios_editar` tinyint(1) NOT NULL DEFAULT '0',
   `usuarios_eliminar` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `ci_perfiles`
 --
 
 INSERT INTO `ci_perfiles` (`id`, `nombre`, `contactos_listar`, `contactos_crear`, `contactos_editar`, `contactos_eliminar`, `campanyas_listar_todas`, `campanyas_listar_propias`, `campanyas_crear`, `campanyas_editar`, `campanyas_eliminar`, `actividades_listar_todas`, `actividades_listar_propias`, `actividades_crear_propias`, `actividades_editar_propias`, `actividades_eliminar_propias`, `actividades_crear_todas`, `actividades_editar_todas`, `actividades_eliminar_todas`, `usuarios_listar`, `usuarios_crear`, `usuarios_editar`, `usuarios_eliminar`) VALUES
-(1, 'Administración', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+(1, 'Superusuario', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(2, 'Coordinación', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
+(3, 'Comercial', 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0),
+(4, 'Técnico', 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -817,14 +875,14 @@ CREATE TABLE IF NOT EXISTS `ci_usuarios` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nick` (`nick`),
   UNIQUE KEY `nif` (`nif`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Volcado de datos para la tabla `ci_usuarios`
 --
 
 INSERT INTO `ci_usuarios` (`id`, `nick`, `password`, `nombre`, `apellidos`, `nif`, `email`, `telfOficina`, `telfMovil`, `fax`, `otrosDatos`) VALUES
-(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Administrador', '', NULL, 'arl00029@red.ujaen.es', '', '', '', ''),
+(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Administrador', '', '', 'arl00029@red.ujaen.es', '', '', '', ''),
 (13, 'aruiz', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Agustín', 'Ruiz Linares', '15510111S', 'agustinruizlinares@gmail.com', '999999999', '666666666', '912345678', 'Primer usuario'),
 (14, 'uno', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Uno', '', NULL, 'uno@uno.com', '', '', '', ''),
 (15, 'dos', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Dos', '', NULL, 'dos@dos.com', '', '', '', ''),
@@ -841,6 +899,28 @@ INSERT INTO `ci_usuarios` (`id`, `nick`, `password`, `nombre`, `apellidos`, `nif
 (26, 'trece', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'trece', '', NULL, 'trece@trece.com', '', '', '', ''),
 (27, 'catorce', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'catorce', '', NULL, 'catorce@catorce.com', '', '', '', ''),
 (28, 'quince', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'quince', '', NULL, 'quince@quince.com', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_usuarios_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_usuarios_estados` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `ci_usuarios_estados`
+--
+
+INSERT INTO `ci_usuarios_estados` (`id`, `estado`, `estilo`) VALUES
+(1, 'Activo', 'estado-usuario-activo'),
+(2, 'Excedencia', 'estado-usuario-excedencia'),
+(3, 'Despedido', 'estado-usuario-despedido');
 
 --
 -- Restricciones para tablas volcadas
@@ -941,6 +1021,13 @@ ALTER TABLE `ci_join_contactos_contactos_estados`
 ALTER TABLE `ci_join_perfiles_usuarios`
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_2` FOREIGN KEY (`perfil_id`) REFERENCES `ci_perfiles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_usuarios_usuarios_estados`
+--
+ALTER TABLE `ci_join_usuarios_usuarios_estados`
+  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_2` FOREIGN KEY (`usuarios_estado_id`) REFERENCES `ci_usuarios_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
