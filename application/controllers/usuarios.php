@@ -15,16 +15,24 @@ class Usuarios extends CI_Controller {
 
 	public function index(){
 		$this->listar();
-
 	}
 
 	public function listar($offset='0'){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_listar==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
+
 		$limit = $this->Configuration_model->rowsPerPage();
 
 		// Obtener listado (parcial)
 		$usuario = new Usuario();
 		$data['listaUsuarios'] = $usuario->get($limit, $offset);
-		
+
 		// Paginación
 		$total = $usuario->count();
 		$config['base_url'] = base_url().'usuarios/listar/';
@@ -47,10 +55,18 @@ class Usuarios extends CI_Controller {
 		$this->load->view('usuarios/listar', $data);
 		$this->load->view('sidebars/usuarios/listar');
 		$this->load->view('footer');
-
 	}
 
 	public function ver($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_listar==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
+
 		$this->load->view('header');
 		if($id==null){
 			$this->load->view('errores/error404');
@@ -74,6 +90,15 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function nuevo(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_crear==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
+
 		$data['perfiles'] = new Perfil();
 		$data['perfiles']->order_by('id', 'desc')->get();
 
@@ -87,6 +112,15 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function nuevo2(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_crear==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
+		
 		$usuario = recogerFormulario($this->input);
 		$usuario->password = $password = generarPassword();
 		// Recoger Perfil
@@ -130,12 +164,21 @@ class Usuarios extends CI_Controller {
 			// Cargar las vistas
 			$this->load->view('header');
 			$this->load->view('usuarios/nuevo', $data);
-			$this->load->view('sidebars/usuarios/nuevo');
+			$this->load->view('sidebars/usuarios/index');
 			$this->load->view('footer');
 		}
 	}
 
 	public function eliminar($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_eliminar==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
+		
 		$this->load->view('header');
 		$usuario = new Usuario();
 		if($id==null){
@@ -161,6 +204,15 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function editar($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_editar==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
+		
 		$this->load->view('header');
 		if($id==null){
 			$this->load->view('errores/error404');
@@ -180,6 +232,14 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function editar2($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_editar==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
 
 		$usuario = new Usuario();
 		$usuario->get_by_id($id);
@@ -239,6 +299,14 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function password($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_editar==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
 
 		$password = generarPassword();
 
@@ -268,6 +336,15 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function include_busqueda_usuario($offset='0'){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->usuarios_listar==0){
+			$this->load->view('header');
+			$this->load->view('errores/error403');
+			$this->load->view('sidebars/usuarios/index');
+			$this->load->view('footer');
+			return;
+		}
+
 		$consulta=null;
 		if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
 			$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));
@@ -327,10 +404,10 @@ function recogerFormulario($input, $id=null)
 	$usuario->fax = strip_tags(trim($input->post('txtFax')));
 	$usuario->otrosDatos = nl2br(strip_tags(trim($input->post('txtOtrosDatos'))));
 
-
 	if($id!=null){
 		$usuario->id = $id;
 	}
+	
 	return $usuario;
 }
 

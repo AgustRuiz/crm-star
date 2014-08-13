@@ -37,7 +37,8 @@ class Login extends CI_Controller {
 					'password' => $usuario->password,
 					'nombre' => $usuario->nombre,
 					'apellidos' => $usuario->apellidos,
-					'email' => $usuario->email
+					'email' => $usuario->email,
+					'perfil' => $usuario->perfil
 					);
 				// Crear sesión y redirigir
 				$this->session->set_userdata($datosSesion);
