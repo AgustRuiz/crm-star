@@ -44,6 +44,7 @@
 					<th>Tipo</th>
 					<th>Estado</th>
 					<th>Contacto</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody id="contenedor">
@@ -65,7 +66,7 @@
 				<?php } ?>
 			</tbody>
 			<tfoot>	
-				<tr><th colspan="4">
+				<tr><th colspan="8">
 					<?=$initialRow?>-<?=$finalRow?> de <?=$numContacts?>	
 					<ul class="pagination pull-right" id="pagination">
 						<?=$pag_links;?>

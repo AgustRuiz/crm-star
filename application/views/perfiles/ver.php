@@ -91,7 +91,7 @@
 				</div>
 				<div class="container-fluid ficha">
 					<div class="row clearfix">
-						<div class="col-md-6 col-xs-6 text-right titulo">Listar sólo campañas propias</div>
+						<div class="col-md-6 col-xs-6 text-right titulo">Listar campañas propias</div>
 						<div class="col-md-6 col-xs-6 dato"><?if($perfil->campanyas_listar_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
@@ -176,7 +176,7 @@
 						</div>
 					</div>
 					<div class="row clearfix">
-						<div class="col-md-6 col-xs-6 text-right titulo">Listar sólo actividades propias</div>
+						<div class="col-md-6 col-xs-6 text-right titulo">Listar actividades propias</div>
 						<div class="col-md-6 col-xs-6 dato"><?if($perfil->actividades_listar_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
@@ -185,7 +185,7 @@
 						</div>
 					</div>
 					<div class="row clearfix">
-						<div class="col-md-6 col-xs-6 text-right titulo">Crear sólo propias</div>
+						<div class="col-md-6 col-xs-6 text-right titulo">Crear propias</div>
 						<div class="col-md-6 col-xs-6 dato"><?if($perfil->actividades_crear_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
@@ -194,7 +194,7 @@
 						</div>
 					</div>
 					<div class="row clearfix">
-						<div class="col-md-6 col-xs-6 text-right titulo">Editar sólo propias</div>
+						<div class="col-md-6 col-xs-6 text-right titulo">Editar propias</div>
 						<div class="col-md-6 col-xs-6 dato"><?if($perfil->actividades_editar_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
@@ -203,7 +203,7 @@
 						</div>
 					</div>
 					<div class="row clearfix">
-						<div class="col-md-6 col-xs-6 text-right titulo">Eliminar sólo propias</div>
+						<div class="col-md-6 col-xs-6 text-right titulo">Eliminar propias</div>
 						<div class="col-md-6 col-xs-6 dato"><?if($perfil->actividades_eliminar_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
@@ -256,13 +256,8 @@
 					</div>
 				</div>
 			</fieldset>
-
-
-
-
-
 			<fieldset>
-				<legend class="row">Usuarios</legend>
+				<legend>Usuarios</legend>
 				<div class="row clearfix">
 					<table class="table table-striped table-hover table-condensed">
 						<thead>
