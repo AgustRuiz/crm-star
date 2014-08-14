@@ -96,8 +96,7 @@ class Perfiles extends CI_Controller {
 	public function miPerfil(){
 		$this->load->view('header');
 		$perfil = new Perfil();
-		$perfil->get_by_id($this->session->userdata('id'));
-
+		$perfil->get_by_id($this->session->userdata('perfil')->id);
 		$data['perfil']=$perfil;
 
 		if($perfil->result_count()>0){

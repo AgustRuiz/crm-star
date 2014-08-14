@@ -12,11 +12,23 @@ class Actividades extends CI_Controller {
 		$this->load->library('pagination');
 	}
 
+	private function accesoDenegado(){
+		$this->load->view('header');
+		$this->load->view('errores/accesoDenegado');
+		$this->load->view('sidebars/actividades/index');
+		$this->load->view('footer');
+	}
+
 	public function index(){
 		$this->listarUsuario();
 	}
 
 	public function listar($offset=0){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->actividades_listar_todas==0){
+			$this->accesoDenegado();
+			return;
+		}
 		$limit = $this->Configuration_model->rowsPerPage();
 
 		// Obtener listado (parcial)
@@ -46,6 +58,12 @@ class Actividades extends CI_Controller {
 	}
 
 	public function listarUsuario($offset='0'){
+		// Comprobar los permisos para actividades propias (más restrictivo)
+		if($this->session->userdata('perfil')->actividades_listar_propias==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$limit = $this->Configuration_model->rowsPerPage();
 
 		// Obtener listado (parcial)
@@ -75,33 +93,57 @@ class Actividades extends CI_Controller {
 	}
 
 	public function ver($id=null){
-		$this->load->view('header');
+		// Comprobar los permisos para actividades propias (más restrictivo)
+		if($this->session->userdata('perfil')->actividades_listar_todas==0){
+			$this->accesoDenegado();
+			return;
+		}
 		
 		if($id==null){
+			$this->load->view('header');
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
+			$this->load->view('footer');
 		}else{
 			$data['actividad'] = new Actividad();
 			$data['actividad']->get_by_id($id);
 			if($data['actividad']->result_count()>0){
+				// Comprobar los permisos para todas las actividades
+				if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_listar_propias==0){
+					$this->accesoDenegado();
+					return;
+				}
+				$this->load->view('header');
 				$this->load->view('actividades/ver', $data);
 				$this->load->view('sidebars/actividades/ver');
+				$this->load->view('footer');
 			}else{
+				$this->load->view('header');
 				$this->load->view('errores/error404');
 				$this->load->view('sidebars/error404');
+				$this->load->view('footer');
 			}
-			$this->load->view('footer');
 		}
 	}
 
 	public function nuevo(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->actividades_crear_todas==0 && $this->session->userdata('perfil')->actividades_crear_propias==0){
+			$this->accesoDenegado();
+			return;
+		}
 		$data['estados'] = new Actividades_estado();
 		$data['estados']->get();
 		$data['prioridades'] = new Actividades_prioridad();
 		$data['prioridades']->get();
 		$data['tipos'] = new Actividades_tipo();
 		$data['tipos']->get();
-		
+		$data['actividad'] = new Actividad();
+		$data['actividad']->usuario = new Usuario();
+		$data['actividad']->usuario->get_by_id($this->session->userdata('id'));
+		$data['actividad']->actividades_prioridad = new Actividades_prioridad();
+		$data['actividad']->actividades_prioridad->get_by_id(2);
+
 		$this->load->view('header');
 		$this->load->view('actividades/nuevo', $data);
 		$this->load->view('sidebars/actividades/nuevo');
@@ -110,6 +152,11 @@ class Actividades extends CI_Controller {
 	}
 
 	public function nuevo2(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->actividades_crear_todas==0 && $this->session->userdata('perfil')->actividades_crear_propias==0){
+			$this->accesoDenegado();
+			return;
+		}
 		// Recoger el formulario
 		$actividad = recogerFormulario($this->input);
 		// Recoger Tipo
@@ -179,6 +226,11 @@ class Actividades extends CI_Controller {
 	}
 
 	public function eliminar($id=null){
+		// Comprobar los permisos
+		if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_eliminar_propias==0 && $this->session->userdata('perfil')->actividades_eliminar_todas==0){
+			$this->accesoDenegado();
+			return;
+		}
 		$this->load->view('header');
 		$actividad = new Actividad();
 		if($id==null){
@@ -190,26 +242,30 @@ class Actividades extends CI_Controller {
 				$this->load->view('errores/error404');
 				$this->load->view('sidebars/error404');
 			}else{
-				if($data['actividad']->usuario->id != $this->session->userdata('id')){
-					$data['error']="No puedes eliminar una actividad que no te pertenezca.";
-					$this->load->view('actividades/ver', $data);
-					$this->load->view('sidebars/actividades/ver');
-				}else{
-					if($actividad->delete()){
-						$data=array("success"=>"Actividad eliminada");
-					}else{
-						$data['error']="No ha podido eliminarse la actividad";
-						$data['actividad']['id']=$id;
-					}
-					$this->load->view('actividades/eliminar', $data);
-					$this->load->view('sidebars/actividades/eliminar');
+				// Comprobar los permisos
+				if($actividad->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_eliminar_todas==0){
+					$this->accesoDenegado();
+					return;
 				}
+				if($actividad->delete()){
+					$data=array("success"=>"Actividad eliminada");
+				}else{
+					$data['error']="No ha podido eliminarse la actividad";
+					$data['actividad']['id']=$id;
+				}
+				$this->load->view('actividades/eliminar', $data);
+				$this->load->view('sidebars/actividades/eliminar');
 			}
 			$this->load->view('footer');
 		}
 	}
 
 	public function editar($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->actividades_editar_todas==0 && $this->session->userdata('perfil')->actividades_editar_propias==0){
+			$this->accesoDenegado();
+			return;
+		}
 		$this->load->view('header');
 		if($id==null){
 			$this->load->view('errores/error404');
@@ -222,20 +278,19 @@ class Actividades extends CI_Controller {
 				$this->load->view('errores/error404');
 				$this->load->view('sidebars/error404');
 			}else{
-				if($data['actividad']->usuario->id != $this->session->userdata('id')){
-					$data['error']="No puedes editar una actividad que no te pertenezca.";
-					$this->load->view('actividades/ver', $data);
-					$this->load->view('sidebars/actividades/ver');
-				}else{
-					$data['estados'] = new Actividades_estado();
-					$data['estados']->get();
-					$data['prioridades'] = new Actividades_prioridad();
-					$data['prioridades']->get();
-					$data['tipos'] = new Actividades_tipo();
-					$data['tipos']->get();
-					$this->load->view('actividades/editar', $data);
-					$this->load->view('sidebars/actividades/editar');
+				// Comprobar los permisos
+				if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
+					$this->accesoDenegado();
+					return;
 				}
+				$data['estados'] = new Actividades_estado();
+				$data['estados']->get();
+				$data['prioridades'] = new Actividades_prioridad();
+				$data['prioridades']->get();
+				$data['tipos'] = new Actividades_tipo();
+				$data['tipos']->get();
+				$this->load->view('actividades/editar', $data);
+				$this->load->view('sidebars/actividades/editar');
 			}
 		}
 		$this->load->view('footer');
@@ -243,10 +298,20 @@ class Actividades extends CI_Controller {
 	}
 
 	public function editar2($id=null){
-		// Recoger el formulario
-		$actividadEditada = recogerFormulario($this->input);
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->actividades_editar_todas==0 && $this->session->userdata('perfil')->actividades_editar_propias==0){
+			$this->accesoDenegado();
+			return;
+		}
 		$actividad = new Actividad();
 		$actividad->get_by_id($id);
+		// Comprobar los permisos
+		if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
+			$this->accesoDenegado();
+			return;
+		}
+		// Recoger el formulario
+		$actividadEditada = recogerFormulario($this->input);
 		$actividad->asunto = $actividadEditada->asunto;
 		$actividad->inicio = $actividadEditada->inicio;
 		$actividad->fin = $actividadEditada->fin;
@@ -339,11 +404,11 @@ class Actividades extends CI_Controller {
 			$config['per_page'] = $limit;
 		}else{
 			$data['listaActividades']
-				->where_related_usuario('id', $this->session->userdata('id'))
-				->group_start()
-					->ilike('asunto', $consulta)
-					->or_ilike('descripcion', $consulta)
-				->group_end()
+			->where_related_usuario('id', $this->session->userdata('id'))
+			->group_start()
+			->ilike('asunto', $consulta)
+			->or_ilike('descripcion', $consulta)
+			->group_end()
 			->get();
 			$total = $data['listaActividades']->result_count();
 			$config['per_page'] = $limit = $total;

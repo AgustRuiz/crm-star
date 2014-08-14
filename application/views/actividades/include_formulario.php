@@ -137,15 +137,74 @@
 			</div><!-- Fin de modal de búsqueda de contacto -->
 		</div>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<div class="form-group required">
-		<label for="txtAsuntoUsuario" class="col-sm-2 control-label">Usuario</label>
+		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario</label>
 		<div class="col-sm-10">
-			<div class="input-group col-sm-12 col-xs-12 pull-left">
-				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?=$this->session->userdata('id');?>"/>
-				<input type="text" class="form-control" id="txtAsuntoUsuario" name="txtAsuntoUsuario" placeholder="" value="<?=trim($this->session->userdata('nombre').' '.$this->session->userdata('apellidos'))?>" readonly="readonly"/>
+			<? if($this->session->userdata('perfil')->actividades_crear_todas==1){ ?>
+			<div class="input-group col-sm-11 col-xs-11 pull-left">
+				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($actividad) && $actividad->usuario->result_count()!=0) echo $actividad->usuario->id; ?>"/>
+				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($actividad) && $actividad->usuario->result_count()!=0) echo trim($actividad->usuario->nombre.' '.$actividad->usuario->apellidos);?>" readonly="readonly"/>
+				<span class="input-group-addon" onclick="abrirModalUsuarioResponsable()"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
+			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearUsuario();">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+			<!-- Modal búsqueda de usuario -->
+			<div class="modal fade" id="modalUsuarioResponsable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+							<h4>Usuario</h4>
+						</div>
+						<iframe class="iframe-modal" id="iframeModalUsuarioResponsable"></iframe>
+					</div>
+				</div>
+			</div><!-- Fin de modal de búsqueda de usuario -->
+			<? }else{ ?>
+			<div class="input-group col-sm-12 col-xs-12 pull-left">
+				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($actividad) && $actividad->usuario->result_count()!=0) echo $actividad->usuario->id; ?>"/>
+				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($actividad) && $actividad->usuario->result_count()!=0) echo trim($actividad->usuario->nombre.' '.$actividad->usuario->apellidos);?>" readonly="readonly"/>
+			</div>
+			<? } ?>
 		</div>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<div class="form-group required">
 		<label for="txtDescripcion" class="col-sm-2 control-label">Descripción</label>
 		<div class="col-sm-10">
