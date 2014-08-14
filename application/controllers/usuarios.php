@@ -177,19 +177,31 @@ class Usuarios extends CI_Controller {
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
 		}else{
-			$usuario->get_by_id($id);
-			if($usuario->result_count()==0){
-				$this->load->view('errores/error404');
-				$this->load->view('sidebars/error404');
-			}else{
-				if($usuario->delete()){
-					$data=array("success"=>"Usuario eliminado");
-				}else{
-					$data['error']="No ha podido eliminarse el usuario";
-					$data['usuario']['id']=$id;
-				}
+			if($id==1){
+				$data['error']="No puede eliminarse el usuario <strong>admin</strong>.";
+				$data['usuario']['id']=$id;
 				$this->load->view('usuarios/eliminar', $data);
 				$this->load->view('sidebars/usuarios/eliminar');
+			}else if($id==$this->session->userdata('id')){
+				$data['error']="No puedes eliminar tu propio usuario.";
+				$data['usuario']['id']=$id;
+				$this->load->view('usuarios/eliminar', $data);
+				$this->load->view('sidebars/usuarios/eliminar');
+			}else{	
+				$usuario->get_by_id($id);
+				if($usuario->result_count()==0){
+					$this->load->view('errores/error404');
+					$this->load->view('sidebars/error404');
+				}else{
+					if($usuario->delete()){
+						$data=array("success"=>"Usuario eliminado");
+					}else{
+						$data['error']="No ha podido eliminarse el usuario";
+						$data['usuario']['id']=$id;
+					}
+					$this->load->view('usuarios/eliminar', $data);
+					$this->load->view('sidebars/usuarios/eliminar');
+				}
 			}
 			$this->load->view('footer');
 		}

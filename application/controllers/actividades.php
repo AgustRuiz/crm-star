@@ -144,6 +144,12 @@ class Actividades extends CI_Controller {
 		$data['actividad']->actividades_prioridad = new Actividades_prioridad();
 		$data['actividad']->actividades_prioridad->get_by_id(2);
 
+		if(isset($_GET['contacto'])){
+			$data['actividad']->contacto = new Contacto();
+			$data['actividad']->contacto->get_by_id($_GET['contacto']);
+		}
+
+
 		$this->load->view('header');
 		$this->load->view('actividades/nuevo', $data);
 		$this->load->view('sidebars/actividades/nuevo');

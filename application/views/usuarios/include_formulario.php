@@ -3,7 +3,7 @@
 	<div class="form-group required">
 		<label for="txtNombre" class="col-sm-2 control-label" title="Campo obligatorio">Nombre</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre del usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->nombre; ?>"/>
+			<input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre del usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->nombre; ?>" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -21,13 +21,16 @@
 	<div class="form-group required">
 		<label for="txtNick" class="col-sm-2 control-label" title="Campo obligatorio">Identificador</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="txtNick" name="txtNick" required="required" placeholder="Identificador de usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->nick; ?>"/>
+			<input type="text" class="form-control" id="txtNick" name="txtNick" required="required" placeholder="Identificador de usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->nick; ?>" <?if(isset($usuario) && $usuario->id==1) echo 'readonly="readonly"'; ?>/>
 		</div>
 	</div>
 	<div class="form-group required">
 		<label for="cmbPerfil" class="col-sm-2 control-label" title="Campo obligatorio">Perfil de usuario</label>
 		<div class="col-sm-10">
-			<select class="form-control" id="cmbPerfil" name="cmbPerfil">
+			<?if(isset($usuario) && $usuario->id==1) { ?>
+			<input type="text" class="form-control" required="required" value="<?=$usuario->perfil->nombre; ?>" readonly="readonly"/>
+			<? }else{ ?>
+			<select class="form-control" id="cmbPerfil" name="cmbPerfil" >
 				<?php
 				foreach ($perfiles as $perfil) {
 					if(isset($usuario) && $usuario->perfil->id == $perfil->id){
@@ -38,11 +41,15 @@
 				}
 				?>
 			</select>
+			<? } ?>
 		</div>
 	</div>
 	<div class="form-group required">
 		<label for="cmbEstado" class="col-sm-2 control-label" title="Campo obligatorio">Estado de usuario</label>
 		<div class="col-sm-10">
+			<?if(isset($usuario) && $usuario->id==1) { ?>
+			<input type="text" class="form-control" required="required" value="<?=$usuario->usuarios_estado->estado; ?>" readonly="readonly"/>
+			<? }else{ ?>
 			<select class="form-control" id="cmbEstado" name="cmbEstado">
 				<?php
 				foreach ($estados as $estado) {
@@ -54,6 +61,7 @@
 				}
 				?>
 			</select>
+			<? } ?>
 		</div>
 	</div>
 	<hr/>
