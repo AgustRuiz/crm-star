@@ -26,7 +26,7 @@ class Campanyas extends CI_Controller {
 
 	public function listar($offset='0'){
 		// Comprobar los permisos
-		if($this->session->userdata('perfil')->campanyas_listar==0){
+		if($this->session->userdata('perfil')->campanyas_listar_todas==0){
 			$this->accesoDenegado();
 			return;
 		}

@@ -13,7 +13,7 @@ class Actividades extends CI_Controller {
 	}
 
 	public function index(){
-		$this->listar();
+		$this->listarUsuario();
 	}
 
 	public function listar($offset=0){

@@ -81,7 +81,7 @@ class Contactos extends CI_Controller {
 
 	public function nuevo(){
 		// Comprobar los permisos
-		if($this->session->userdata('perfil')->contactos_nuevo==0){
+		if($this->session->userdata('perfil')->contactos_crear==0){
 			$this->accesoDenegado();
 			return;
 		}
@@ -97,7 +97,7 @@ class Contactos extends CI_Controller {
 
 	public function nuevo2(){
 		// Comprobar los permisos
-		if($this->session->userdata('perfil')->contactos_nuevo==0){
+		if($this->session->userdata('perfil')->contactos_crear==0){
 			$this->accesoDenegado();
 			return;
 		}

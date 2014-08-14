@@ -1,7 +1,7 @@
 <div class="col-xs-6 col-sm-3 sidebar-offcanvas affix-top" id="sidebar" role="navigation">
 	<div class="list-group">
-		<a href="<?=$this->config->base_url()?>campanyas/listarUsuario" class="list-group-item">Listar mis campañas</a>
-		<a href="<?=$this->config->base_url()?>campanyas" class="list-group-item">Listar todas las campañas</a>
+		<a href="<?=$this->config->base_url()?>campanyas" class="list-group-item">Listar mis campañas</a>
+		<a href="<?=$this->config->base_url()?>campanyas/listar" class="list-group-item">Listar todas las campañas</a>
 		<a href="<?=$this->config->base_url()?>campanyas/nuevo" class="list-group-item">Nueva campaña</a>
 		<a href="#" class="list-group-item active">Editar campaña</a>
 		<a href="#" class="list-group-item" data-toggle="modal" data-target="#modalEliminar">Eliminar campaña</a>

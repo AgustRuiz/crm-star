@@ -263,7 +263,7 @@
 				<div class="container-fluid ficha">
 					<div class="row clearfix">
 						<div class="col-md-6 col-xs-6 text-right titulo">Listar</div>
-						<div class="col-md-6 col-xs-6 dato"><?if($perfil->permisos_listar==1){?>
+						<div class="col-md-6 col-xs-6 dato"><?if($perfil->perfiles_listar==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
 							<span class="text-danger"><span class="glyphicon glyphicon-unchecked" title="Permitido"></span> NO</span>
