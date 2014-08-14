@@ -65,7 +65,7 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="<?=$this->config->base_url()?>perfiles/verPerfil/<?=$this->session->userdata('perfil')->id?>">Tu perfil: <strong><?=$this->session->userdata('perfil')->nombre?></strong></a></li>
+							<li><a href="<?=$this->config->base_url()?>perfiles/miPerfil">Tu perfil: <strong><?=$this->session->userdata('perfil')->nombre?></strong></a></li>
 							<li class="divider"></li>
 							<li><a href="#">Cambiar contraseña</a></li>
 							<li><a href="#">Configuración</a></li>

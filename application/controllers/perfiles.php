@@ -93,25 +93,19 @@ class Perfiles extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function verPerfil($id=null){
+	public function miPerfil(){
 		$this->load->view('header');
-		if($id==null){
+		$perfil = new Perfil();
+		$perfil->get_by_id($this->session->userdata('id'));
+
+		$data['perfil']=$perfil;
+
+		if($perfil->result_count()>0){
+			$this->load->view('perfiles/verPerfil', $data);
+			$this->load->view('sidebars/perfiles/ver');
+		}else{
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
-		}else{
-
-			$perfil = new Perfil();
-			$perfil->get_by_id($id);
-
-			$data['perfil']=$perfil;
-
-			if($perfil->result_count()>0){
-				$this->load->view('perfiles/verPerfil', $data);
-				$this->load->view('sidebars/perfiles/ver');
-			}else{
-				$this->load->view('errores/error404');
-				$this->load->view('sidebars/error404');
-			}
 		}
 		$this->load->view('footer');
 	}
