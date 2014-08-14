@@ -13,11 +13,24 @@ class Contactos extends CI_Controller {
 		$this->load->library('pagination');
 	}
 
+	private function accesoDenegado(){
+		$this->load->view('header');
+		$this->load->view('errores/accesoDenegado');
+		$this->load->view('sidebars/contactos/index');
+		$this->load->view('footer');
+	}
+
 	public function index(){
 		$this->listar();
 	}
 
 	public function listar($offset='0'){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->contactos_listar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$limit = $this->Configuration_model->rowsPerPage();
 
 		// Obtener listado (parcial)
@@ -47,6 +60,12 @@ class Contactos extends CI_Controller {
 	}
 
 	public function ver($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->contactos_listar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 		$contacto = new Contacto();
 		$data['contacto']=$contacto->get_by_id($id);
@@ -61,6 +80,12 @@ class Contactos extends CI_Controller {
 	}
 
 	public function nuevo(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->contactos_nuevo==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 		$estados = new Contactos_estado();
 		$estados->order_by('id', 'asc');
@@ -71,6 +96,12 @@ class Contactos extends CI_Controller {
 	}
 
 	public function nuevo2(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->contactos_nuevo==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		// Recoger formulario
 		$contacto = recogerFormulario($this->input);
 		// Recoger estado
@@ -120,6 +151,12 @@ class Contactos extends CI_Controller {
 	}
 
 	public function eliminar($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->contactos_eliminar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 
 		$contacto = new Contacto();
@@ -152,6 +189,12 @@ class Contactos extends CI_Controller {
 	}
 
 	public function editar($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->contactos_editar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 		if($id==null){
 			$this->load->view('errores/error404');
@@ -173,6 +216,11 @@ class Contactos extends CI_Controller {
 	}
 
 	public function editar2($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->contactos_editar==0){
+			$this->accesoDenegado();
+			return;
+		}
 		// Recuperar contacto actual
 		$contacto = new Contacto();
 		$contacto->get_by_id($id);

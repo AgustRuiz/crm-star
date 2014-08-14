@@ -13,11 +13,24 @@ class Campanyas extends CI_Controller {
 		$this->load->library('pagination');
 	}
 
+	private function accesoDenegado(){
+		$this->load->view('header');
+		$this->load->view('errores/accesoDenegado');
+		$this->load->view('sidebars/campanyas/index');
+		$this->load->view('footer');
+	}
+
 	public function index(){
-		$this->listar();
+		$this->listarUsuario();
 	}
 
 	public function listar($offset='0'){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->campanyas_listar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
 
@@ -78,6 +91,12 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function nuevo(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->campanyas_crear==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$data['estados']=new Campanyas_estado();
 		$data['estados']->get();
 		$data['tipos']=new Campanyas_tipo();
@@ -90,6 +109,12 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function nuevo2(){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->campanyas_crear==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		// Recoger el formulario
 		$campanya = recogerFormulario($this->input);
 		// Recoger el tipo de campaña
@@ -137,6 +162,12 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function ver($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->campanyas_listar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 		
 		if($id==null){
@@ -157,6 +188,12 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function editar($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->campanyas_editar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 
 		$data['estados']=new Campanyas_estado();
@@ -179,6 +216,12 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function editar2($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->campanyas_editar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		// Recoger el formulario
 		$campanya = new Campanya();
 		$campanya->get_by_id($id);
@@ -236,6 +279,12 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function eliminar($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->campanyas_eliminar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 		$campanya = new Campanya();
 		if($id==null){

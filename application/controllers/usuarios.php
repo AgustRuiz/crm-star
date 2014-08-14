@@ -13,6 +13,13 @@ class Usuarios extends CI_Controller {
 		$this->load->library('pagination');
 	}
 
+	private function accesoDenegado(){
+		$this->load->view('header');
+		$this->load->view('errores/accesoDenegado');
+		$this->load->view('sidebars/usuarios/index');
+		$this->load->view('footer');
+	}
+
 	public function index(){
 		$this->listar();
 	}
@@ -20,10 +27,7 @@ class Usuarios extends CI_Controller {
 	public function listar($offset='0'){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_listar==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 
@@ -60,10 +64,7 @@ class Usuarios extends CI_Controller {
 	public function ver($id=null){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_listar==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 
@@ -92,10 +93,7 @@ class Usuarios extends CI_Controller {
 	public function nuevo(){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_crear==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 
@@ -114,10 +112,7 @@ class Usuarios extends CI_Controller {
 	public function nuevo2(){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_crear==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 		
@@ -172,10 +167,7 @@ class Usuarios extends CI_Controller {
 	public function eliminar($id=null){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_eliminar==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 		
@@ -206,10 +198,7 @@ class Usuarios extends CI_Controller {
 	public function editar($id=null){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_editar==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 		
@@ -234,10 +223,7 @@ class Usuarios extends CI_Controller {
 	public function editar2($id=null){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_editar==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 
@@ -301,10 +287,7 @@ class Usuarios extends CI_Controller {
 	public function password($id=null){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_editar==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
+			$this->accesoDenegado();
 			return;
 		}
 
@@ -336,15 +319,6 @@ class Usuarios extends CI_Controller {
 	}
 
 	public function include_busqueda_usuario($offset='0'){
-		// Comprobar los permisos
-		if($this->session->userdata('perfil')->usuarios_listar==0){
-			$this->load->view('header');
-			$this->load->view('errores/error403');
-			$this->load->view('sidebars/usuarios/index');
-			$this->load->view('footer');
-			return;
-		}
-
 		$consulta=null;
 		if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
 			$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));

@@ -13,12 +13,26 @@ class Perfiles extends CI_Controller {
 		$this->load->library('pagination');
 	}
 
+	private function accesoDenegado(){
+		$this->load->view('header');
+		$this->load->view('errores/accesoDenegado');
+		$this->load->view('sidebars/perfiles/ver');
+		$this->load->view('footer');
+	}
+
 	public function index(){
 		$this->listar();
 
 	}
 
 	public function listar($offset='0'){
+
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->perfiles_listar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$limit = $this->Configuration_model->rowsPerPage();
 
 		// Obtener listado (parcial)
@@ -51,6 +65,12 @@ class Perfiles extends CI_Controller {
 	}
 
 	public function ver($id=null){
+		// Comprobar los permisos
+		if($this->session->userdata('perfil')->perfiles_listar==0){
+			$this->accesoDenegado();
+			return;
+		}
+
 		$this->load->view('header');
 		if($id==null){
 			$this->load->view('errores/error404');
@@ -73,50 +93,28 @@ class Perfiles extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function nuevo(){
-		// Cargar las vistas
+	public function verPerfil($id=null){
 		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/perfiles/nuevo');
+		if($id==null){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
+		}else{
+
+			$perfil = new Perfil();
+			$perfil->get_by_id($id);
+
+			$data['perfil']=$perfil;
+
+			if($perfil->result_count()>0){
+				$this->load->view('perfiles/verPerfil', $data);
+				$this->load->view('sidebars/perfiles/ver');
+			}else{
+				$this->load->view('errores/error404');
+				$this->load->view('sidebars/error404');
+			}
+		}
 		$this->load->view('footer');
 	}
-
-	public function nuevo2(){
-		// Cargar las vistas
-		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/perfiles/nuevo');
-		$this->load->view('footer');
-	}
-
-	public function eliminar($id=null){
-		// Cargar las vistas
-		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/perfiles/eliminar');
-		$this->load->view('footer');
-	}
-
-	public function editar($id=null){
-		// Cargar las vistas
-		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/perfiles/editar');
-		$this->load->view('footer');
-	}
-
-	public function editar2($id=null){
-		// Cargar las vistas
-		$this->load->view('header');
-		$this->load->view('noDesarrollado');
-		$this->load->view('sidebars/perfiles/editar');
-		$this->load->view('footer');
-	}
-}
-
-
-/* FUNCIONES AUXILIARES */
-function recogerFormulario($input, $id=null){
 }
 
 /* End of file perfiles.php */
