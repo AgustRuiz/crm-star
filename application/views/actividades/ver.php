@@ -57,7 +57,7 @@
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Campaña</div>
 						<div class="col-md-10 col-xs-9 dato">
-						<?php if($actividad->campanya->count()==1){?>
+							<?php if($actividad->campanya->count()==1){?>
 							<a href="<?=$this->config->base_url()?>campanyas/ver/<?=$actividad->campanya->id?>"><?=$actividad->campanya->nombre?></a>
 							<?php } else { ?>
 							<em>Sin campaña asociada</em>
@@ -76,9 +76,54 @@
 						<div class="col-md-2 col-xs-3 text-right titulo">Resultado</div>
 						<div class="col-md-10 col-xs-9 dato"><?=$actividad->resultado?></div>
 					</div>
-
-
-
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend class="row">Alertas</legend>
+				<div class="row clearfix">
+					<table class="table table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Asunto</th>
+								<th>Fecha y hora</th>
+								<th colspan="2" class="text-center">Notificaciones</th>
+								<th class="text-center">Visualizada</th>
+							</tr>
+						</thead>
+						<tbody id="contenedor">
+							<?php if($actividad->alerta->result_count()>0) { foreach ($actividad->alerta as $fila) { ?>
+							<tr <? if(time()-strtotime($fila->fechaHora)>0) echo 'class="pasado"'; else echo 'class="pendiente"';?>>
+								<td><?=$fila->id?></td>
+								<td><a href="<?=$this->config->base_url()?>alertas/ver/<?=$fila->id?>"><?=$fila->asunto?></a></td>
+								<td><?=date("d-m-Y H:i", strtotime($fila->fechaHora));?></td>
+								<td class="text-right">
+									<? if($fila->emergente==1) { ?>
+									<span class="glyphicon glyphicon-bell" title="Notificación emergente"></span>
+									<? } else { ?>
+									<!-- <span class="glyphicon glyphicon-ban-circle"></span> -->
+									<? } ?>
+								</td>
+								<td class="text-left">
+									<? if($fila->email==1) { ?>
+									<span class="glyphicon glyphicon-envelope" title="Aviso por correo electrónico"></span>
+									<? } else { ?>
+									<!-- <span class="glyphicon glyphicon-ban-circle"></span> -->
+									<? } ?>
+								</td>
+								<td class="text-center">
+									<? if(time()-strtotime($fila->fechaHora)>0 && $fila->visualizado==1) { ?>
+									<span class="glyphicon glyphicon-eye-open" title="Visualizado"></span>
+									<? } ?>
+								</td>
+							</tr>
+							<?php } } else { ?>
+							<tr>
+								<td colspan="9" class="text-center"><em>No hay alertas programadas</em></td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
 				</div>
 			</fieldset>
   </div><!--/row-->
