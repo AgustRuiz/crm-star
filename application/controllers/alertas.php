@@ -70,8 +70,13 @@ class Alertas extends CI_Controller {
 	}
 
 	public function nuevo(){
+		$data['alerta'] = new Alerta();
+		if(isset($_GET['actividad'])){
+			$data['alerta']->actividad =  new Actividad();
+			$data['alerta']->actividad->get_by_id($_GET['actividad']);
+		}
 		$this->load->view('header');
-		$this->load->view('alertas/nuevo');
+		$this->load->view('alertas/nuevo', $data);
 		$this->load->view('sidebars/alertas/nuevo');
 		$this->load->view('footer');
 		$this->load->view("alertas/js/include_formulario");

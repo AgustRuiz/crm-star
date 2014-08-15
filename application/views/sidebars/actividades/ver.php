@@ -21,6 +21,7 @@
 		</div> <!-- Fin Modal eliminar -->
 	</div>
 	<div class="list-group">
+		<a href="<?=$this->config->base_url()?>alertas/nuevo?actividad=<?=$actividad->id?>" class="list-group-item">Nueva alerta para esta actividad</a>
 	</div>
 </div><!--/span-->
 </div><!--/row-->
