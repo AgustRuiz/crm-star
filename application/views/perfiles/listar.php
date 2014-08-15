@@ -24,11 +24,11 @@
 							?></td>
 						</tr>
 						<?php } } else { ?>
-						<tr><td colspan="2" class="text-center"><em>No hay perfiles de usuario</em></td></tr>
+						<tr><td colspan="3" class="text-center"><em>No hay perfiles de usuario</em></td></tr>
 						<?php } ?>
 					</tbody>
 					<tfoot>	
-						<tr><th colspan="2">
+						<tr><th colspan="3">
 							<?=$initialRow?>-<?=$finalRow?> de <?=$numContacts?>	
 							<ul class="pagination pull-right" id="pagination">
 								<?=$pag_links;?>
