@@ -21,6 +21,7 @@
 		</div> <!-- Fin Modal eliminar -->
 	</div>
 	<div class="list-group">
+		<a href="<?=$this->config->base_url()?>actividades/nuevo?campanya=<?=$campanya->id?>" class="list-group-item">Nueva actividad para esta campaña</a>
 	</div>
 </div><!--/span-->
 </div><!--/row-->

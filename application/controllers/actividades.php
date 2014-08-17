@@ -143,6 +143,10 @@ class Actividades extends CI_Controller {
 		$data['actividad']->usuario->get_by_id($this->session->userdata('id'));
 		$data['actividad']->actividades_prioridad = new Actividades_prioridad();
 		$data['actividad']->actividades_prioridad->get_by_id(2);
+		if(isset($_GET['campanya'])){
+			$data['actividad']->campanya = new Campanya();
+			$data['actividad']->campanya->get_by_id($_GET['campanya']);
+		}
 
 		if(isset($_GET['contacto'])){
 			$data['actividad']->contacto = new Contacto();
