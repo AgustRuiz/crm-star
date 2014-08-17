@@ -163,13 +163,13 @@ class Campanyas extends CI_Controller {
 
 	public function ver($id=null){
 		// Comprobar los permisos
-		if($this->session->userdata('perfil')->campanyas_listar==0){
+		if($this->session->userdata('perfil')->campanyas_listar_todas==0){
 			$this->accesoDenegado();
 			return;
 		}
 
 		$this->load->view('header');
-		
+
 		if($id==null){
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');
@@ -177,6 +177,11 @@ class Campanyas extends CI_Controller {
 			$data['campanya'] = new Campanya();
 			$data['campanya']->get_by_id($id);
 			if($data['campanya']->result_count()>0){
+				// Comprobar los permisos
+				if($this->session->userdata('perfil')->campanyas_listar_propias==0){
+					$this->accesoDenegado();
+					return;
+				}
 				$this->load->view('campanyas/ver', $data);
 				$this->load->view('sidebars/campanyas/ver');
 			}else{

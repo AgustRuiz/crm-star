@@ -8,7 +8,7 @@
 	<!-- <meta name="author" content="Agustín Ruiz Linares"> -->
 	<!-- <link rel="shortcut icon" href="../../assets/ico/favicon.ico"> -->
 
-	<title>crm-star</title>
+	<title><?=$this->config->item('site_name')?></title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="<?=$this->config->base_url()?>css/bootstrap.min.css" rel="stylesheet">
