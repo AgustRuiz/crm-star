@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Actividades_prioridad extends DataMapper{
+class Prioridad extends DataMapper{
 
-	var $table = 'actividades_prioridades';	// Nombre de la tabla al mapear
+	var $table = 'prioridades';	// Nombre de la tabla al mapear
 	// var $model = 'template';	// Nombre del modelo
 	var $cascade_delete = false;
 
@@ -29,5 +29,5 @@ class Actividades_prioridad extends DataMapper{
 		);
 
 }
-/* End of file actividades_prioridad.php */
-/* Location: ./application/models/actividades_prioridad.php */
+/* End of file prioridad.php */
+/* Location: ./application/models/prioridad.php */

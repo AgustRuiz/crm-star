@@ -57,7 +57,7 @@
 			<select class="form-control" id="cmbPrioridad" name="cmbPrioridad">
 				<?php
 				foreach ($prioridades as $prioridad) {
-					if(isset($actividad) && $prioridad->id == $actividad->actividades_prioridad->id){
+					if(isset($actividad) && $prioridad->id == $actividad->prioridad->id){
 						echo '<option value="'.$prioridad->id.'" selected="selected">'.$prioridad->prioridad.'</option>';
 					}else{
 						if(!isset($actividad) && $prioridad->id == 2){

@@ -15,7 +15,7 @@ class Actividad extends DataMapper{
 	} 
 
 	// Relaciones
-	public $has_one = array('actividades_tipo', 'actividades_prioridad', 'actividades_estado', 'campanya', 'contacto', 'usuario');
+	public $has_one = array('actividades_tipo', 'prioridad', 'actividades_estado', 'campanya', 'contacto', 'usuario');
 	public $has_many = array('alerta');
 
 	// Validación de campos

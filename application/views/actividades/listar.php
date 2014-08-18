@@ -18,7 +18,7 @@
 					<?php if(isset($listaActividades) && $listaActividades->result_count()>0) { foreach ($listaActividades as $fila) { ?>
 					<tr <? if(time()-strtotime($fila->inicio)>0) echo 'class="pasado"'; else echo 'class="pendiente"';?>>
 						<td><?=$fila->id?></td>
-						<td class="align-right"><span class="<?=$fila->actividades_prioridad->estilo_icono?>" title="<?=$fila->actividades_prioridad->etiqueta_icono?>"></span></td>
+						<td class="align-right"><span class="<?=$fila->prioridad->estilo_icono?>" title="<?=$fila->prioridad->etiqueta_icono?>"></span></td>
 						<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
 						<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a></td>
 						<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>

@@ -134,15 +134,15 @@ class Actividades extends CI_Controller {
 		}
 		$data['estados'] = new Actividades_estado();
 		$data['estados']->get();
-		$data['prioridades'] = new Actividades_prioridad();
+		$data['prioridades'] = new Prioridad();
 		$data['prioridades']->get();
 		$data['tipos'] = new Actividades_tipo();
 		$data['tipos']->get();
 		$data['actividad'] = new Actividad();
 		$data['actividad']->usuario = new Usuario();
 		$data['actividad']->usuario->get_by_id($this->session->userdata('id'));
-		$data['actividad']->actividades_prioridad = new Actividades_prioridad();
-		$data['actividad']->actividades_prioridad->get_by_id(2);
+		$data['actividad']->prioridad = new Prioridad();
+		$data['actividad']->prioridad->get_by_id(2);
 		if(isset($_GET['campanya'])){
 			$data['actividad']->campanya = new Campanya();
 			$data['actividad']->campanya->get_by_id($_GET['campanya']);
@@ -174,9 +174,9 @@ class Actividades extends CI_Controller {
 		$tipo->get_by_id($this->input->post('cmbTipo'));
 		$actividad->actividades_tipo = $tipo;
 		// Recoger Prioridad
-		$prioridad = new Actividades_prioridad();
+		$prioridad = new Prioridad();
 		$prioridad->get_by_id($this->input->post('cmbPrioridad'));
-		$actividad->actividades_prioridad = $prioridad;
+		$actividad->prioridad = $prioridad;
 		// Recoger Estado
 		$estado = new Actividades_estado();
 		$estado->get_by_id($this->input->post('cmbEstado'));
@@ -220,7 +220,7 @@ class Actividades extends CI_Controller {
 			$data['estados'] = new Actividades_estado();
 			$data['estados']->get();
 
-			$data['prioridades'] = new Actividades_prioridad();
+			$data['prioridades'] = new Prioridad();
 			$data['prioridades']->get();
 
 			$data['tipos'] = new Actividades_tipo();
@@ -295,7 +295,7 @@ class Actividades extends CI_Controller {
 				}
 				$data['estados'] = new Actividades_estado();
 				$data['estados']->get();
-				$data['prioridades'] = new Actividades_prioridad();
+				$data['prioridades'] = new Prioridad();
 				$data['prioridades']->get();
 				$data['tipos'] = new Actividades_tipo();
 				$data['tipos']->get();
@@ -332,9 +332,9 @@ class Actividades extends CI_Controller {
 		$tipo->get_by_id($this->input->post('cmbTipo'));
 		$actividad->actividades_tipo = $tipo;
 		// Recoger Prioridad
-		$prioridad = new Actividades_prioridad();
+		$prioridad = new Prioridad();
 		$prioridad->get_by_id($this->input->post('cmbPrioridad'));
-		$actividad->actividades_prioridad = $prioridad;
+		$actividad->prioridad = $prioridad;
 		// Recoger Estado
 		$estado = new Actividades_estado();
 		$estado->get_by_id($this->input->post('cmbEstado'));
@@ -384,7 +384,7 @@ class Actividades extends CI_Controller {
 			$data['estados'] = new Actividades_estado();
 			$data['estados']->get();
 
-			$data['prioridades'] = new Actividades_prioridad();
+			$data['prioridades'] = new Prioridad();
 			$data['prioridades']->get();
 
 			$data['tipos'] = new Actividades_tipo();

@@ -44,7 +44,7 @@
 						<div class="col-md-2 col-xs-3 text-right titulo">Tipo</div>
 						<div class="col-md-4 col-xs-9 dato"><span class="<?=$actividad->actividades_tipo->estilo?>"><?=$actividad->actividades_tipo->tipo?></span></div>
 						<div class="col-md-2 col-xs-3 text-right titulo">Prioridad</div>
-						<div class="col-md-4 col-xs-9 dato"><span class="<?=$actividad->actividades_prioridad->estilo_icono?>" title="<?=$actividad->actividades_prioridad->etiqueta_icono?>"></span> <span class="<?=$actividad->actividades_prioridad->estilo?>"><?=$actividad->actividades_prioridad->prioridad?></span></div>
+						<div class="col-md-4 col-xs-9 dato"><span class="<?=$actividad->prioridad->estilo_icono?>" title="<?=$actividad->prioridad->etiqueta_icono?>"></span> <span class="<?=$actividad->prioridad->estilo?>"><?=$actividad->prioridad->prioridad?></span></div>
 					</div>
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Estado</div>

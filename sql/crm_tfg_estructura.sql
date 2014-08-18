@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-08-2014 a las 20:52:54
+-- Tiempo de generación: 18-08-2014 a las 12:07:11
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ci_actividades` (
   `resultado` text COLLATE latin1_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -49,21 +49,6 @@ CREATE TABLE IF NOT EXISTS `ci_actividades_estados` (
   `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=7 ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ci_actividades_prioridades`
---
-
-CREATE TABLE IF NOT EXISTS `ci_actividades_prioridades` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `prioridad` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
-  `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
-  `estilo_icono` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
-  `etiqueta_icono` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -203,22 +188,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_estados` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_estado_id` (`actividades_estado_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ci_join_actividades_actividades_prioridades`
---
-
-CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_prioridades` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `actividad_id` bigint(20) unsigned NOT NULL,
-  `actividades_prioridad_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `actividad_id` (`actividad_id`),
-  KEY `actividades_prioridad_id` (`actividades_prioridad_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=21 ;
 
 -- --------------------------------------------------------
 
@@ -233,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_tipos` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_tipo_id` (`actividades_tipo_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=30 ;
 
 -- --------------------------------------------------------
 
@@ -248,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_alertas` (
   PRIMARY KEY (`id`),
   KEY `alerta_id` (`alerta_id`,`actividad_id`),
   KEY `actividad_id` (`actividad_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -278,7 +248,22 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_contactos` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`,`contacto_id`),
   KEY `contacto_id` (`contacto_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=21 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_actividades_prioridades`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_actividades_prioridades` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `actividad_id` bigint(20) unsigned NOT NULL,
+  `prioridad_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `actividad_id` (`actividad_id`),
+  KEY `actividades_prioridad_id` (`prioridad_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -293,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_usuarios` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`,`usuario_id`),
   KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -398,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_perfiles_usuarios` (
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
   KEY `perfil_id` (`perfil_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
 
 -- --------------------------------------------------------
 
@@ -445,8 +430,24 @@ CREATE TABLE IF NOT EXISTS `ci_perfiles` (
   `usuarios_crear` tinyint(1) NOT NULL DEFAULT '0',
   `usuarios_editar` tinyint(1) NOT NULL DEFAULT '0',
   `usuarios_eliminar` tinyint(1) NOT NULL DEFAULT '0',
+  `perfiles_listar` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=5 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_prioridades`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_prioridades` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `prioridad` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo_icono` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
+  `etiqueta_icono` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -470,7 +471,7 @@ CREATE TABLE IF NOT EXISTS `ci_usuarios` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nick` (`nick`),
   UNIQUE KEY `nif` (`nif`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 -- --------------------------------------------------------
 
@@ -495,13 +496,6 @@ CREATE TABLE IF NOT EXISTS `ci_usuarios_estados` (
 ALTER TABLE `ci_join_actividades_actividades_estados`
   ADD CONSTRAINT `ci_join_actividades_actividades_estados_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ci_join_actividades_actividades_estados_ibfk_2` FOREIGN KEY (`actividades_estado_id`) REFERENCES `ci_actividades_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `ci_join_actividades_actividades_prioridades`
---
-ALTER TABLE `ci_join_actividades_actividades_prioridades`
-  ADD CONSTRAINT `ci_join_actividades_actividades_prioridades_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ci_join_actividades_actividades_prioridades_ibfk_2` FOREIGN KEY (`actividades_prioridad_id`) REFERENCES `ci_actividades_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_actividades_actividades_tipos`
@@ -530,6 +524,13 @@ ALTER TABLE `ci_join_actividades_campanyas`
 ALTER TABLE `ci_join_actividades_contactos`
   ADD CONSTRAINT `ci_join_actividades_contactos_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ci_join_actividades_contactos_ibfk_2` FOREIGN KEY (`contacto_id`) REFERENCES `ci_contactos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_actividades_prioridades`
+--
+ALTER TABLE `ci_join_actividades_prioridades`
+  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_2` FOREIGN KEY (`prioridad_id`) REFERENCES `ci_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_actividades_usuarios`
@@ -582,15 +583,15 @@ ALTER TABLE `ci_join_contactos_contactos_estados`
 -- Filtros para la tabla `ci_join_perfiles_usuarios`
 --
 ALTER TABLE `ci_join_perfiles_usuarios`
-  ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_2` FOREIGN KEY (`perfil_id`) REFERENCES `ci_perfiles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_2` FOREIGN KEY (`perfil_id`) REFERENCES `ci_perfiles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_usuarios_usuarios_estados`
 --
 ALTER TABLE `ci_join_usuarios_usuarios_estados`
-  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_2` FOREIGN KEY (`usuarios_estado_id`) REFERENCES `ci_usuarios_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_usuarios_usuarios_estados_ibfk_2` FOREIGN KEY (`usuarios_estado_id`) REFERENCES `ci_usuarios_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
