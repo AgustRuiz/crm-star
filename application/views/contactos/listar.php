@@ -10,18 +10,18 @@
 					</tr>
 				</thead>
 				<tbody id="contenedor">
-					<form class="form-horizontal" role="form" method="post" action="<?=$this->config->base_url()?>index.php/contactos/listar/" accept-charset="utf-8">
-						<!-- Filtrar -->
-						<div class="input-group">
-							<input type="text" class="form-control" name="q" placeholder="Inserta aquí la cadena a buscar...">
+					<!-- Filtrar -->
+					<div class="input-group">
+						<form class="form-horizontal" role="form" method="post" action="<?=$this->config->base_url()?>index.php/contactos/listar/" accept-charset="utf-8">
+							<input type="text" class="form-control" name="filtro" id="cadenaBusqueda" placeholder="Inserta aquí la cadena a buscar..." value="<?=$config->contactos_filtro?>">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-								<button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-remove"></span></button>
-							</span>
-						</div>
-						<!-- /Filtrar -->
-					</form>
-					<?php if(isset($listaContactos)){ foreach ($listaContactos as $fila) { ?>
+							</form>
+							<button class="btn btn-default" onclick="$('#cadenaBusqueda').val(''); exit;"><span class="glyphicon glyphicon-remove"></span></button>
+						</span>
+					</div>
+					<!-- /Filtrar -->
+					<?php if(isset($listaContactos) && $listaContactos->result_count()>0){ foreach ($listaContactos as $fila) { ?>
 					<tr>
 						<td><?=$fila->id?></td>
 						<td><a href="<?=$this->config->base_url().'contactos/ver/'.$fila->id?>"><?=trim($fila->nombre.' '.$fila->apellidos)?></a></td>

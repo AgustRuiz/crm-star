@@ -26,15 +26,15 @@ class Configuracion extends DataMapper{
 			),
 		'contactos_columna' => array(
 			// 'label' => 'Filtro de contactos',
-			'rules' => array('trim', 'min_length' => 3, 'max_length' => 20, 'alpha_dash_dot'),
+			'rules' => array('trim', 'max_length' => 20),
 			),
 		'contactos_orden' => array(
 			// 'label' => 'Filtro de contactos',
-			'rules' => array('trim', 'min_length' => 3, 'max_length' => 4, 'alpha_dash_dot'),
+			'rules' => array('trim', 'max_length' => 4),
 			),
 		'contactos_filtro' => array(
 			// 'label' => 'Filtro de contactos',
-			'rules' => array('trim', 'min_length' => 3, 'max_length' => 256, 'alpha_dash_dot'),
+			'rules' => array('trim', 'max_length' => 256),
 			)
 		);
 
