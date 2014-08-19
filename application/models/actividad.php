@@ -36,7 +36,7 @@ class Actividad extends DataMapper{
 			'label' => 'Tipo de actividad',
 			'rules' => array('required')
 			),
-		'actividades_prioridad' => array(
+		'prioridad' => array(
 			'label' => 'Prioridad de la actividad',
 			'rules' => array('required')
 			),

@@ -237,7 +237,8 @@ class Actividades extends CI_Controller {
 
 	public function eliminar($id=null){
 		// Comprobar los permisos
-		if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_eliminar_propias==0 && $this->session->userdata('perfil')->actividades_eliminar_todas==0){
+		if($this->session->userdata('perfil')->actividades_eliminar_propias==0
+			&& $this->session->userdata('perfil')->actividades_eliminar_todas==0){
 			$this->accesoDenegado();
 			return;
 		}
@@ -316,7 +317,7 @@ class Actividades extends CI_Controller {
 		$actividad = new Actividad();
 		$actividad->get_by_id($id);
 		// Comprobar los permisos
-		if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
+		if($actividad->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
 			$this->accesoDenegado();
 			return;
 		}

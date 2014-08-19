@@ -27,12 +27,6 @@
 						<div class="col-md-4 col-xs-9 dato"><a href="<?=$this->config->base_url()?>perfiles/ver/<?=$usuario->perfil->id?>"><?=$usuario->perfil->nombre?></a></div>
 						<div class="col-md-2 col-xs-3 text-right titulo">Estado</div>
 						<div class="col-md-4 col-xs-9 dato"><span class="<?=$usuario->usuarios_estado->estilo?>"><?=$usuario->usuarios_estado->estado?></span></div>
-
-
-
-
-
-						
 					</div>
 				</div>
 			</fieldset>
@@ -112,11 +106,11 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Asunto</th>
+								<th colspan="2">Prioridad/Asunto</th>
 								<th>Campaña</th>
 								<th>Inicio</th>
 								<th>Tipo</th>
-								<th colspan="2">Prioridad/Estado</th>
+								<th>Estado</th>
 								<th>Contacto</th>
 							</tr>
 						</thead>
@@ -124,11 +118,11 @@
 							<?php foreach($usuario->actividad as $fila){ ?>
 							<tr <? if(time()-strtotime($fila->inicio)>0) echo 'class="pasado"'; else echo 'class="pendiente"';?>>
 								<td><?=$fila->id?></td>
+								<td><span class="<?=$fila->prioridad->estilo_icono?>" title="<?=$fila->prioridad->etiqueta_icono?>"></span></td>
 								<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
 								<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a></td>
 								<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
 								<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
-								<td><span class="<?=$fila->actividades_prioridad->estilo_icono?>" title="<?=$fila->actividades_prioridad->etiqueta_icono?>"></span></td>
 								<td><span class="<?=$fila->actividades_estado->estilo?>"><?=$fila->actividades_estado->estado?></span></td>
 								<td><a href="<?=$this->config->base_url()?>contactos/ver/<?=$fila->contacto->id?>"><?=trim($fila->contacto->nombre.' '.$fila->contacto->apellidos)?></a></td>
 							</tr>
