@@ -34,11 +34,38 @@ class Contactos extends CI_Controller {
 		$limit = $this->Configuration_model->rowsPerPage();
 
 		// Obtener listado (parcial)
-		$contactos = new Contacto();
-		$data['listaContactos'] = $contactos->get($limit, $offset);
+		$data['listaContactos'] = new Contacto();
+		if(isset($_GET['q'])){
+
+
+
+
+
+
+			$data['listaContactos']->ilike('nombre', $_GET['q']);
+			$data['listaContactos']->or_ilike('apellidos', $_GET['q']);
+			$data['listaContactos']->or_ilike('nif', $_GET['q']);
+			$data['listaContactos']->or_ilike('direccion', $_GET['q']);
+			$data['listaContactos']->or_ilike('ciudad', $_GET['q']);
+			$data['listaContactos']->or_ilike('provincia', $_GET['q']);
+			$data['listaContactos']->or_ilike('cp', $_GET['q']);
+			$data['listaContactos']->or_ilike('pais', $_GET['q']);
+			$data['listaContactos']->or_ilike('telfOficina', $_GET['q']);
+			$data['listaContactos']->or_ilike('telfMovil', $_GET['q']);
+			$data['listaContactos']->or_ilike('fax', $_GET['q']);
+			$data['listaContactos']->or_ilike('otrosDatos', $_GET['q']);
+			$data['listaContactos']->or_ilike_related_contactos_email('correo', $_GET['q']);
+
+			
+			$total = $data['listaContactos']->get()->result_count();
+			$data['listaContactos']->get($limit, $offset);
+
+		}else{
+			$data['listaContactos']->get($limit, $offset);
+			$total = $data['listaContactos']->count();
+		}
 
 		// Paginación
-		$total = $contactos->count();
 		$config['base_url'] = base_url().'contactos/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -46,7 +73,7 @@ class Contactos extends CI_Controller {
 		$this->pagination->initialize($config);
 		$data['pag_links'] = $this->pagination->create_links();
 		// Número de contactos
-		$data['numContacts'] = $total;
+		$data['numRows'] = $total;
 		$data['initialRow'] = $offset+1;
 		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
 		// Offset y Orden
