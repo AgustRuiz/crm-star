@@ -20,7 +20,7 @@
 							<button class="btn btn-default" onclick="$('#cadenaBusqueda').val(''); exit;"><span class="glyphicon glyphicon-remove"></span></button>
 						</span>
 					</div>
-					<!-- /Filtrar -->
+					<!-- Fin de Filtrar -->
 					<?php if(isset($listaContactos) && $listaContactos->result_count()>0){ foreach ($listaContactos as $fila) { ?>
 					<tr>
 						<td><?=$fila->id?></td>

@@ -57,7 +57,7 @@
 						<div class="col-md-2 col-xs-3 text-right titulo">Actividad</div>
 						<div class="col-md-10 col-xs-9 dato">
 							<? if($alerta->actividad->count() == 1) { ?>
-							<span class="<?=$alerta->actividad->actividades_prioridad->estilo_icono?>" title="<?=$alerta->actividad->actividades_prioridad->etiqueta_icono?>"></span>
+							<span class="<?=$alerta->actividad->prioridad->estilo_icono?>" title="<?=$alerta->actividad->prioridad->etiqueta_icono?>"></span>
 							<a href="<?=$this->config->base_url()?>actividades/ver/<?=$alerta->actividad->id?>"><?=$alerta->actividad->asunto?></a> (<?=$alerta->actividad->actividades_tipo->tipo?> con <a href="<?=$this->config->base_url()?>contactos/ver/<?=$alerta->actividad->contacto->id?>"><?=trim($alerta->actividad->contacto->nombre.' '.$alerta->actividad->contacto->apellidos)?></a>)
 							<? } else { ?>
 							<em>No asociado a ninguna actividad</em>
