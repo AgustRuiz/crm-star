@@ -126,8 +126,11 @@ class Usuarios extends CI_Controller {
 		$estado = new Usuarios_estado();
 		$estado->get_by_id($this->input->post('cmbEstado'));
 		$usuario->usuarios_estado = $estado;
+		// Nueva configuracion
+		$configuracion = new Configuracion();
+		$configuracion->filas = 8;
 
-		if($usuario->save(array($perfil, $estado))){
+		if($usuario->save(array($perfil, $estado, $configuracion))){
 			// Usuario creado correctamente
 			include('include_mail.php');
 			mail_altaUsuario($usuario->email, $usuario->nick, $usuario->password, $this->config->base_url());

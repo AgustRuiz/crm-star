@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-08-2014 a las 12:07:11
+-- Tiempo de generación: 22-08-2014 a las 03:24:20
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -122,6 +122,21 @@ CREATE TABLE IF NOT EXISTS `ci_campanyas_tipos` (
   `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_configuraciones`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_configuraciones` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `filas` smallint(6) NOT NULL DEFAULT '8',
+  `contactos_columna` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `contactos_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL,
+  `contactos_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
@@ -339,6 +354,19 @@ CREATE TABLE IF NOT EXISTS `ci_join_campanyas_usuarios` (
   KEY `campanya_id` (`campanya_id`),
   KEY `usuario_id` (`usuario_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=15 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_configuraciones_usuarios`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_configuraciones_usuarios` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` bigint(20) unsigned NOT NULL,
+  `configuracion_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`,`usuario_id`,`configuracion_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 

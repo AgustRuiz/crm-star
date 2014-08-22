@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-08-2014 a las 12:06:57
+-- Tiempo de generación: 22-08-2014 a las 03:24:41
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -209,6 +209,44 @@ INSERT INTO `ci_campanyas_tipos` (`id`, `tipo`, `estilo`) VALUES
 (5, 'Radio', 'tipo-campanya-radio'),
 (6, 'Televisión', 'tipo-campanya-television'),
 (7, 'Boletín de noticias', 'tipo-campanya-noticias');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_configuraciones`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_configuraciones` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `filas` smallint(6) NOT NULL DEFAULT '8',
+  `contactos_columna` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `contactos_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL,
+  `contactos_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=18 ;
+
+--
+-- Volcado de datos para la tabla `ci_configuraciones`
+--
+
+INSERT INTO `ci_configuraciones` (`id`, `filas`, `contactos_columna`, `contactos_orden`, `contactos_filtro`) VALUES
+(1, 8, '', '', 'otra cosa'),
+(2, 8, '', '', ''),
+(3, 8, '', '', ''),
+(4, 8, '', '', ''),
+(5, 8, '', '', ''),
+(6, 8, '', '', ''),
+(7, 8, '', '', ''),
+(8, 8, '', '', ''),
+(9, 8, '', '', ''),
+(10, 8, '', '', ''),
+(11, 8, '', '', ''),
+(12, 8, '', '', ''),
+(13, 8, '', '', ''),
+(14, 8, '', '', ''),
+(15, 8, '', '', ''),
+(16, 8, '', '', ''),
+(17, 8, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -602,6 +640,42 @@ INSERT INTO `ci_join_campanyas_usuarios` (`id`, `campanya_id`, `usuario_id`) VAL
 (12, 6, 1),
 (13, 7, 1),
 (14, 8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_configuraciones_usuarios`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_configuraciones_usuarios` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` bigint(20) unsigned NOT NULL,
+  `configuracion_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`,`usuario_id`,`configuracion_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=18 ;
+
+--
+-- Volcado de datos para la tabla `ci_join_configuraciones_usuarios`
+--
+
+INSERT INTO `ci_join_configuraciones_usuarios` (`id`, `usuario_id`, `configuracion_id`) VALUES
+(1, 1, 1),
+(2, 13, 2),
+(3, 14, 3),
+(4, 15, 4),
+(5, 16, 5),
+(6, 17, 6),
+(7, 18, 7),
+(8, 19, 8),
+(9, 20, 9),
+(10, 21, 10),
+(11, 22, 11),
+(12, 23, 12),
+(13, 24, 13),
+(14, 25, 14),
+(15, 26, 15),
+(16, 27, 16),
+(17, 28, 17);
 
 -- --------------------------------------------------------
 
