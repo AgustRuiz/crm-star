@@ -19,7 +19,7 @@ class Usuarios extends CI_Controller {
 		$this->load->view('sidebars/usuarios/index');
 		$this->load->view('footer');
 	}
-
+	
 	public function index(){
 		$this->listar();
 	}

@@ -24,6 +24,17 @@ class Contactos extends CI_Controller {
 		$this->listar();
 	}
 
+	public function ordenar($columna, $orden, $offset=0){
+		$config = new Configuracion();
+		$config->where_related_usuario('id', $this->session->userdata('id'))->get();
+		$config->contactos_columna = $columna;
+		$config->contactos_orden = $orden;
+		$config->save();
+
+		redirect('/contactos/listar/'.$offset);
+		// $this->listar($offset);
+	}
+
 	public function listar($offset='0'){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->contactos_listar==0){
@@ -37,7 +48,7 @@ class Contactos extends CI_Controller {
 		$data['config'] = new Configuracion();
 		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
 
-		$contactos = new Contacto();
+		// Filtro
 		if(isset($_POST['filtro'])){
 			// Configuración
 			$data['config']->contactos_filtro = $this->input->post('filtro');
@@ -45,9 +56,10 @@ class Contactos extends CI_Controller {
 		}
 
 		// Obtener listado (paginado)
+		$contactos = new Contacto();
 		if($data['config']->contactos_filtro!=""){
+			// Filtro
 			$cadenaBusqueda = $data['config']->contactos_filtro;
-			// Número total de resultados
 			$contactos->ilike('nombre', $cadenaBusqueda);
 			$contactos->or_ilike('apellidos', $cadenaBusqueda);
 			$contactos->or_ilike('nif', $cadenaBusqueda);
@@ -61,31 +73,11 @@ class Contactos extends CI_Controller {
 			$contactos->or_ilike('fax', $cadenaBusqueda);
 			$contactos->or_ilike('otrosDatos', $cadenaBusqueda);
 			$contactos->or_ilike_related_contactos_email('correo', $cadenaBusqueda);
-			$total = $contactos->get()->result_count();
-
-			// Consulta
-			$contactos->ilike('nombre', $cadenaBusqueda);
-			$contactos->or_ilike('apellidos', $cadenaBusqueda);
-			$contactos->or_ilike('nif', $cadenaBusqueda);
-			$contactos->or_ilike('direccion', $cadenaBusqueda);
-			$contactos->or_ilike('ciudad', $cadenaBusqueda);
-			$contactos->or_ilike('provincia', $cadenaBusqueda);
-			$contactos->or_ilike('cp', $cadenaBusqueda);
-			$contactos->or_ilike('pais', $cadenaBusqueda);
-			$contactos->or_ilike('telfOficina', $cadenaBusqueda);
-			$contactos->or_ilike('telfMovil', $cadenaBusqueda);
-			$contactos->or_ilike('fax', $cadenaBusqueda);
-			$contactos->or_ilike('otrosDatos', $cadenaBusqueda);
-			$contactos->or_ilike_related_contactos_email('correo', $cadenaBusqueda);
-			$data['listaContactos'] = $contactos->get($limit, $offset);
-		}else{
-			// Consulta
-			$data['listaContactos'] = $contactos->get($limit, $offset);
-			// Número de resultados
-			$total = $contactos->count();
 		}
+		$data['listaContactos'] = $contactos->include_related('contactos_estado')->order_by($data['config']->contactos_columna, $data['config']->contactos_orden)->get_paged($offset, $limit, TRUE);
 
 		// Paginación
+		$total = $contactos->paged->total_rows;
 		$config['base_url'] = base_url().'contactos/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;

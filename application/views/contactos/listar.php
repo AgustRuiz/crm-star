@@ -4,9 +4,47 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>#</th>
-						<th>Nombre</th>
-						<th>Estado</th>
+						<?
+						if($config->contactos_columna=='id'){
+							echo '<th class="active">';
+							if($config->contactos_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/id/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> #</a></th>';
+							}else if($config->contactos_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/id/asc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> #</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'contactos/ordenar/id/asc/'.$offset.'"> #</a></th>';
+						}
+						?>
+						
+						<?
+						if($config->contactos_columna=='nombre'){
+							echo '<th class="active">';
+							if($config->contactos_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/nombre/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Nombre</a></th>';
+							}else if($config->contactos_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/nombre/asc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Nombre</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'contactos/ordenar/nombre/asc/'.$offset.'"> Nombre</a></th>';
+						}
+						?>
+						
+						<?
+						if($config->contactos_columna=='contactos_estado_id'){
+							echo '<th class="active">';
+							if($config->contactos_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/contactos_estado_id/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Estado</a></th>';
+							}else if($config->contactos_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/contactos_estado_id/asc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Estado</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'contactos/ordenar/contactos_estado_id/asc/'.$offset.'"> Estado</a></th>';
+						}
+						?>
 					</tr>
 				</thead>
 				<tbody id="contenedor">

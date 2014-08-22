@@ -35,6 +35,10 @@ class Configuracion extends DataMapper{
 		'contactos_filtro' => array(
 			// 'label' => 'Filtro de contactos',
 			'rules' => array('trim', 'max_length' => 256),
+			),
+		'contactos_offset' => array(
+			// 'label' => 'Fila desde la que empezar a mostrar',
+			'rules' => array('trim'),
 			)
 		);
 
