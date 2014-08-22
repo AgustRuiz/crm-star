@@ -19,16 +19,16 @@
 						?>
 						
 						<?
-						if($config->contactos_columna=='nombre'){
+						if($config->contactos_columna=='apellidos'){
 							echo '<th class="active">';
 							if($config->contactos_orden=='asc'){
-								echo '<a href="'.$this->config->base_url().'contactos/ordenar/nombre/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Nombre</a></th>';
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/apellidos/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Apellidos, Nombre</a></th>';
 							}else if($config->contactos_orden=='desc'){
-								echo '<a href="'.$this->config->base_url().'contactos/ordenar/nombre/asc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Nombre</a></th>';
+								echo '<a href="'.$this->config->base_url().'contactos/ordenar/apellidos/asc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Apellidos, Nombre</a></th>';
 							}
 						}else{
 							echo '<th>';
-							echo '<a href="'.$this->config->base_url().'contactos/ordenar/nombre/asc/'.$offset.'"> Nombre</a></th>';
+							echo '<a href="'.$this->config->base_url().'contactos/ordenar/apellidos/asc/'.$offset.'"> Apellidos, Nombre</a></th>';
 						}
 						?>
 						
@@ -62,7 +62,7 @@
 					<?php if(isset($listaContactos) && $listaContactos->result_count()>0){ foreach ($listaContactos as $fila) { ?>
 					<tr>
 						<td><?=$fila->id?></td>
-						<td><a href="<?=$this->config->base_url().'contactos/ver/'.$fila->id?>"><?=trim($fila->nombre.' '.$fila->apellidos)?></a></td>
+						<td><a href="<?=$this->config->base_url().'contactos/ver/'.$fila->id?>"><?=trim($fila->apellidos.', '.$fila->nombre)?></a></td>
 						<td><span class="<?=$fila->contactos_estado->estilo;?>"><?=$fila->contactos_estado->estado;?></span></td>
 					</tr>
 					<?php } } else { ?>
