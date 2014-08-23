@@ -22,7 +22,7 @@ class Configuracion extends DataMapper{
 	public $validation = array(
 		'contactos_columna' => array(
 			// 'label' => 'Filtro de contactos',
-			'rules' => array('trim', 'max_length' => 20),
+			'rules' => array('trim', 'max_length' => 100),
 			),
 		'contactos_orden' => array(
 			// 'label' => 'Filtro de contactos',
@@ -34,7 +34,7 @@ class Configuracion extends DataMapper{
 			),
 		'usuarios_columna' => array(
 			// 'label' => 'Filtro de usuarios',
-			'rules' => array('trim', 'max_length' => 20),
+			'rules' => array('trim', 'max_length' => 100),
 			),
 		'usuarios_orden' => array(
 			// 'label' => 'Filtro de usuarios',
@@ -42,6 +42,42 @@ class Configuracion extends DataMapper{
 			),
 		'usuarios_filtro' => array(
 			// 'label' => 'Filtro de usuarios',
+			'rules' => array('trim', 'max_length' => 256),
+			),
+		'campanyas_columna' => array(
+			// 'label' => 'Filtro de campanyas',
+			'rules' => array('trim', 'max_length' => 100),
+			),
+		'campanyas_orden' => array(
+			// 'label' => 'Filtro de campanyas',
+			'rules' => array('trim', 'max_length' => 4),
+			),
+		'campanyas_filtro' => array(
+			// 'label' => 'Filtro de campanyas',
+			'rules' => array('trim', 'max_length' => 256),
+			),
+		'actividades_columna' => array(
+			// 'label' => 'Filtro de actividades',
+			'rules' => array('trim', 'max_length' => 100),
+			),
+		'actividades_orden' => array(
+			// 'label' => 'Filtro de actividades',
+			'rules' => array('trim', 'max_length' => 4),
+			),
+		'actividades_filtro' => array(
+			// 'label' => 'Filtro de actividades',
+			'rules' => array('trim', 'max_length' => 256),
+			),
+		'alertas_columna' => array(
+			// 'label' => 'Filtro de alertas',
+			'rules' => array('trim', 'max_length' => 100),
+			),
+		'alertas_orden' => array(
+			// 'label' => 'Filtro de alertas',
+			'rules' => array('trim', 'max_length' => 4),
+			),
+		'alertas_filtro' => array(
+			// 'label' => 'Filtro de alertas',
 			'rules' => array('trim', 'max_length' => 256),
 			)
 		);

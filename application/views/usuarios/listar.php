@@ -96,7 +96,7 @@
 						</span>
 					</div>
 					<!-- Fin de Filtrar -->
-					<?php if(isset($listaUsuarios)) { foreach ($listaUsuarios as $fila) { ?>
+					<?php if(isset($listaUsuarios) && $listaUsuarios->result_count()>0) { foreach ($listaUsuarios as $fila) { ?>
 						<tr>
 							<td><?=$fila->id?></td>
 							<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->id?>"><strong><?=$fila->apellidos?>, <?=$fila->nombre?></strong></a></td>

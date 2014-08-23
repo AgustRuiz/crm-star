@@ -24,6 +24,16 @@ class Campanyas extends CI_Controller {
 		$this->listarUsuario();
 	}
 
+	public function ordenar($columna, $orden, $offset=0, $destino='listarUsuario'){
+		$config = new Configuracion();
+		$config->where_related_usuario('id', $this->session->userdata('id'))->get();
+		echo $config->campanyas_columna = $columna;
+		$config->campanyas_orden = $orden;
+		$config->save();
+
+		redirect('/campanyas/'.$destino.'/'.$offset);
+	}
+
 	public function listar($offset='0'){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->campanyas_listar_todas==0){
@@ -31,14 +41,32 @@ class Campanyas extends CI_Controller {
 			return;
 		}
 
-		// Paginación
-		$limit = $this->Configuration_model->rowsPerPage();
+		// Configuración
+		$data['config'] = new Configuracion();
+		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
+
+		// Filtro
+		if(isset($_POST['filtro'])){
+			// Configuración
+			$data['config']->campanyas_filtro = $this->input->post('filtro');
+			$data['config']->save();
+		}
 
 		// Obtener listado (parcial)
+		$limit = $this->Configuration_model->rowsPerPage();
 		$campanyas = new Campanya();
-		$data['listaCampanyas'] = $campanyas->get($limit, $offset);
+		if($data['config']->campanyas_filtro!=""){
+			// Filtro
+			$cadenaBusqueda = $data['config']->campanyas_filtro;
+			$campanyas->ilike('nombre', $cadenaBusqueda);
+			$campanyas->or_ilike('objetivo', $cadenaBusqueda);
+			$campanyas->or_ilike('descripcion', $cadenaBusqueda);
+		}
+		$data['listaCampanyas'] =$campanyas->include_related('campanyas_tipo')->include_related('campanyas_estado')->include_related('usuario')->order_by($data['config']->campanyas_columna, $data['config']->campanyas_orden)->get_paged($offset, $limit, TRUE);
+
 
 		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
 		$total = $campanyas->count();
 		$config['base_url'] = base_url().'campanyas/listar/';
 		$config['total_rows'] = $total;
@@ -61,12 +89,35 @@ class Campanyas extends CI_Controller {
 	}
 
 	public function listarUsuario($offset='0'){
+		// Configuración
+		$data['config'] = new Configuracion();
+		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
+
+		// Filtro
+		if(isset($_POST['filtro'])){
+			// Configuración
+			$data['config']->campanyas_filtro = $this->input->post('filtro');
+			$data['config']->save();
+		}
+
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
+		
 
 		// Obtener listado (parcial)
+		$limit = $this->Configuration_model->rowsPerPage();
 		$campanyas = new Campanya();
-		$data['listaCampanyas'] = $campanyas->where_related_usuario('id', $this->session->userdata('id'))->get($limit, $offset);
+		if($data['config']->campanyas_filtro!=""){
+			// Filtro
+			$cadenaBusqueda = $data['config']->campanyas_filtro;
+			$campanyas->group_start();
+			$campanyas->ilike('nombre', $cadenaBusqueda);
+			$campanyas->or_ilike('objetivo', $cadenaBusqueda);
+			$campanyas->or_ilike('descripcion', $cadenaBusqueda);
+			$campanyas->group_end();
+		}
+		$campanyas->where_related_usuario('id', $this->session->userdata('id'));
+		$data['listaCampanyas'] =$campanyas->include_related('campanyas_tipo')->include_related('campanyas_estado')->include_related('usuario')->order_by($data['config']->campanyas_columna, $data['config']->campanyas_orden)->get_paged($offset, $limit, TRUE);
 
 		// Paginación
 		$total = $campanyas->result_count();

@@ -42,8 +42,6 @@ class Usuarios extends CI_Controller {
 			return;
 		}
 
-		$limit = $this->Configuration_model->rowsPerPage();
-
 		// Configuración
 		$data['config'] = new Configuracion();
 		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
@@ -56,6 +54,7 @@ class Usuarios extends CI_Controller {
 		}
 
 		// Obtener listado (parcial)
+		$limit = $this->Configuration_model->rowsPerPage();
 		$usuarios = new Usuario();
 		if($data['config']->usuarios_filtro!=""){
 			// Filtro
