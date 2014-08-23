@@ -6,7 +6,7 @@
 					<tr>
 						<?
 						if($config->contactos_columna=='id'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->contactos_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'contactos/ordenar/id/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> #</a></th>';
 							}else if($config->contactos_orden=='desc'){
@@ -20,7 +20,7 @@
 						
 						<?
 						if($config->contactos_columna=='apellidos'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->contactos_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'contactos/ordenar/apellidos/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Apellidos, Nombre</a></th>';
 							}else if($config->contactos_orden=='desc'){
@@ -34,7 +34,7 @@
 						
 						<?
 						if($config->contactos_columna=='contactos_estado_id'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->contactos_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'contactos/ordenar/contactos_estado_id/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Estado</a></th>';
 							}else if($config->contactos_orden=='desc'){

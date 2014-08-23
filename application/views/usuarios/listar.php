@@ -6,7 +6,7 @@
 					<tr>
 						<?
 						if($config->usuarios_columna=='id'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->usuarios_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/id/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> #</a></th>';
 							}else if($config->usuarios_orden=='desc'){
@@ -19,20 +19,20 @@
 						?>
 						<?
 						if($config->usuarios_columna=='apellidos'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->usuarios_orden=='asc'){
-								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/apellidos/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Nombre</a></th>';
+								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/apellidos/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Apellidos, Nombre</a></th>';
 							}else if($config->usuarios_orden=='desc'){
-								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/apellidos/asc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Nombre</a></th>';
+								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/apellidos/asc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Apellidos, Nombre</a></th>';
 							}
 						}else{
 							echo '<th>';
-							echo '<a href="'.$this->config->base_url().'usuarios/ordenar/apellidos/asc/'.$offset.'"> Nombre</a></th>';
+							echo '<a href="'.$this->config->base_url().'usuarios/ordenar/apellidos/asc/'.$offset.'"> Apellidos, Nombre</a></th>';
 						}
 						?>
 						<?
 						if($config->usuarios_columna=='nick'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->usuarios_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/nick/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Nick</a></th>';
 							}else if($config->usuarios_orden=='desc'){
@@ -45,7 +45,7 @@
 						?>
 						<?
 						if($config->usuarios_columna=='email'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->usuarios_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/email/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Email</a></th>';
 							}else if($config->usuarios_orden=='desc'){
@@ -58,7 +58,7 @@
 						?>
 						<?
 						if($config->usuarios_columna=='perfil_nombre'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->usuarios_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/perfil_nombre/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Perfil</a></th>';
 							}else if($config->usuarios_orden=='desc'){
@@ -71,7 +71,7 @@
 						?>
 						<?
 						if($config->usuarios_columna=='usuarios_estado_id'){
-							echo '<th class="active">';
+							echo '<th class="info">';
 							if($config->usuarios_orden=='asc'){
 								echo '<a href="'.$this->config->base_url().'usuarios/ordenar/usuarios_estado_id/desc/'.$offset.'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Estado</a></th>';
 							}else if($config->usuarios_orden=='desc'){

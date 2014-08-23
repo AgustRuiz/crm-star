@@ -3,13 +3,13 @@
 	<div class="form-group required">
 		<label for="txtNombre" class="col-sm-2 control-label" title="Campo obligatorio">Nombre</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre del usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->nombre; ?>" />
+			<input type="text" class="form-control" id="txtNombre" name="txtNombre" required="required" placeholder="Nombre del usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->nombre; ?>" />
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group required">
 		<label for="txtApellidos" class="col-sm-2 control-label">Apellidos</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="txtApellidos" name="txtApellidos" placeholder="Apellidos del usuario" value="<?php if(isset($usuario)) echo $usuario->apellidos; ?>" />
+			<input type="text" class="form-control" id="txtApellidos" name="txtApellidos" required="required" placeholder="Apellidos del usuario (OBLIGATORIO)" value="<?php if(isset($usuario)) echo $usuario->apellidos; ?>" />
 		</div>
 	</div>
 	<div class="form-group">

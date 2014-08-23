@@ -6,11 +6,11 @@
 			<input type="text" class="form-control" id="txtNombre" name="txtNombre" required="required" placeholder="Nombre del contacto (OBLIGATORIO)" value="<?php if(isset($contacto)) echo $contacto->nombre; ?>"/>
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group required">
 		<label for="txtApellidos" class="col-sm-2 control-label">Apellidos</label>
 		<div class="col-sm-10">
 
-			<input type="text" class="form-control" id="txtApellidos" name="txtApellidos" placeholder="Apellidos del contacto" value="<?php if(isset($contacto)) echo $contacto->apellidos; ?>" />
+			<input type="text" class="form-control" id="txtApellidos" name="txtApellidos" required="required" placeholder="Apellidos del contacto (OBLIGATORIO)" value="<?php if(isset($contacto)) echo $contacto->apellidos; ?>" />
 		</div>
 	</div>
 	<div class="form-group">

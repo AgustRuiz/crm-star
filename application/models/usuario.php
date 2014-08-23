@@ -34,7 +34,7 @@ class Usuario extends DataMapper{
 			),
 		'apellidos' => array(
 			'label' => 'Apellidos del usuario',
-			'rules' => array('trim', 'min_length' => 3, 'max_length' => 50),
+			'rules' => array('required', 'trim', 'min_length' => 3, 'max_length' => 50),
 			),
 		'nif' => array(
 			'label' => 'NIF del usuario',

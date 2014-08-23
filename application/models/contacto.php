@@ -28,7 +28,7 @@ class Contacto extends DataMapper{
 			),
 		'apellidos' => array(
 			'label' => 'Apellidos del contacto',
-			'rules' => array('trim', 'max_length' => 40),
+			'rules' => array('required', 'trim', 'max_length' => 40),
 			),
 		'nif' => array(
 			'label' => 'NIF del contacto',
