@@ -24,6 +24,17 @@ class Usuarios extends CI_Controller {
 		$this->listar();
 	}
 
+	public function ordenar($columna, $orden, $offset=0){
+		$config = new Configuracion();
+		$config->where_related_usuario('id', $this->session->userdata('id'))->get();
+		$config->usuarios_columna = $columna;
+		$config->usuarios_orden = $orden;
+		$config->save();
+
+		redirect('/usuarios/listar/'.$offset);
+		// $this->listar($offset);
+	}
+
 	public function listar($offset='0'){
 		// Comprobar los permisos
 		if($this->session->userdata('perfil')->usuarios_listar==0){
@@ -33,12 +44,37 @@ class Usuarios extends CI_Controller {
 
 		$limit = $this->Configuration_model->rowsPerPage();
 
+		// Configuración
+		$data['config'] = new Configuracion();
+		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
+
+		// Filtro
+		if(isset($_POST['filtro'])){
+			// Configuración
+			$data['config']->usuarios_filtro = $this->input->post('filtro');
+			$data['config']->save();
+		}
+
 		// Obtener listado (parcial)
-		$usuario = new Usuario();
-		$data['listaUsuarios'] = $usuario->get($limit, $offset);
+		$usuarios = new Usuario();
+		if($data['config']->usuarios_filtro!=""){
+			// Filtro
+			$cadenaBusqueda = $data['config']->usuarios_filtro;
+
+			$usuarios->ilike('nick', $cadenaBusqueda);
+			$usuarios->or_ilike('nombre', $cadenaBusqueda);
+			$usuarios->or_ilike('apellidos', $cadenaBusqueda);
+			$usuarios->or_ilike('nif', $cadenaBusqueda);
+			$usuarios->or_ilike('email', $cadenaBusqueda);
+			$usuarios->or_ilike('telfOficina', $cadenaBusqueda);
+			$usuarios->or_ilike('telfMovil', $cadenaBusqueda);
+			$usuarios->or_ilike('fax', $cadenaBusqueda);
+			$usuarios->or_ilike('otrosDatos', $cadenaBusqueda);
+		}
+		$data['listaUsuarios'] = $usuarios->include_related('perfil')->include_related('usuarios_estado')->order_by($data['config']->usuarios_columna, $data['config']->usuarios_orden)->get_paged($offset, $limit, TRUE);
 
 		// Paginación
-		$total = $usuario->count();
+		$total = $usuarios->paged->total_rows;
 		$config['base_url'] = base_url().'usuarios/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -47,7 +83,7 @@ class Usuarios extends CI_Controller {
 		$data['pag_links'] = $this->pagination->create_links();
 
 		// Número de usuarios
-		$data['numContacts'] = $total;
+		$data['numRows'] = $total;
 		$data['initialRow'] = $offset+1;
 		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
 

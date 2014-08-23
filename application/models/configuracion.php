@@ -20,10 +20,6 @@ class Configuracion extends DataMapper{
 
 	// Validación de campos
 	public $validation = array(
-		'filas' => array(
-			// 'label' => 'Filas por página',
-			'rules' => array('required'),
-			),
 		'contactos_columna' => array(
 			// 'label' => 'Filtro de contactos',
 			'rules' => array('trim', 'max_length' => 20),
@@ -36,9 +32,17 @@ class Configuracion extends DataMapper{
 			// 'label' => 'Filtro de contactos',
 			'rules' => array('trim', 'max_length' => 256),
 			),
-		'contactos_offset' => array(
-			// 'label' => 'Fila desde la que empezar a mostrar',
-			'rules' => array('trim'),
+		'usuarios_columna' => array(
+			// 'label' => 'Filtro de usuarios',
+			'rules' => array('trim', 'max_length' => 20),
+			),
+		'usuarios_orden' => array(
+			// 'label' => 'Filtro de usuarios',
+			'rules' => array('trim', 'max_length' => 4),
+			),
+		'usuarios_filtro' => array(
+			// 'label' => 'Filtro de usuarios',
+			'rules' => array('trim', 'max_length' => 256),
 			)
 		);
 
