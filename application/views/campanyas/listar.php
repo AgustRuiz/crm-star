@@ -74,7 +74,7 @@
 				<tbody id="contenedor">
 					<!-- Filtrar -->
 					<div class="input-group">
-						<form class="form-horizontal" role="form" method="post" action="<?=$this->config->base_url()?>index.php/campanyas/" accept-charset="utf-8">
+						<form class="form-horizontal" role="form" method="post" accept-charset="utf-8">
 							<input type="text" class="form-control" name="filtro" id="cadenaBusqueda" placeholder="Inserta aquí la cadena a buscar..." value="<?=$config->campanyas_filtro?>">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>

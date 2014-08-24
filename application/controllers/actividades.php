@@ -19,6 +19,16 @@ class Actividades extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function ordenar($columna, $orden, $offset=0, $destino='listarUsuario'){
+		$config = new Configuracion();
+		$config->where_related_usuario('id', $this->session->userdata('id'))->get();
+		echo $config->actividades_columna = $columna;
+		$config->actividades_orden = $orden;
+		$config->save();
+
+		redirect('/actividades/'.$destino.'/'.$offset);
+	}
+
 	public function index(){
 		$this->listarUsuario();
 	}
@@ -29,13 +39,41 @@ class Actividades extends CI_Controller {
 			$this->accesoDenegado();
 			return;
 		}
-		$limit = $this->Configuration_model->rowsPerPage();
+
+		// Configuración
+		$data['config'] = new Configuracion();
+		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
+
+		// Filtro
+		if(isset($_POST['filtro'])){
+			// Configuración
+			$data['config']->actividades_filtro = $this->input->post('filtro');
+			$data['config']->save();
+		}
 
 		// Obtener listado (parcial)
+		$limit = $this->Configuration_model->rowsPerPage();
 		$actividades = new Actividad();
-		$data['listaActividades'] = $actividades->order_by('inicio', 'desc')->get($limit, $offset);
+		if($data['config']->actividades_filtro!=""){
+			// Filtro
+			$cadenaBusqueda = $data['config']->actividades_filtro;
+
+			$actividades
+			// ->where_related_usuario('id', $this->session->userdata('id'))
+			->ilike('asunto', $cadenaBusqueda)
+			->or_ilike('descripcion', $cadenaBusqueda)
+			->or_ilike_related_actividades_tipo('tipo', $cadenaBusqueda)
+			->or_ilike_related_actividades_estado('estado', $cadenaBusqueda)
+			->or_ilike_related_campanya('nombre', $cadenaBusqueda)
+			->or_ilike_related_contacto('nombre', $cadenaBusqueda)
+			->or_ilike_related_contacto('apellidos', $cadenaBusqueda)
+			->or_ilike_related_usuario('nombre', $cadenaBusqueda)
+			->or_ilike_related_usuario('apellidos', $cadenaBusqueda);
+		}
+		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
 
 		// Paginación
+		$limit = $this->Configuration_model->rowsPerPage();
 		$total = $actividades->count();
 		$config['base_url'] = base_url().'actividades/listar/';
 		$config['total_rows'] = $total;
@@ -64,14 +102,45 @@ class Actividades extends CI_Controller {
 			return;
 		}
 
-		$limit = $this->Configuration_model->rowsPerPage();
+		// Configuración
+		$data['config'] = new Configuracion();
+		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
+
+		// Filtro
+		if(isset($_POST['filtro'])){
+			// Configuración
+			$data['config']->actividades_filtro = $this->input->post('filtro');
+			$data['config']->save();
+		}
 
 		// Obtener listado (parcial)
+		$limit = $this->Configuration_model->rowsPerPage();
 		$actividades = new Actividad();
-		$data['listaActividades'] = $actividades->where_related_usuario('id', $this->session->userdata('id'))->order_by('inicio', 'desc')->get($limit, $offset);
+		if($data['config']->actividades_filtro!=""){
+			// Filtro
+			$cadenaBusqueda = $data['config']->actividades_filtro;
+
+			$actividades
+			->where_related_usuario('id', $this->session->userdata('id'))
+			->group_start()
+			->ilike('asunto', $cadenaBusqueda)
+			->or_ilike('descripcion', $cadenaBusqueda)
+			->or_ilike_related_actividades_tipo('tipo', $cadenaBusqueda)
+			->or_ilike_related_actividades_estado('estado', $cadenaBusqueda)
+			->or_ilike_related_campanya('nombre', $cadenaBusqueda)
+			->or_ilike_related_contacto('nombre', $cadenaBusqueda)
+			->or_ilike_related_contacto('apellidos', $cadenaBusqueda)
+			->or_ilike_related_usuario('nombre', $cadenaBusqueda)
+			->or_ilike_related_usuario('apellidos', $cadenaBusqueda)
+			->group_end();
+		}else{
+			$actividades->where_related_usuario('id', $this->session->userdata('id'));
+		}
+		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
 
 		// Paginación
-		$total = $actividades->result_count();
+		$limit = $this->Configuration_model->rowsPerPage();
+		$total = $actividades->count();
 		$config['base_url'] = base_url().'actividades/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
@@ -368,14 +437,14 @@ class Actividades extends CI_Controller {
 		$this->load->view("header");
 		if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $usuario))){
 			// Inserción correcta
-			$data['success'] = "Actividad creada correctamente.";
+			$data['success'] = "Actividad editada correctamente.";
 			$data['actividad'] = new Actividad();
 			$data['actividad']->get_by_id($actividad->id);
 			$this->load->view('actividades/ver', $data);
 			$this->load->view('sidebars/actividades/ver');
 		}else{
 			// Fallo al insertar
-			$data['error'] = "Ha ocurrido un error durante la creación de la actividad:<ul>";
+			$data['error'] = "Ha ocurrido un error durante la edición de la actividad:<ul>";
 			foreach ($actividad->error->all as $error)
 			{
 				$data['error'] .= '<li>'.$error.'</li>';
