@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-08-2014 a las 03:24:41
+-- Tiempo de generación: 25-08-2014 a las 10:23:35
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -128,7 +128,7 @@ INSERT INTO `ci_alertas` (`id`, `asunto`, `descripcion`, `fechaHora`, `emergente
 (10, 'Aún tienes tiempo de atender esta alerta, así que date prisa', '', '2014-08-13 13:48:00', 1, 1, 0, 0),
 (11, 'Para el lunes', '', '2014-08-12 14:14:00', 1, 1, 0, 0),
 (12, 'Nueva alerta', 'Descripción de la alerta', '2014-08-11 03:11:00', 0, 1, 0, 0),
-(13, 'Los simpsons', '', '2014-08-13 14:15:00', 1, 1, 1, 0);
+(13, 'Hola', '', '2014-08-13 14:15:00', 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `ci_campanyas` (
 --
 
 INSERT INTO `ci_campanyas` (`id`, `nombre`, `fechaInicio`, `fechaFin`, `objetivo`, `descripcion`) VALUES
-(1, 'Campaña de Agustín', '2014-08-01', '2014-08-31', 'Objetivo de la campaña', 'Descripción de la campaña'),
+(1, 'Apetecán', '2014-08-01', '2014-08-31', 'Objetivo de la campaña', 'Descripción de la campaña'),
 (3, 'Campaña activa', '0000-00-00', '0000-00-00', '', ''),
 (4, 'Campaña inactiva', '0000-00-00', '0000-00-00', '', ''),
 (5, 'Campaña completada', '0000-00-00', '0000-00-00', '', ''),
@@ -219,9 +219,21 @@ INSERT INTO `ci_campanyas_tipos` (`id`, `tipo`, `estilo`) VALUES
 CREATE TABLE IF NOT EXISTS `ci_configuraciones` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `filas` smallint(6) NOT NULL DEFAULT '8',
-  `contactos_columna` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `contactos_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL,
+  `contactos_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `contactos_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
   `contactos_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `usuarios_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `usuarios_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `usuarios_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `campanyas_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `campanyas_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `campanyas_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `actividades_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `actividades_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `actividades_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `alertas_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `alertas_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `alertas_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=18 ;
 
@@ -229,24 +241,24 @@ CREATE TABLE IF NOT EXISTS `ci_configuraciones` (
 -- Volcado de datos para la tabla `ci_configuraciones`
 --
 
-INSERT INTO `ci_configuraciones` (`id`, `filas`, `contactos_columna`, `contactos_orden`, `contactos_filtro`) VALUES
-(1, 8, '', '', 'otra cosa'),
-(2, 8, '', '', ''),
-(3, 8, '', '', ''),
-(4, 8, '', '', ''),
-(5, 8, '', '', ''),
-(6, 8, '', '', ''),
-(7, 8, '', '', ''),
-(8, 8, '', '', ''),
-(9, 8, '', '', ''),
-(10, 8, '', '', ''),
-(11, 8, '', '', ''),
-(12, 8, '', '', ''),
-(13, 8, '', '', ''),
-(14, 8, '', '', ''),
-(15, 8, '', '', ''),
-(16, 8, '', '', ''),
-(17, 8, '', '', '');
+INSERT INTO `ci_configuraciones` (`id`, `filas`, `contactos_columna`, `contactos_orden`, `contactos_filtro`, `usuarios_columna`, `usuarios_orden`, `usuarios_filtro`, `campanyas_columna`, `campanyas_orden`, `campanyas_filtro`, `actividades_columna`, `actividades_orden`, `actividades_filtro`, `alertas_columna`, `alertas_orden`, `alertas_filtro`) VALUES
+(1, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'inicio', 'desc', 'admin', 'id', 'asc', ''),
+(2, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(3, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(4, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(5, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(6, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(7, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(8, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(9, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(10, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(11, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(12, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(13, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(14, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(15, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(16, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', ''),
+(17, 8, 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '', 'id', 'asc', '');
 
 -- --------------------------------------------------------
 
@@ -371,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_estados` (
 INSERT INTO `ci_join_actividades_actividades_estados` (`id`, `actividad_id`, `actividades_estado_id`) VALUES
 (14, 30, 1),
 (15, 31, 1),
-(16, 32, 1),
+(16, 32, 3),
 (17, 33, 1),
 (18, 34, 1),
 (20, 36, 1);
@@ -399,7 +411,7 @@ INSERT INTO `ci_join_actividades_actividades_tipos` (`id`, `actividad_id`, `acti
 (23, 30, 6),
 (24, 31, 2),
 (25, 32, 1),
-(26, 33, 1),
+(26, 33, 3),
 (27, 34, 1),
 (29, 36, 1);
 
@@ -439,15 +451,15 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_campanyas` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`,`campanya_id`),
   KEY `campanya_id` (`campanya_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_actividades_campanyas`
 --
 
 INSERT INTO `ci_join_actividades_campanyas` (`id`, `actividad_id`, `campanya_id`) VALUES
-(5, 30, 1),
-(6, 32, 1),
+(9, 30, 1),
+(8, 32, 1),
 (7, 34, 1);
 
 -- --------------------------------------------------------
@@ -517,14 +529,15 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_usuarios` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`,`usuario_id`),
   KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=21 ;
 
 --
 -- Volcado de datos para la tabla `ci_join_actividades_usuarios`
 --
 
 INSERT INTO `ci_join_actividades_usuarios` (`id`, `actividad_id`, `usuario_id`) VALUES
-(13, 30, 1),
+(13, 30, 13),
+(20, 31, 13),
 (15, 32, 1),
 (16, 33, 1),
 (17, 34, 1),
@@ -837,6 +850,81 @@ INSERT INTO `ci_join_perfiles_usuarios` (`id`, `usuario_id`, `perfil_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ci_join_tickets_actividades`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_tickets_actividades` (
+  `id` bigint(20) unsigned NOT NULL,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `actividad_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ticket_id` (`ticket_id`,`actividad_id`),
+  KEY `actividad_id` (`actividad_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_tickets_contactos`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_tickets_contactos` (
+  `id` bigint(20) unsigned NOT NULL,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `contacto_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ticket_id` (`ticket_id`,`contacto_id`),
+  KEY `contacto_id` (`contacto_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_tickets_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_tickets_estados` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `tickets_estado_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ticket_id` (`ticket_id`,`tickets_estado_id`),
+  KEY `tickets_estado_id` (`tickets_estado_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_tickets_prioridades`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_tickets_prioridades` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `prioridad_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ticket_id` (`ticket_id`,`prioridad_id`),
+  KEY `prioridad_id` (`prioridad_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_tickets_usuarios`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_tickets_usuarios` (
+  `id` bigint(20) unsigned NOT NULL,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `usuario_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ticket_id` (`ticket_id`,`usuario_id`),
+  KEY `usuario_id` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `ci_join_usuarios_usuarios_estados`
 --
 
@@ -943,6 +1031,44 @@ INSERT INTO `ci_prioridades` (`id`, `prioridad`, `estilo`, `estilo_icono`, `etiq
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ci_tickets`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_tickets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `asunto` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `descripcion` text COLLATE utf8_spanish_ci NOT NULL,
+  `resolu` text COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_tickets_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_tickets_estados` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `ci_tickets_estados`
+--
+
+INSERT INTO `ci_tickets_estados` (`id`, `estado`, `estilo`) VALUES
+(1, 'Nuevo', 'estado-tickets-nuevo'),
+(2, 'Asignado', 'estado-tickets-asignado'),
+(3, 'Cerrado', 'estado-tickets-cerrado'),
+(4, 'Pendiente de información', 'estado-tickets-pendiente'),
+(5, 'Rechazado', 'estado-tickets-rechazado');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `ci_usuarios`
 --
 
@@ -969,23 +1095,23 @@ CREATE TABLE IF NOT EXISTS `ci_usuarios` (
 --
 
 INSERT INTO `ci_usuarios` (`id`, `nick`, `password`, `nombre`, `apellidos`, `nif`, `email`, `telfOficina`, `telfMovil`, `fax`, `otrosDatos`) VALUES
-(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Administrador', '', NULL, 'arl00029@red.ujaen.es', '', '', '', ''),
+(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Administrador', 'Administrador', NULL, 'arl00029@red.ujaen.es', '', '', '', ''),
 (13, 'aruiz', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Agustín', 'Ruiz Linares', NULL, 'agustinruizlinares@gmail.com', '', '', '', ''),
-(14, 'uno', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Uno', '', NULL, 'uno@uno.com', '', '', '', ''),
-(15, 'dos', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Dos', '', NULL, 'dos@dos.com', '', '', '', ''),
-(16, 'tres', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'tres', '', NULL, 'tres@tres.com', '', '', '', ''),
-(17, 'cuatro', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'cuatro', '', NULL, 'cuatro@cuatro.com', '', '', '', ''),
-(18, 'cinco', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'cinco', '', NULL, 'cinco@cinco.com', '', '', '', ''),
-(19, 'seis', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'seis', '', NULL, 'seis@seis.com', '', '', '', ''),
-(20, 'siete', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'siete', '', NULL, 'siete@siete.com', '', '', '', ''),
-(21, 'ocho', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'ocho', '', NULL, 'ocho@ocho.com', '', '', '', ''),
-(22, 'nueve', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'nueve', '', NULL, 'nueve@nueve.com', '', '', '', ''),
-(23, 'diez', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'diez', '', NULL, 'diez@diez.com', '', '', '', ''),
-(24, 'once', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'once', '', NULL, 'once@once.com', '', '', '', ''),
-(25, 'doce', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'doce', '', NULL, 'doce@doce.com', '', '', '', ''),
-(26, 'trece', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'trece', '', NULL, 'trece@trece.com', '', '', '', ''),
-(27, 'catorce', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'catorce', '', NULL, 'catorce@catorce.com', '', '', '', ''),
-(28, 'quince', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'quince', '', NULL, 'quince@quince.com', '', '', '', '');
+(14, 'uno', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Uno', 'Uno', NULL, 'uno@uno.com', '', '', '', ''),
+(15, 'dos', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Dos', 'Dos', NULL, 'dos@dos.com', '', '', '', ''),
+(16, 'tres', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Tres', 'Tres', NULL, 'tres@tres.com', '', '', '', ''),
+(17, 'cuatro', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Cuatro', 'Cuatro', NULL, 'cuatro@cuatro.com', '', '', '', ''),
+(18, 'cinco', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Cinco', 'Cinco', NULL, 'cinco@cinco.com', '', '', '', ''),
+(19, 'seis', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Seis', 'Seis', NULL, 'seis@seis.com', '', '', '', ''),
+(20, 'siete', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Siete', 'Siete', NULL, 'siete@siete.com', '', '', '', ''),
+(21, 'ocho', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Ocho', 'Ocho', NULL, 'ocho@ocho.com', '', '', '', ''),
+(22, 'nueve', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Nueve', 'Nueve', NULL, 'nueve@nueve.com', '', '', '', ''),
+(23, 'diez', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Diez', 'Diez', NULL, 'diez@diez.com', '', '', '', ''),
+(24, 'once', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Once', 'Once', NULL, 'once@once.com', '', '', '', ''),
+(25, 'doce', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Doce', 'Doce', NULL, 'doce@doce.com', '', '', '', ''),
+(26, 'trece', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Trece', 'Trece', NULL, 'trece@trece.com', '', '', '', ''),
+(27, 'catorce', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Catorce', 'Catorce', NULL, 'catorce@catorce.com', '', '', '', ''),
+(28, 'quince', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Quince', 'Quince', NULL, 'quince@quince.com', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1052,8 +1178,8 @@ ALTER TABLE `ci_join_actividades_contactos`
 -- Filtros para la tabla `ci_join_actividades_prioridades`
 --
 ALTER TABLE `ci_join_actividades_prioridades`
-  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_2` FOREIGN KEY (`prioridad_id`) REFERENCES `ci_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_2` FOREIGN KEY (`prioridad_id`) REFERENCES `ci_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_actividades_usuarios`
@@ -1108,6 +1234,41 @@ ALTER TABLE `ci_join_contactos_contactos_estados`
 ALTER TABLE `ci_join_perfiles_usuarios`
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_2` FOREIGN KEY (`perfil_id`) REFERENCES `ci_perfiles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_tickets_actividades`
+--
+ALTER TABLE `ci_join_tickets_actividades`
+  ADD CONSTRAINT `ci_join_tickets_actividades_ibfk_2` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_tickets_actividades_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_tickets_contactos`
+--
+ALTER TABLE `ci_join_tickets_contactos`
+  ADD CONSTRAINT `ci_join_tickets_contactos_ibfk_2` FOREIGN KEY (`contacto_id`) REFERENCES `ci_contactos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_tickets_contactos_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_tickets_estados`
+--
+ALTER TABLE `ci_join_tickets_estados`
+  ADD CONSTRAINT `ci_join_tickets_estados_ibfk_2` FOREIGN KEY (`tickets_estado_id`) REFERENCES `ci_tickets_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_tickets_estados_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_tickets_prioridades`
+--
+ALTER TABLE `ci_join_tickets_prioridades`
+  ADD CONSTRAINT `ci_join_tickets_prioridades_ibfk_2` FOREIGN KEY (`prioridad_id`) REFERENCES `ci_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_tickets_prioridades_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_tickets_usuarios`
+--
+ALTER TABLE `ci_join_tickets_usuarios`
+  ADD CONSTRAINT `ci_join_tickets_usuarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_tickets_usuarios_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_usuarios_usuarios_estados`

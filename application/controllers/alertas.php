@@ -51,27 +51,8 @@ class Alertas extends CI_Controller {
 		}
 		$data['listaAlertas'] = $alertas->where_related_usuario('id', $this->session->userdata('id'))->order_by($data['config']->alertas_columna, $data['config']->alertas_orden)->get_paged($offset, $limit, TRUE);
 
-
-
-
 		// Paginación
 		$total = $alertas->paged->total_rows;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		$config['base_url'] = base_url().'alertas/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
