@@ -16,14 +16,62 @@ class Alertas extends CI_Controller {
 		$this->listar();
 	}
 
+	public function ordenar($columna, $orden, $offset=0){
+		$config = new Configuracion();
+		$config->where_related_usuario('id', $this->session->userdata('id'))->get();
+		$config->alertas_columna = $columna;
+		$config->alertas_orden = $orden;
+		$config->save();
+
+		redirect('/alertas/listar/'.$offset);
+	}
+
 	public function listar($offset=0){
-		$limit = $this->Configuration_model->rowsPerPage();
+		// Configuración
+		$data['config'] = new Configuracion();
+		$data['config']->where_related_usuario('id', $this->session->userdata('id'))->get();
+
+		// Filtro
+		if(isset($_POST['filtro'])){
+			// Configuración
+			$data['config']->alertas_filtro = $this->input->post('filtro');
+			$data['config']->save();
+		}
 
 		// Obtener listado (parcial)
+		$limit = $this->Configuration_model->rowsPerPage();
 		$alertas = new Alerta();
-		$data['listaAlertas'] = $alertas->where_related_usuario('id', $this->session->userdata('id'))->order_by('fechaHora', 'desc')->get($limit, $offset);
+		if($data['config']->alertas_filtro!=""){
+			// Filtro
+			$cadenaBusqueda = $data['config']->alertas_filtro;
+			$alertas->group_start();
+			$alertas->ilike('asunto', $cadenaBusqueda);
+			$alertas->or_ilike('descripcion', $cadenaBusqueda);
+			$alertas->group_end();
+		}
+		$data['listaAlertas'] = $alertas->where_related_usuario('id', $this->session->userdata('id'))->order_by($data['config']->alertas_columna, $data['config']->alertas_orden)->get_paged($offset, $limit, TRUE);
+
+
+
+
 		// Paginación
-		$total = $alertas->result_count();
+		$total = $alertas->paged->total_rows;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		$config['base_url'] = base_url().'alertas/listar/';
 		$config['total_rows'] = $total;
 		$config['per_page'] = $limit;
