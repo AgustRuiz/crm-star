@@ -14,7 +14,7 @@ class Prioridad extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('');
-	public $has_many = array('actividad');
+	public $has_many = array('actividad', 'ticket');
 
 	// Validación de campos
 	public $validation = array(

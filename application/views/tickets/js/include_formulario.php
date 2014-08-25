@@ -7,7 +7,6 @@
 		campoNombreContacto.value = "";
 	}
 
-
 	function cerrarModalContacto(){
 		$("#modalContacto").modal("hide");
 	}
@@ -30,7 +29,6 @@
 		campoIdUsuario.value = "";
 		campoNombreUsuario.value = "";
 	}
-
 
 	function cerrarModalUsuarioResponsable(){
 		$("#modalUsuarioResponsable").modal("hide");

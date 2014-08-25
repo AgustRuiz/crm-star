@@ -16,7 +16,7 @@ class Tickets_estado extends DataMapper{
 
 	// Relaciones
 	public $has_one = array('');
-	public $has_many = array('tickets');
+	public $has_many = array('ticket');
 
 	// Validación de campos
 	public $validation = array(

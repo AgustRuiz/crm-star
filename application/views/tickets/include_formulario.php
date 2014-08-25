@@ -97,15 +97,10 @@
 			</div><!-- Fin de modal de búsqueda de usuario -->
 		</div>
 	</div>
-
-
-
-	
-
 	<div class="form-group">
-		<label for="txtResultado" class="col-sm-2 control-label">Resultado</label>
+		<label for="txtResolucion" class="col-sm-2 control-label">Resolución</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="txtResultado" name="txtResultado" rows="4" placeholder="Resultado de la incidencia"><?php if(isset($ticket)) echo str_replace('<br />', "", $ticket->resultado); ?></textarea>
+			<textarea class="form-control" id="txtResolucion" name="txtResolucion" rows="4" placeholder="Resultado de la incidencia"><?php if(isset($ticket)) echo str_replace('<br />', "", $ticket->resolucion); ?></textarea>
 		</div>
 	</div>
 </fieldset>

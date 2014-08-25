@@ -507,3 +507,41 @@ tr.pendiente + tr.pasado td, tr.pasado + tr.pendiente td{
 .prioridad-actividades-alta-icono{
 	color: #d9534f;
 }
+
+/****** TICKETS ******/
+/*Estilos de estado*/
+.estado-tickets-nuevo{
+	background-color:#ccc;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}
+.estado-tickets-asignado{
+	background-color:#5cb85c;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}
+.estado-tickets-cerrado{
+	background-color:#5bc0de;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}
+.estado-tickets-pendienteIn{
+	background-color:#f0ad4e;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}
+.estado-tickets-rechazado{
+	background-color:#d9534f;
+	color:white;
+	padding: 0px 2px;
+	border-radius: 5px;
+	display: inline-block;
+}

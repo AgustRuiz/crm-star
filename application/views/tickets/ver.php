@@ -18,68 +18,40 @@
 				<legend class="row">Datos generales</legend>
 				<div class="container-fluid ficha">
 					<div class="row clearfix">
-						<div class="col-md-2 col-xs-3 text-right titulo">Campaña</div>
-						<div class="col-md-10 col-xs-9 dato"><strong><?=$ticket->nombre?></strong></div>
+						<div class="col-md-2 col-xs-3 text-right titulo">Asunto</div>
+						<div class="col-md-10 col-xs-9 dato"><strong><?=$ticket->asunto?></strong></div>
 					</div>
-				</div>
-			</fieldset>
-			<fieldset>
-				<legend class="row">Asignación</legend>
-				<div class="container-fluid ficha">
+					<div class="row clearfix">
+						<div class="col-md-2 col-xs-3 text-right titulo">Descripción</div>
+						<div class="col-md-10 col-xs-9 dato"><?=$ticket->descripcion?></div>
+					</div>
+					<div class="row clearfix">
+						<div class="col-md-2 col-xs-3 text-right titulo">Contacto</div>
+						<div class="col-md-10 col-xs-9 dato"><a href="<?=$this->config->base_url()?>contactos/ver/<?=$ticket->contacto->id?>"><?=$ticket->contacto->apellidos.', '.$ticket->contacto->nombre?></a></div>
+					</div>
+					<div class="row clearfix">
+						<div class="col-md-2 col-xs-3 text-right titulo">Estado</div>
+						<div class="col-md-4 col-xs-9 dato"><span class="<?=$ticket->tickets_estado->estilo?>"><?=$ticket->tickets_estado->estado?></span></div>
+						<div class="col-md-2 col-xs-3 text-right titulo">Prioridad</div>
+						<div class="col-md-4 col-xs-9 dato"><span class="<?=$ticket->prioridad->estilo_icono?>" title="<?=$ticket->prioridad->etiqueta_icono?>"></span> <span class="<?=$ticket->prioridad->estilo?>"><?=$ticket->prioridad->prioridad?></span></div>
+					</div>
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Asignada a</div>
 						<div class="col-md-10 col-xs-9 dato">
 							<? if($ticket->usuario->count()>0){ ?>
 							<a href="<?=$this->config->base_url()?>usuarios/ver/<?=$ticket->usuario->id?>"><?=trim($ticket->usuario->nombre.' '.$ticket->usuario->apellidos)?></a>
-							<em>(Total campañas asignadas: <?=$ticket->usuario->ticket->count();?>)</em>
-							<? } else { ?>
-							<em>Campaña sin asignar</em>
 							<? } ?>
 						</div>
+					</div>
+					<div class="row clearfix">
+						<div class="col-md-2 col-xs-3 text-right titulo">Resolución</div>
+						<div class="col-md-10 col-xs-9 dato"><?=$ticket->resolucion?></div>
 					</div>
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend class="row">Actividades</legend>
-				<div class="row clearfix">
-					<table class="table table-striped table-hover table-condensed">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th colspan="2">Prioridad/Asunto</th>
-								<th>Inicio</th>
-								<th>Tipo</th>
-								<th>Prioridad/Estado</th>
-								<th>Contacto</th>
-								<th>Usuario</th>
-							</tr>
-						</thead>
-						<tbody id="contenedor">
-							<?php foreach($ticket->actividad->order_by('inicio', 'desc')->get() as $fila){ ?>
-							<tr <? if(time()-strtotime($fila->inicio)>0) echo 'class="pasado"'; else echo 'class="pendiente"';?>>
-								<td><?=$fila->id?></td>
-								<td><span class="<?=$fila->prioridad->estilo_icono?>" title="<?=$fila->prioridad->etiqueta_icono?>"></span></td>
-								<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
-								<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
-								<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
-								<td><span class="<?=$fila->actividades_estado->estilo?>"><?=$fila->actividades_estado->estado?></span></td>
-								<td><a href="<?=$this->config->base_url()?>contactos/ver/<?=$fila->contacto->id?>"><?=trim($fila->contacto->nombre.' '.$fila->contacto->apellidos)?></a></td>
-								<td><a href="<?=$this->config->base_url()?>usuarios/ver/<?=$fila->usuario->id?>"><?=trim($fila->usuario->nombre.' '.$fila->usuario->apellidos)?></a></td>
-							</tr>
-							<? } ?>
-						</tbody>
-						<tfoot>	
-							<tr>
-								<? if($ticket->actividad->count() == 0){?>
-								<td colspan="9"><em><div class="text-center">No hay actividades</div></em></td>
-								<? } else if($ticket->actividad->count() == 1){?>
-								<th colspan="9">1 actividad</th>
-								<? } else {?>
-								<th colspan="9"><?=$ticket->actividad->count()?> actividades</th>
-								<? } ?>
-							</tr>
-						</tfoot>
-					</table>
+				<div class="container-fluid ficha">
 				</div>
 			</fieldset>
   </div><!--/row-->
