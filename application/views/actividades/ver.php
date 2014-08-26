@@ -55,14 +55,22 @@
 						<div class="col-md-10 col-xs-9 dato"><a href="<?=$this->config->base_url()?>contactos/ver/<?=$actividad->contacto->id?>"><?=trim($actividad->contacto->nombre.' '.$actividad->contacto->apellidos)?></a></div>
 					</div>
 					<div class="row clearfix">
+						<? if($actividad->campanya->count()>0){ ?>
 						<div class="col-md-2 col-xs-3 text-right titulo">Campaña</div>
 						<div class="col-md-10 col-xs-9 dato">
-							<?php if($actividad->campanya->count()==1){?>
 							<a href="<?=$this->config->base_url()?>campanyas/ver/<?=$actividad->campanya->id?>"><?=$actividad->campanya->nombre?></a>
-							<?php } else { ?>
-							<em>Sin campaña asociada</em>
-							<?php }?>
 						</div>
+						<? }else if($actividad->ticket->count()>0){?>
+						<div class="col-md-2 col-xs-3 text-right titulo">Ticket</div>
+						<div class="col-md-10 col-xs-9 dato">
+							<a href="<?=$this->config->base_url()?>tickets/ver/<?=$actividad->ticket->id?>"><?=$actividad->ticket->asunto?></a>
+						</div>
+						<? }else{ ?>
+						<div class="col-md-2 col-xs-3 text-right titulo">Campaña / Ticket</div>
+						<div class="col-md-10 col-xs-9 dato">
+							<em>Sin campaña / ticket asociado</em>
+						</div>
+						<? } ?>
 					</div>
 					<div class="row clearfix">
 						<div class="col-md-2 col-xs-3 text-right titulo">Usuario</div>

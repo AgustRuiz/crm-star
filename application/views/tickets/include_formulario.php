@@ -72,12 +72,24 @@
 			</div><!-- Fin de modal de búsqueda de contacto -->
 		</div>
 	</div>
-	<div class="form-group">
-		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario responsable</label>
+
+
+
+
+
+
+
+
+
+
+	
+	<div class="form-group required">
+		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario</label>
 		<div class="col-sm-10">
+			<? if($this->session->userdata('perfil')->tickets_crear_todas==1){ ?>
 			<div class="input-group col-sm-11 col-xs-11 pull-left">
-				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($ticket)) echo $ticket->usuario->id; ?>"/>
-				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($ticket)) echo trim($ticket->usuario->nombre.' '.$ticket->usuario->apellidos); ?>" readonly="readonly"/>
+				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($ticket) && $ticket->usuario->result_count()!=0) echo $ticket->usuario->id; ?>"/>
+				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($ticket) && $ticket->usuario->result_count()!=0) echo trim($ticket->usuario->nombre.' '.$ticket->usuario->apellidos);?>" readonly="readonly"/>
 				<span class="input-group-addon" onclick="abrirModalUsuarioResponsable()"><span class="glyphicon glyphicon-search"></span></span>
 			</div>
 			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearUsuario();">
@@ -89,14 +101,29 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-							<h4>Usuario responsable de campaña</h4>
+							<h4>Usuario</h4>
 						</div>
-						<iframe class="iframe-modal" id="iframeModalUsuarioResponsable" style="height:500px;"></iframe>
+						<iframe class="iframe-modal" id="iframeModalUsuarioResponsable"></iframe>
 					</div>
 				</div>
 			</div><!-- Fin de modal de búsqueda de usuario -->
+			<? }else{ ?>
+			<div class="input-group col-sm-12 col-xs-12 pull-left">
+				<input type="hidden" id="txtIdUsuario" name="txtIdUsuario" value="<?php if(isset($ticket) && $ticket->usuario->result_count()!=0) echo $ticket->usuario->id; ?>"/>
+				<input type="text" class="form-control" id="txtNombreUsuario" name="txtNombreUsuario" placeholder="" value="<? if(isset($ticket) && $ticket->usuario->result_count()!=0) echo trim($ticket->usuario->nombre.' '.$ticket->usuario->apellidos);?>" readonly="readonly"/>
+			</div>
+			<? } ?>
 		</div>
 	</div>
+
+
+
+
+
+
+
+
+
 	<div class="form-group">
 		<label for="txtResolucion" class="col-sm-2 control-label">Resolución</label>
 		<div class="col-sm-10">

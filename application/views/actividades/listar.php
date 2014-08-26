@@ -61,6 +61,20 @@
 						?>
 
 						<?
+						if($config->actividades_columna=='ticket_asunto'){
+							echo '<th class="info">';
+							if($config->actividades_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'actividades/ordenar/ticket_asunto/desc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Ticket</a></th>';
+							}else if($config->actividades_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'actividades/ordenar/ticket_asunto/asc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Ticket</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'actividades/ordenar/ticket_asunto/asc/'.$offset.'/'.$this->router->fetch_method().'"> Ticket</a></th>';
+						}
+						?>
+
+						<?
 						if($config->actividades_columna=='inicio'){
 							echo '<th class="info">';
 							if($config->actividades_orden=='asc'){
@@ -149,6 +163,7 @@
 						<td class="align-right"><span class="<?=$fila->prioridad->estilo_icono?>" title="<?=$fila->prioridad->etiqueta_icono?>"></span></td>
 						<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$fila->id?>"><strong><?=$fila->asunto?></strong></a></td>
 						<td><a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a></td>
+						<td><a href="<?=$this->config->base_url()?>tickets/ver/<?=$fila->ticket->id?>"><?=$fila->ticket->asunto?></a></td>
 						<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
 						<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
 						<td><span class="<?=$fila->actividades_estado->estilo?>"><?=$fila->actividades_estado->estado?></span></td>
@@ -157,12 +172,12 @@
 					</tr>
 					<?php } } else { ?>
 					<tr>
-						<td colspan="9" class="text-center"><em>No hay actividades</em></td>
+						<td colspan="10" class="text-center"><em>No hay actividades</em></td>
 					</tr>
 					<?php } ?>
 				</tbody>
 				<tfoot>	
-					<tr><th colspan="9">
+					<tr><th colspan="10">
 						<?=$initialRow?>-<?=$finalRow?> de <?=$numContacts?>	
 						<ul class="pagination pull-right" id="pagination">
 							<?=$pag_links;?>

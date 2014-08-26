@@ -137,20 +137,31 @@
 			</div><!-- Fin de modal de búsqueda de contacto -->
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<div class="form-group">
+		<label for="txtAsuntoTicket" class="col-sm-2 control-label">Ticket</label>
+		<div class="col-sm-10">
+			<div class="input-group col-sm-11 col-xs-11 pull-left">
+				<input type="hidden" id="txtIdTicket" name="txtIdTicket" value="<?php if(isset($actividad) && $actividad->ticket!=null) echo $actividad->ticket->id; ?>"/>
+				<input type="text" class="form-control" id="txtAsuntoTicket" name="txtAsuntoTicket" placeholder="" value="<? if(isset($actividad) && $actividad->ticket!=null) echo $actividad->ticket->asunto;?>" readonly="readonly"/>
+				<span class="input-group-addon" onclick="abrirModalTicket()"><span class="glyphicon glyphicon-search"></span></span>
+			</div>
+			<span class="btn btn-default col-sm-1 col-xs-1 pull-left" onclick="clearTicket();">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+			<!-- Modal búsqueda de ticket -->
+			<div class="modal fade" id="modalTicket" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+							<h4>Ticket</h4>
+						</div>
+						<iframe class="iframe-modal" id="iframeModalTicket"></iframe>
+					</div>
+				</div>
+			</div><!-- Fin de modal de búsqueda de ticket -->
+		</div>
+	</div>
 	<div class="form-group required">
 		<label for="txtNombreUsuario" class="col-sm-2 control-label">Usuario</label>
 		<div class="col-sm-10">
@@ -183,28 +194,6 @@
 			<? } ?>
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<div class="form-group required">
 		<label for="txtDescripcion" class="col-sm-2 control-label">Descripción</label>
 		<div class="col-sm-10">

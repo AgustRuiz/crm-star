@@ -219,7 +219,7 @@
 				</div>
 				<div class="container-fluid ficha">
 					<div class="row clearfix">
-						<div class="col-md-6 col-xs-6 text-right titulo">Listar todos los tickets</div>
+						<div class="col-md-6 col-xs-6 text-right titulo">Listar todos</div>
 						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_listar_todas==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
@@ -242,7 +242,18 @@
 				<div class="container-fluid ficha">
 					<div class="row clearfix">
 						<div class="col-md-6 col-xs-6 text-right titulo">Crear</div>
-						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_crear==1){?>
+						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_crear_todas==1){?>
+							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
+							<?}else{?>
+							<span class="text-danger"><span class="glyphicon glyphicon-unchecked" title="Permitido"></span> NO</span>
+							<?}?>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid ficha">
+					<div class="row clearfix">
+						<div class="col-md-6 col-xs-6 text-right titulo">Crear tickets propios</div>
+						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_crear_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
 							<span class="text-danger"><span class="glyphicon glyphicon-unchecked" title="Permitido"></span> NO</span>
@@ -253,7 +264,18 @@
 				<div class="container-fluid ficha">
 					<div class="row clearfix">
 						<div class="col-md-6 col-xs-6 text-right titulo">Editar</div>
-						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_editar==1){?>
+						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_editar_todas==1){?>
+							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
+							<?}else{?>
+							<span class="text-danger"><span class="glyphicon glyphicon-unchecked" title="Permitido"></span> NO</span>
+							<?}?>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid ficha">
+					<div class="row clearfix">
+						<div class="col-md-6 col-xs-6 text-right titulo">Editar tickets propios</div>
+						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_editar_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
 							<span class="text-danger"><span class="glyphicon glyphicon-unchecked" title="Permitido"></span> NO</span>
@@ -264,7 +286,18 @@
 				<div class="container-fluid ficha">
 					<div class="row clearfix">
 						<div class="col-md-6 col-xs-6 text-right titulo">Eliminar</div>
-						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_eliminar==1){?>
+						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_eliminar_todas==1){?>
+							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
+							<?}else{?>
+							<span class="text-danger"><span class="glyphicon glyphicon-unchecked" title="Permitido"></span> NO</span>
+							<?}?>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid ficha">
+					<div class="row clearfix">
+						<div class="col-md-6 col-xs-6 text-right titulo">Eliminar propios</div>
+						<div class="col-md-6 col-xs-6 dato"><?if($perfil->tickets_eliminar_propias==1){?>
 							<span class="text-success"><span class="glyphicon glyphicon-check" title="Permitido"></span> SÍ</span>
 							<?}else{?>
 							<span class="text-danger"><span class="glyphicon glyphicon-unchecked" title="Permitido"></span> NO</span>

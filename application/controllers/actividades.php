@@ -22,7 +22,7 @@ class Actividades extends CI_Controller {
 	public function ordenar($columna, $orden, $offset=0, $destino='listarUsuario'){
 		$config = new Configuracion();
 		$config->where_related_usuario('id', $this->session->userdata('id'))->get();
-		echo $config->actividades_columna = $columna;
+		$config->actividades_columna = $columna;
 		$config->actividades_orden = $orden;
 		$config->save();
 
@@ -70,7 +70,7 @@ class Actividades extends CI_Controller {
 			->or_ilike_related_usuario('nombre', $cadenaBusqueda)
 			->or_ilike_related_usuario('apellidos', $cadenaBusqueda);
 		}
-		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
+		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('ticket')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
 
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
@@ -136,7 +136,7 @@ class Actividades extends CI_Controller {
 		}else{
 			$actividades->where_related_usuario('id', $this->session->userdata('id'));
 		}
-		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
+		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('ticket')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
 
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
@@ -178,7 +178,7 @@ class Actividades extends CI_Controller {
 			$data['actividad']->get_by_id($id);
 			if($data['actividad']->result_count()>0){
 				// Comprobar los permisos para todas las actividades
-				if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_listar_propias==0){
+				if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_listar_todas==0){
 					$this->accesoDenegado();
 					return;
 				}
@@ -216,8 +216,12 @@ class Actividades extends CI_Controller {
 			$data['actividad']->campanya = new Campanya();
 			$data['actividad']->campanya->get_by_id($_GET['campanya']);
 		}
-
-		if(isset($_GET['contacto'])){
+		if(isset($_GET['ticket'])){
+			$data['actividad']->ticket = new Ticket();
+			$data['actividad']->ticket->get_by_id($_GET['ticket']);
+			$data['actividad']->contacto = new Contacto();
+			$data['actividad']->contacto->get_by_id($data['actividad']->ticket->contacto->id);
+		}else if(isset($_GET['contacto'])){
 			$data['actividad']->contacto = new Contacto();
 			$data['actividad']->contacto->get_by_id($_GET['contacto']);
 		}
@@ -262,6 +266,12 @@ class Actividades extends CI_Controller {
 			$campanya->get_by_id($this->input->post('txtIdCampanya'));
 		}
 		$actividad->campanya = $campanya;
+		// Recoger Ticket
+		$ticket = new Ticket();
+		if($this->input->post('txtIdTicket')!=''){
+			$ticket->get_by_id($this->input->post('txtIdTicket'));
+		}
+		$actividad->ticket = $ticket;
 		// Recoger Usuario
 		$usuario = new Usuario();
 		if($this->input->post('txtIdUsuario')!=''){
@@ -270,7 +280,26 @@ class Actividades extends CI_Controller {
 		$actividad->usuario = $usuario;
 
 		$this->load->view("header");
-		if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $usuario))){
+		if($campanya->result_count()>0 && $ticket->result_count()>0){
+			// No puede haber campaña y ticket a la vez
+			$data['error'] = "Ha ocurrido un error durante la creación de la actividad:<ul>";
+			$data['error'] .= '<li>Una Actividad no puede pertenecer a una Campaña y Ticket simultáneamente. Elimina una de las dos opciones</li>';
+			$data['error'] .= '</ul>';
+
+			$data['estados'] = new Actividades_estado();
+			$data['estados']->get();
+
+			$data['prioridades'] = new Prioridad();
+			$data['prioridades']->get();
+
+			$data['tipos'] = new Actividades_tipo();
+			$data['tipos']->get();
+
+			$data["actividad"]=$actividad;
+
+			$this->load->view('actividades/editar', $data);
+			$this->load->view('sidebars/actividades/editar');
+		}else if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $ticket, $usuario))){
 			// Inserción correcta
 			$data['success'] = "Actividad creada correctamente.";
 			$data['actividad'] = new Actividad();
@@ -420,10 +449,20 @@ class Actividades extends CI_Controller {
 		// Recoger Campaña
 		$campanya = new Campanya();
 		$campanya->get_by_id($this->input->post('txtIdCampanya'));
-		if($campanya->result_count == 0){
+		if($campanya->result_count() == 0){
 			$actividad->delete($actividad->campanya);
 		}else{
 			$actividad->campanya = $campanya;
+		}
+		// Recoger Ticket
+		$ticket = new Ticket();
+		if($this->input->post('txtIdTicket')!=''){
+			$ticket->get_by_id($this->input->post('txtIdTicket'));
+		}
+		if($ticket->result_count() == 0){
+			$actividad->delete($actividad->ticket);
+		}else{
+			$actividad->ticket = $ticket;
 		}
 		// Recoger Usuario
 		$usuario = new Usuario();
@@ -435,7 +474,26 @@ class Actividades extends CI_Controller {
 		}
 
 		$this->load->view("header");
-		if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $usuario))){
+		if($campanya->result_count()>0 && $ticket->result_count()>0){
+			// No puede haber campaña y ticket a la vez
+			$data['error'] = "Ha ocurrido un error durante la edición de la actividad:<ul>";
+			$data['error'] .= '<li>Una Actividad no puede pertenecer a una Campaña y Ticket simultáneamente. Elimina una de las dos opciones</li>';
+			$data['error'] .= '</ul>';
+
+			$data['estados'] = new Actividades_estado();
+			$data['estados']->get();
+
+			$data['prioridades'] = new Prioridad();
+			$data['prioridades']->get();
+
+			$data['tipos'] = new Actividades_tipo();
+			$data['tipos']->get();
+
+			$data["actividad"]=$actividad;
+
+			$this->load->view('actividades/editar', $data);
+			$this->load->view('sidebars/actividades/editar');
+		}else if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $ticket, $usuario))){
 			// Inserción correcta
 			$data['success'] = "Actividad editada correctamente.";
 			$data['actividad'] = new Actividad();

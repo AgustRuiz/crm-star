@@ -154,7 +154,31 @@ function clearFechaFin(){
 		}
 	}
 </script>
-<!-- Fin funciones de contacto -->
+<!-- Fin funciones de campanya -->
+
+<!-- Funciones de ticket -->
+<script>
+	function clearTicket(){
+		var campoIdTicket = parent.document.getElementById("txtIdTicket");
+		var campoAsuntoTicket = parent.document.getElementById("txtAsuntoTicket");
+		campoIdTicket.value = "";
+		campoAsuntoTicket.value = "";
+	}
+
+
+	function cerrarModalTicket(){
+		$("#modalTicket").modal("hide");
+	}
+
+	function abrirModalTicket(){
+		$("#modalTicket").modal("show");
+		var iframeModal = document.getElementById("iframeModalTicket");
+		if(iframeModal.src == ""){
+			iframeModal.src = "<?=$this->config->base_url()?>index.php/tickets/include_busqueda_ticket";
+		}
+	}
+</script>
+<!-- Fin funciones de ticket -->
 
 <!-- Funciones de usuario asignado -->
 <script>

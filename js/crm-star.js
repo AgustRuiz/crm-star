@@ -69,3 +69,15 @@ function asignarActividad(id, asunto){
 	campoAsuntoActividad.title = asunto;
 	parent.cerrarModalActividad();
 }
+
+
+/*** Funciones para Tickets ***/
+
+function asignarTicket(id, asunto){
+	var campoIdTicket = parent.document.getElementById("txtIdTicket");
+	var campoAsuntoTicket = parent.document.getElementById("txtAsuntoTicket");
+	campoIdTicket.value = id;
+	campoAsuntoTicket.value = asunto;
+	campoAsuntoTicket.title = asunto;
+	parent.cerrarModalTicket();
+}

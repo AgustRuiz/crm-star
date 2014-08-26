@@ -17,11 +17,76 @@
 							echo '<a href="'.$this->config->base_url().'tickets/ordenar/id/asc/'.$offset.'/'.$this->router->fetch_method().'"> #</a></th>';
 						}
 						?>
-						<th><span class="glyphicon glyphicon-warning-sign" title="Prioridad"></span></th>
-						<th>Asunto</th>
-						<th>Estado</th>
-						<th>Contacto</th>
-						<th>Usuario</th>
+
+						<?
+						if($config->tickets_columna=='prioridad_id'){
+							echo '<th class="info">';
+							if($config->tickets_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/prioridad_id/desc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes"></span> <span class="glyphicon glyphicon-warning-sign" title="Prioridad"></span></a></th>';
+							}else if($config->tickets_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/prioridad_id/asc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> <span class="glyphicon glyphicon-warning-sign" title="Prioridad"></span></a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'tickets/ordenar/prioridad_id/desc/'.$offset.'/'.$this->router->fetch_method().'"> <span class="glyphicon glyphicon-warning-sign" title="Prioridad"></span></a></th>';
+						}
+						?>
+
+						<?
+						if($config->tickets_columna=='asunto'){
+							echo '<th class="info">';
+							if($config->tickets_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/asunto/desc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Asunto</a></th>';
+							}else if($config->tickets_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/asunto/asc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Asunto</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'tickets/ordenar/asunto/asc/'.$offset.'/'.$this->router->fetch_method().'"> Asunto</a></th>';
+						}
+						?>
+
+						<?
+						if($config->tickets_columna=='tickets_estado_estado'){
+							echo '<th class="info">';
+							if($config->tickets_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/tickets_estado_estado/desc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Estado</a></th>';
+							}else if($config->tickets_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/tickets_estado_estado/asc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Estado</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'tickets/ordenar/tickets_estado_estado/asc/'.$offset.'/'.$this->router->fetch_method().'"> Estado</a></th>';
+						}
+						?>
+
+						<?
+						if($config->tickets_columna=='contacto_apellidos'){
+							echo '<th class="info">';
+							if($config->tickets_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/contacto_apellidos/desc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Contacto</a></th>';
+							}else if($config->tickets_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/contacto_apellidos/asc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Contacto</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'tickets/ordenar/contacto_apellidos/asc/'.$offset.'/'.$this->router->fetch_method().'"> Contacto</a></th>';
+						}
+						?>
+
+						<?
+						if($config->tickets_columna=='usuario_apellidos'){
+							echo '<th class="info">';
+							if($config->tickets_orden=='asc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/usuario_apellidos/desc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes"></span> Usuario</a></th>';
+							}else if($config->tickets_orden=='desc'){
+								echo '<a href="'.$this->config->base_url().'tickets/ordenar/usuario_apellidos/asc/'.$offset.'/'.$this->router->fetch_method().'"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Usuario</a></th>';
+							}
+						}else{
+							echo '<th>';
+							echo '<a href="'.$this->config->base_url().'tickets/ordenar/usuario_apellidos/asc/'.$offset.'/'.$this->router->fetch_method().'"> Usuario</a></th>';
+						}
+						?>
 					</tr>
 				</thead>
 				<tbody id="contenedor">

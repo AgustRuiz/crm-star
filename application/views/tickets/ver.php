@@ -50,8 +50,45 @@
 				</div>
 			</fieldset>
 			<fieldset>
-				<legend class="row">Actividades</legend>
-				<div class="container-fluid ficha">
+				<legend class="row">Actividades<a href="<?=$this->config->base_url()?>actividades/nuevo?ticket=<?=$ticket->id?>" class="btn btn-default pull-right">Añadir nueva actividad</a></legend>
+				<div class="row clearfix">
+					<? if(isset($actividades) && $actividades->result_count()) { ?>
+					<table class="table table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th><span class="glyphicon glyphicon-warning-sign"></span></th>
+								<th>Asunto</th>
+								<th>Inicio</th>
+								<th>Tipo</th>
+								<th>Estado</th>
+							</tr>
+						</thead>
+						<tbody>
+							<? foreach($actividades as $actividad) { ?>
+							<tr>
+								<td><?=$actividad->id?></td>
+								<td><span class="<?=$actividad->prioridad->estilo_icono?>" title="<?=$actividad->prioridad->etiqueta_icono?>"></span></td>
+								<td><a href="<?=$this->config->base_url()?>actividades/ver/<?=$actividad->id?>"><strong><?=$actividad->asunto?></strong></a></td>
+								<td><?=date("d-m-Y H:i", strtotime($actividad->inicio));?></td>
+								<td><span class="<?=$actividad->actividades_tipo->estilo?>"><?=$actividad->actividades_tipo->tipo?></span></td>
+								<td><span class="<?=$actividad->actividades_estado->estilo?>"><?=$actividad->actividades_estado->estado?></span></td>
+							</tr>
+							<? } ?>
+						</tbody>
+						<tfoot>	
+							<tr>
+								<? if($actividades->result_count() == 1){?>
+								<th colspan="6">1 actividad</th>
+								<? } else {?>
+								<th colspan="6"><?=$ticket->actividad->count()?> actividades</th>
+								<? } ?>
+							</tr>
+						</tfoot>
+					</table>
+					<? } else { ?>
+					<em>No hay actividades para este ticket</em>
+					<? } ?>
 				</div>
 			</fieldset>
   </div><!--/row-->

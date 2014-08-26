@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>include_busqueda_actividad</title>
+	<title>include_busqueda_tickets</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="<?=$this->config->base_url()?>css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
 </head>
 <body style="overflow:hidden;" onload="setHeightIframeElement();">
 	<div id="contenido">
-		<form class="form-vertical" role="form" method="post" accept-charset="utf-8" action="<?=$this->config->base_url()."index.php/actividades/include_busqueda_actividad";?>">
+		<form class="form-vertical" role="form" method="post" accept-charset="utf-8" action="<?=$this->config->base_url()."index.php/tickets/include_busqueda_ticket";?>">
 			<div class="input-group">
 				<input type="text" class="form-control" name="txtCadenaBuscar" placeholder="Cadena a buscar" value="<?php if(isset($cadenaBuscar)) echo $cadenaBuscar; ?>" />
 				<span class="input-group-btn">
@@ -39,25 +39,23 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th colspan="2">Prioridad/Asunto (Campaña)</th>
-					<th>Inicio</th>
-					<th>Tipo</th>
+					<th colspan="2">Prioridad/Asunto</th>
 					<th>Estado</th>
 					<th>Contacto</th>
+					<th>Usuario</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody id="contenedor">
-				<?php if(isset($listaActividades)){ foreach ($listaActividades as $fila) { ?>
+				<?php if(isset($listaTickets)){ foreach ($listaTickets as $fila) { ?>
 				<tr>
 					<td><?=$fila->id?></td>
 					<td><span class="<?=$fila->prioridad->estilo_icono?>" title="<?=$fila->prioridad->etiqueta_icono?>"></span></td>
-					<td><strong><?=$fila->asunto?></strong> <? if($fila->campanya->result_count()==1) echo ' ('.$fila->campanya->nombre.')';?></td>
-					<td><?=$fila->inicio?></td>
-					<td><span class="<?=$fila->actividades_tipo->estilo?>"><?=$fila->actividades_tipo->tipo?></span></td>
-					<td><span class="<?=$fila->actividades_estado->estilo?>"><?=$fila->actividades_estado->estado?></span></td>
-					<td><?=trim($fila->contacto->nombre.' '.$fila->contacto->apellidos)?></td>
-					<td><a href="#" class="btn btn-default pull-right" onclick="asignarActividad('<?=$fila->id?>', '<?=$fila->asunto?> (<?=$fila->actividades_tipo->tipo?> con <?=trim($fila->contacto->nombre.' '.$fila->contacto->apellidos)?>)');"><span class="glyphicon glyphicon-plus"></span></a></td>
+					<td><strong><?=$fila->asunto?></strong></td>
+					<td><span class="<?=$fila->tickets_estado->estilo?>"><?=$fila->tickets_estado->estado?></span></td>
+					<td><?=$fila->contacto->apellidos.', '.$fila->contacto->nombre?></td>
+					<td><?=$fila->usuario->apellidos.', '.$fila->usuario->nombre?></td>
+					<td><a href="#" class="btn btn-default pull-right" onclick="asignarTicket('<?=$fila->id?>', '<?=$fila->asunto?> (<?=trim($fila->contacto->nombre.' '.$fila->contacto->apellidos)?>)');"><span class="glyphicon glyphicon-plus"></span></a></td>
 				</tr>
 				<?php } } else { ?>
 				<tr>

@@ -17,7 +17,8 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						Los campos marcados con un asterisco (<span class="asterisk">*</span>) son obligatorios
+						<p>Los campos marcados con un asterisco (<span class="asterisk">*</span>) son obligatorios</p>
+						<p>Los campos <strong>Campaña</strong> y <strong>Ticket</strong> son excluyentes</p>
 					</div>
 				</div>
 			</form>
