@@ -42,7 +42,7 @@ class Usuario extends DataMapper{
 			),
 		'email' => array(
 			'label' => 'Correo electrónico del usuario',
-			'rules' => array('trim', 'required', 'min_length' => 3, 'max_length' => 50),
+			'rules' => array('trim', 'unique', 'required', 'min_length' => 3, 'max_length' => 50),
 			),
 		'telfOficina' => array(
 			'label' => 'Teléfono de oficina del usuario',
