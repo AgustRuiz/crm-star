@@ -172,6 +172,10 @@ class Tickets extends CI_Controller {
 		$data['ticket']->usuario->get_by_id($this->session->userdata('id'));
 		$data['ticket']->prioridad = new Prioridad();
 		$data['ticket']->prioridad->get_by_id(2);
+		if(isset($_GET['contacto'])){
+			$data['ticket']->contacto = new Contacto();
+			$data['ticket']->contacto->get_by_id($_GET['contacto']);
+		}
 
 		$this->load->view("header");
 		$this->load->view("tickets/nuevo", $data);
