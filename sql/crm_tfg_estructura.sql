@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-08-2014 a las 03:24:20
+-- Tiempo de generación: 30-08-2014 a las 14:42:49
 -- Versión del servidor: 5.5.38
 -- Versión de PHP: 5.3.10-1ubuntu3.13
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ci_actividades` (
   `resultado` text COLLATE latin1_spanish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=38 ;
 
 -- --------------------------------------------------------
 
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `ci_alertas` (
 
 CREATE TABLE IF NOT EXISTS `ci_campanyas` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `nombre` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
   `fechaInicio` date NOT NULL,
   `fechaFin` date NOT NULL DEFAULT '0000-00-00',
   `objetivo` text COLLATE latin1_spanish_ci NOT NULL,
@@ -132,9 +132,24 @@ CREATE TABLE IF NOT EXISTS `ci_campanyas_tipos` (
 CREATE TABLE IF NOT EXISTS `ci_configuraciones` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `filas` smallint(6) NOT NULL DEFAULT '8',
-  `contactos_columna` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `contactos_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL,
+  `contactos_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `contactos_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
   `contactos_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `usuarios_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `usuarios_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `usuarios_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `campanyas_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `campanyas_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `campanyas_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `actividades_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `actividades_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `actividades_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `alertas_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `alertas_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `alertas_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `tickets_columna` varchar(100) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'id',
+  `tickets_orden` varchar(4) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'asc',
+  `tickets_filtro` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=18 ;
 
@@ -203,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_estados` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_estado_id` (`actividades_estado_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -218,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_actividades_tipos` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_tipo_id` (`actividades_tipo_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=31 ;
 
 -- --------------------------------------------------------
 
@@ -231,8 +246,8 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_alertas` (
   `alerta_id` bigint(20) unsigned NOT NULL,
   `actividad_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `alerta_id` (`alerta_id`,`actividad_id`),
-  KEY `actividad_id` (`actividad_id`)
+  KEY `actividad_id` (`actividad_id`),
+  KEY `alerta_id` (`alerta_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
@@ -246,9 +261,9 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_campanyas` (
   `actividad_id` bigint(20) unsigned NOT NULL,
   `campanya_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `actividad_id` (`actividad_id`,`campanya_id`),
-  KEY `campanya_id` (`campanya_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=8 ;
+  KEY `campanya_id` (`campanya_id`),
+  KEY `actividad_id` (`actividad_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -261,9 +276,9 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_contactos` (
   `actividad_id` bigint(20) unsigned NOT NULL,
   `contacto_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `actividad_id` (`actividad_id`,`contacto_id`),
-  KEY `contacto_id` (`contacto_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=21 ;
+  KEY `contacto_id` (`contacto_id`),
+  KEY `actividad_id` (`actividad_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -278,7 +293,22 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_prioridades` (
   PRIMARY KEY (`id`),
   KEY `actividad_id` (`actividad_id`),
   KEY `actividades_prioridad_id` (`prioridad_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=23 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_actividades_tickets`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_actividades_tickets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `actividad_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `actividad_id` (`actividad_id`),
+  KEY `ticket_id` (`ticket_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -291,9 +321,9 @@ CREATE TABLE IF NOT EXISTS `ci_join_actividades_usuarios` (
   `actividad_id` bigint(20) unsigned NOT NULL,
   `usuario_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `actividad_id` (`actividad_id`,`usuario_id`),
-  KEY `usuario_id` (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=20 ;
+  KEY `usuario_id` (`usuario_id`),
+  KEY `actividad_id` (`actividad_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -306,8 +336,8 @@ CREATE TABLE IF NOT EXISTS `ci_join_alertas_usuarios` (
   `alerta_id` bigint(20) unsigned NOT NULL,
   `usuario_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `alerta_id` (`alerta_id`,`usuario_id`),
-  KEY `usuario_id` (`usuario_id`)
+  KEY `usuario_id` (`usuario_id`),
+  KEY `alerta_id` (`alerta_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
@@ -365,7 +395,9 @@ CREATE TABLE IF NOT EXISTS `ci_join_configuraciones_usuarios` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` bigint(20) unsigned NOT NULL,
   `configuracion_id` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`id`,`usuario_id`,`configuracion_id`)
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `configuracion_id` (`configuracion_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
@@ -401,6 +433,21 @@ CREATE TABLE IF NOT EXISTS `ci_join_contactos_contactos_estados` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ci_join_contactos_tickets`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_contactos_tickets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `contacto_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contacto_id` (`contacto_id`),
+  KEY `ticket_id` (`ticket_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=10 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `ci_join_perfiles_usuarios`
 --
 
@@ -412,6 +459,51 @@ CREATE TABLE IF NOT EXISTS `ci_join_perfiles_usuarios` (
   KEY `usuario_id` (`usuario_id`),
   KEY `perfil_id` (`perfil_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=19 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_prioridades_tickets`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_prioridades_tickets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `prioridad_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `prioridad_id` (`prioridad_id`),
+  KEY `ticket_id` (`ticket_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=14 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_tickets_tickets_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_tickets_tickets_estados` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `tickets_estado_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tickets_estado_id` (`tickets_estado_id`),
+  KEY `ticket_id` (`ticket_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=13 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_join_tickets_usuarios`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_join_tickets_usuarios` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_id` bigint(20) unsigned NOT NULL,
+  `usuario_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `ticket_id` (`ticket_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -458,7 +550,15 @@ CREATE TABLE IF NOT EXISTS `ci_perfiles` (
   `usuarios_crear` tinyint(1) NOT NULL DEFAULT '0',
   `usuarios_editar` tinyint(1) NOT NULL DEFAULT '0',
   `usuarios_eliminar` tinyint(1) NOT NULL DEFAULT '0',
-  `perfiles_listar` tinyint(4) NOT NULL DEFAULT '0',
+  `perfiles_listar` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_listar_todas` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_listar_propias` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_crear_todas` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_crear_propias` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_editar_todas` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_editar_propias` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_eliminar_todas` tinyint(1) NOT NULL DEFAULT '0',
+  `tickets_eliminar_propias` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=5 ;
 
@@ -480,13 +580,40 @@ CREATE TABLE IF NOT EXISTS `ci_prioridades` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ci_tickets`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_tickets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `asunto` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `descripcion` text COLLATE utf8_spanish_ci NOT NULL,
+  `resolucion` text COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=15 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ci_tickets_estados`
+--
+
+CREATE TABLE IF NOT EXISTS `ci_tickets_estados` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `estado` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  `estilo` varchar(30) COLLATE latin1_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `ci_usuarios`
 --
 
 CREATE TABLE IF NOT EXISTS `ci_usuarios` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nick` varchar(15) NOT NULL,
-  `password` varchar(98) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `nombre` varchar(40) NOT NULL,
   `apellidos` varchar(40) DEFAULT NULL,
   `nif` varchar(15) DEFAULT NULL,
@@ -557,8 +684,15 @@ ALTER TABLE `ci_join_actividades_contactos`
 -- Filtros para la tabla `ci_join_actividades_prioridades`
 --
 ALTER TABLE `ci_join_actividades_prioridades`
-  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_2` FOREIGN KEY (`prioridad_id`) REFERENCES `ci_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_1` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_actividades_prioridades_ibfk_2` FOREIGN KEY (`prioridad_id`) REFERENCES `ci_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_actividades_tickets`
+--
+ALTER TABLE `ci_join_actividades_tickets`
+  ADD CONSTRAINT `ci_join_actividades_tickets_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_actividades_tickets_ibfk_2` FOREIGN KEY (`actividad_id`) REFERENCES `ci_actividades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_actividades_usuarios`
@@ -608,11 +742,39 @@ ALTER TABLE `ci_join_contactos_contactos_estados`
   ADD CONSTRAINT `ci_join_contactos_contactos_estados_ibfk_2` FOREIGN KEY (`contactos_estado_id`) REFERENCES `ci_contactos_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `ci_join_contactos_tickets`
+--
+ALTER TABLE `ci_join_contactos_tickets`
+  ADD CONSTRAINT `ci_join_contactos_tickets_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_contactos_tickets_ibfk_2` FOREIGN KEY (`contacto_id`) REFERENCES `ci_contactos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `ci_join_perfiles_usuarios`
 --
 ALTER TABLE `ci_join_perfiles_usuarios`
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ci_join_perfiles_usuarios_ibfk_2` FOREIGN KEY (`perfil_id`) REFERENCES `ci_perfiles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_prioridades_tickets`
+--
+ALTER TABLE `ci_join_prioridades_tickets`
+  ADD CONSTRAINT `ci_join_prioridades_tickets_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_prioridades_tickets_ibfk_2` FOREIGN KEY (`prioridad_id`) REFERENCES `ci_prioridades` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_tickets_tickets_estados`
+--
+ALTER TABLE `ci_join_tickets_tickets_estados`
+  ADD CONSTRAINT `ci_join_tickets_tickets_estados_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_tickets_tickets_estados_ibfk_2` FOREIGN KEY (`tickets_estado_id`) REFERENCES `ci_tickets_estados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ci_join_tickets_usuarios`
+--
+ALTER TABLE `ci_join_tickets_usuarios`
+  ADD CONSTRAINT `ci_join_tickets_usuarios_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `ci_tickets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ci_join_tickets_usuarios_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `ci_usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ci_join_usuarios_usuarios_estados`
