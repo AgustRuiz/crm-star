@@ -147,7 +147,7 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-body">
-							¿Desea generar una contraseña nueva y enviarla por correo al usuario a la dirección <em><?=$usuario->email?></em>
+							¿Desea generar una contraseña nueva y enviarla por correo al usuario a la dirección <em><?=$usuario->email?></em><br/>NOTA: La contraseña sólo se enviará por correo electrónico y nunca se mostrará por pantalla.
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
