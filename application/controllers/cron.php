@@ -24,18 +24,7 @@ class Cron extends CI_Controller {
 			echo "Error al recuperar la alerta";
 		}
 	}
-
-	public function insertarPrueba(){
-		$conexion = mysql_connect("agustruiz.es.mysql", "agustruiz_es", "GJQ8nD5j");
-		mysql_select_db("agustruiz_es", $conexion);
-		$query='INSERT INTO test VALUES ( NULL, CURRENT_TIMESTAMP);';
-		mysql_query($query);
-	}
-
-	public function test(){
-
-	}
 }
 
 /* End of file cron.php */
-/* Location: ./application/controllers/cronº.php */
+/* Location: ./application/controllers/cron.php */

@@ -167,7 +167,7 @@ class Usuarios extends CI_Controller {
 			include('include_mail.php');
 			mail_altaUsuario($usuario->email, $usuario->nick, $usuario->password, $this->config->base_url());
 			$data["success"] = "Usuario creado correctamente. La contraseña de acceso ha sido generada aleatoriamente y mandada por correo electrónico a la dirección <em>".$usuario->email."</em>.";
-			$data["success"] .= "<br/><br/> Contraseña: ".$password."<br/><em>Esto luego se quita, por favor</em>";
+			// $data["success"] .= "<br/><br/> Contraseña: ".$password."<br/><em>Esto luego se quita, por favor</em>";
 			$data['usuario']=$usuario;
 
 			//Guardar fichero de configuración
@@ -361,7 +361,7 @@ class Usuarios extends CI_Controller {
 			$hash=$usuario->password;
 
 			$data["success"] = "La nueva contraseña ha sido generada y enviada por correo electrónico a la dirección <em>".$usuario->email."</em>.";
-			$data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash."<br/><em>Esto luego se quita, por favor</em>";
+			// $data["success"] .= "<br/><br/> Contraseña: ".$password."<br/>Hash: ".$hash."<br/><em>Esto luego se quita, por favor</em>";
 		}else{
 			$data["error"] = "Ha ocurrido un error y no ha podido mandarse la nueva contraseña al usuario.";
 		}

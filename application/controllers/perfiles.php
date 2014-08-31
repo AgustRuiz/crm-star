@@ -101,7 +101,7 @@ class Perfiles extends CI_Controller {
 
 		if($perfil->result_count()>0){
 			$this->load->view('perfiles/verPerfil', $data);
-			$this->load->view('sidebars/perfiles/ver');
+			$this->load->view('sidebars/configuracion/miPerfil');
 		}else{
 			$this->load->view('errores/error404');
 			$this->load->view('sidebars/error404');

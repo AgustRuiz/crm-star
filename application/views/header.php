@@ -67,7 +67,7 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<?=$this->config->base_url()?>perfiles/miPerfil">Tu perfil: <strong><?=$this->session->userdata('perfil')->nombre?></strong></a></li>
 							<li class="divider"></li>
-							<li><a href="#">Cambiar contraseña</a></li>
+							<li><a href="<?=$this->config->base_url()?>/configuracion/password">Cambiar contraseña</a></li>
 							<!-- <li><a href="#">Cambiar imagen de perfil</a></li> -->
 							<li class="divider"></li>
 							<li><a href="<?=$this->config->base_url()?>index.php/login/logout">Cerrar sesión</a></li>

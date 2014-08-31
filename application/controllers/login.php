@@ -22,7 +22,7 @@ class Login extends CI_Controller {
 			
 			$usuario = new Usuario();
 			$usuario->where('nick', $nick)->where('password', $hash)->get();
-
+			// exit;
 			if($usuario->result_count()==0){
 				// Error
 				$data['error']="El nombre de usuario y/o contraseña introducidos no está registrado en el sistema";
