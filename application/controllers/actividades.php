@@ -221,7 +221,8 @@ class Actividades extends CI_Controller {
 			$data['actividad']->ticket->get_by_id($_GET['ticket']);
 			$data['actividad']->contacto = new Contacto();
 			$data['actividad']->contacto->get_by_id($data['actividad']->ticket->contacto->id);
-		}else if(isset($_GET['contacto'])){
+		}
+		if(isset($_GET['contacto'])){
 			$data['actividad']->contacto = new Contacto();
 			$data['actividad']->contacto->get_by_id($_GET['contacto']);
 		}
