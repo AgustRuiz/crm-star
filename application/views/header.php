@@ -63,12 +63,12 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li rel="popover-alertas" id="popover-alertas-default" class="popover-dismiss hidden"><a href="#" class="alerta"><span class="glyphicon glyphicon-bell"></span><span class="badge blink_me badge-num-alertas" id="badge-alertas-default">??</span></a></li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.jpg'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle usuario" data-toggle="dropdown"><img src="<?=$this->config->base_url().'img/user.png'?>" alt="Usuario" class="img-usuario img-circle"/> Hola <?=$this->session->userdata('nombre')?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<?=$this->config->base_url()?>perfiles/miPerfil">Tu perfil: <strong><?=$this->session->userdata('perfil')->nombre?></strong></a></li>
 							<li class="divider"></li>
 							<li><a href="#">Cambiar contraseña</a></li>
-							<li><a href="#">Configuración</a></li>
+							<!-- <li><a href="#">Cambiar imagen de perfil</a></li> -->
 							<li class="divider"></li>
 							<li><a href="<?=$this->config->base_url()?>index.php/login/logout">Cerrar sesión</a></li>
 						</ul>
