@@ -70,7 +70,12 @@ class Actividades extends CI_Controller {
 			->or_ilike_related_usuario('nombre', $cadenaBusqueda)
 			->or_ilike_related_usuario('apellidos', $cadenaBusqueda);
 		}
-		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('ticket')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
+		$actividades->include_related('prioridad')->include_related('campanya')->include_related('ticket')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario');
+		if($data['config']->actividades_columna=='campanya_nombre' || $data['config']->actividades_columna=='ticket_asunto'){
+			$actividades->order_by('ISNULL('.$data['config']->actividades_columna.')');
+		}
+		$actividades->order_by($data['config']->actividades_columna, $data['config']->actividades_orden);
+		$data['listaActividades'] = $actividades->get_paged($offset, $limit, TRUE);
 
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
@@ -136,8 +141,12 @@ class Actividades extends CI_Controller {
 		}else{
 			$actividades->where_related_usuario('id', $this->session->userdata('id'));
 		}
-		$data['listaActividades'] = $actividades->include_related('prioridad')->include_related('campanya')->include_related('ticket')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario')->order_by($data['config']->actividades_columna, $data['config']->actividades_orden)->get_paged($offset, $limit, TRUE);
-
+		$actividades->include_related('prioridad')->include_related('campanya')->include_related('ticket')->include_related('actividades_tipo')->include_related('actividades_estado')->include_related('contacto')->include_related('usuario');
+		if($data['config']->actividades_columna=='campanya_nombre' || $data['config']->actividades_columna=='ticket_asunto'){
+			$actividades->order_by('ISNULL('.$data['config']->actividades_columna.')');
+		}
+		$actividades->order_by($data['config']->actividades_columna, $data['config']->actividades_orden);
+		$data['listaActividades'] = $actividades->get_paged($offset, $limit, TRUE);
 		// Paginación
 		$limit = $this->Configuration_model->rowsPerPage();
 		$total = $actividades->count();
@@ -339,234 +348,234 @@ class Actividades extends CI_Controller {
 		if($this->session->userdata('perfil')->actividades_eliminar_propias==0
 			&& $this->session->userdata('perfil')->actividades_eliminar_todas==0){
 			$this->accesoDenegado();
-			return;
-		}
-		$this->load->view('header');
-		$actividad = new Actividad();
-		if($id==null){
-			$this->load->view('errores/error404');
-			$this->load->view('sidebars/error404');
-		}else{
-			$actividad->get_by_id($id);
-			if($actividad->result_count()==0){
-				$this->load->view('errores/error404');
-				$this->load->view('sidebars/error404');
-			}else{
-				// Comprobar los permisos
-				if($actividad->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_eliminar_todas==0){
-					$this->accesoDenegado();
-					return;
-				}
-				if($actividad->delete()){
-					$data=array("success"=>"Actividad eliminada");
-				}else{
-					$data['error']="No ha podido eliminarse la actividad";
-					$data['actividad']['id']=$id;
-				}
-				$this->load->view('actividades/eliminar', $data);
-				$this->load->view('sidebars/actividades/eliminar');
-			}
-			$this->load->view('footer');
-		}
+		return;
 	}
-
-	public function editar($id=null){
-		// Comprobar los permisos
-		if($this->session->userdata('perfil')->actividades_editar_todas==0 && $this->session->userdata('perfil')->actividades_editar_propias==0){
-			$this->accesoDenegado();
-			return;
-		}
-		$this->load->view('header');
-		if($id==null){
-			$this->load->view('errores/error404');
-			$this->load->view('sidebars/error404');
-		}
-		else{
-			$data['actividad'] = new Actividad();
-			$data['actividad']->get_by_id($id);
-			if($data['actividad']->result_count() == 0){
-				$this->load->view('errores/error404');
-				$this->load->view('sidebars/error404');
-			}else{
-				// Comprobar los permisos
-				if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
-					$this->accesoDenegado();
-					return;
-				}
-				$data['estados'] = new Actividades_estado();
-				$data['estados']->get();
-				$data['prioridades'] = new Prioridad();
-				$data['prioridades']->get();
-				$data['tipos'] = new Actividades_tipo();
-				$data['tipos']->get();
-				$this->load->view('actividades/editar', $data);
-				$this->load->view('sidebars/actividades/editar');
-			}
-		}
-		$this->load->view('footer');
-		$this->load->view("actividades/js/include_formulario");
-	}
-
-	public function editar2($id=null){
-		// Comprobar los permisos
-		if($this->session->userdata('perfil')->actividades_editar_todas==0 && $this->session->userdata('perfil')->actividades_editar_propias==0){
-			$this->accesoDenegado();
-			return;
-		}
-		$actividad = new Actividad();
+	$this->load->view('header');
+	$actividad = new Actividad();
+	if($id==null){
+		$this->load->view('errores/error404');
+		$this->load->view('sidebars/error404');
+	}else{
 		$actividad->get_by_id($id);
-		// Comprobar los permisos
-		if($actividad->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
-			$this->accesoDenegado();
-			return;
-		}
-		// Recoger el formulario
-		$actividadEditada = recogerFormulario($this->input);
-		$actividad->asunto = $actividadEditada->asunto;
-		$actividad->inicio = $actividadEditada->inicio;
-		$actividad->fin = $actividadEditada->fin;
-		$actividad->descripcion = $actividadEditada->descripcion;
-		$actividad->resultado = $actividadEditada->resultado;
-		// Recoger Tipo
-		$tipo = new Actividades_tipo();
-		$tipo->get_by_id($this->input->post('cmbTipo'));
-		$actividad->actividades_tipo = $tipo;
-		// Recoger Prioridad
-		$prioridad = new Prioridad();
-		$prioridad->get_by_id($this->input->post('cmbPrioridad'));
-		$actividad->prioridad = $prioridad;
-		// Recoger Estado
-		$estado = new Actividades_estado();
-		$estado->get_by_id($this->input->post('cmbEstado'));
-		$actividad->actividades_estado = $estado;
-		// Recoger Contacto
-		$contacto = new Contacto();
-		$contacto->get_by_id($this->input->post('txtIdContacto'));
-		if($contacto->result_count() == 0){
-			$actividad->delete($actividad->contacto);
+		if($actividad->result_count()==0){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
 		}else{
-			$actividad->contacto = $contacto;
-		}
-		// Recoger Campaña
-		$campanya = new Campanya();
-		$campanya->get_by_id($this->input->post('txtIdCampanya'));
-		if($campanya->result_count() == 0){
-			$actividad->delete($actividad->campanya);
-		}else{
-			$actividad->campanya = $campanya;
-		}
-		// Recoger Ticket
-		$ticket = new Ticket();
-		if($this->input->post('txtIdTicket')!=''){
-			$ticket->get_by_id($this->input->post('txtIdTicket'));
-		}
-		if($ticket->result_count() == 0){
-			$actividad->delete($actividad->ticket);
-		}else{
-			$actividad->ticket = $ticket;
-		}
-		// Recoger Usuario
-		$usuario = new Usuario();
-		$usuario->get_by_id($this->input->post('txtIdUsuario'));
-		if($usuario->result_count() == 0){
-			$actividad->delete($actividad->usuario);
-		}else{
-			$actividad->usuario = $usuario;
-		}
-
-		$this->load->view("header");
-		if($campanya->result_count()>0 && $ticket->result_count()>0){
-			// No puede haber campaña y ticket a la vez
-			$data['error'] = "Ha ocurrido un error durante la edición de la actividad:<ul>";
-			$data['error'] .= '<li>Una Actividad no puede pertenecer a una Campaña y Ticket simultáneamente. Elimina una de las dos opciones</li>';
-			$data['error'] .= '</ul>';
-
-			$data['estados'] = new Actividades_estado();
-			$data['estados']->get();
-
-			$data['prioridades'] = new Prioridad();
-			$data['prioridades']->get();
-
-			$data['tipos'] = new Actividades_tipo();
-			$data['tipos']->get();
-
-			$data["actividad"]=$actividad;
-
-			$this->load->view('actividades/editar', $data);
-			$this->load->view('sidebars/actividades/editar');
-		}else if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $ticket, $usuario))){
-			// Inserción correcta
-			$data['success'] = "Actividad editada correctamente.";
-			$data['actividad'] = new Actividad();
-			$data['actividad']->get_by_id($actividad->id);
-			$this->load->view('actividades/ver', $data);
-			$this->load->view('sidebars/actividades/ver');
-		}else{
-			// Fallo al insertar
-			$data['error'] = "Ha ocurrido un error durante la edición de la actividad:<ul>";
-			foreach ($actividad->error->all as $error)
-			{
-				$data['error'] .= '<li>'.$error.'</li>';
+				// Comprobar los permisos
+			if($actividad->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_eliminar_todas==0){
+				$this->accesoDenegado();
+				return;
 			}
-			$data['error'] .= '</ul>';
-
-			$data['estados'] = new Actividades_estado();
-			$data['estados']->get();
-
-			$data['prioridades'] = new Prioridad();
-			$data['prioridades']->get();
-
-			$data['tipos'] = new Actividades_tipo();
-			$data['tipos']->get();
-
-			$data["actividad"]=$actividad;
-
-			$this->load->view('actividades/editar', $data);
-			$this->load->view('sidebars/actividades/editar');
+			if($actividad->delete()){
+				$data=array("success"=>"Actividad eliminada");
+			}else{
+				$data['error']="No ha podido eliminarse la actividad";
+				$data['actividad']['id']=$id;
+			}
+			$this->load->view('actividades/eliminar', $data);
+			$this->load->view('sidebars/actividades/eliminar');
 		}
 		$this->load->view('footer');
-		$this->load->view("actividades/js/include_formulario");
 	}
+}
 
-	public function include_busqueda_actividad($offset='0'){
-		$consulta=null;
-		if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
-			$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));
-		}
-		// Paginación
-		$limit = $this->Configuration_model->rowsPerPage();
-
-		$data['listaActividades'] = new Actividad();
-		if($consulta==null){
-			$data['listaActividades']->where_related_usuario('id', $this->session->userdata('id'))->get($limit, $offset);
-			$total = $data['listaActividades']->count();
-			$config['per_page'] = $limit;
+public function editar($id=null){
+		// Comprobar los permisos
+	if($this->session->userdata('perfil')->actividades_editar_todas==0 && $this->session->userdata('perfil')->actividades_editar_propias==0){
+		$this->accesoDenegado();
+		return;
+	}
+	$this->load->view('header');
+	if($id==null){
+		$this->load->view('errores/error404');
+		$this->load->view('sidebars/error404');
+	}
+	else{
+		$data['actividad'] = new Actividad();
+		$data['actividad']->get_by_id($id);
+		if($data['actividad']->result_count() == 0){
+			$this->load->view('errores/error404');
+			$this->load->view('sidebars/error404');
 		}else{
-			$data['listaActividades']
-			->where_related_usuario('id', $this->session->userdata('id'))
-			->group_start()
-			->ilike('asunto', $consulta)
-			->or_ilike('descripcion', $consulta)
-			->group_end()
-			->get();
-			$total = $data['listaActividades']->result_count();
-			$config['per_page'] = $limit = $total;
+				// Comprobar los permisos
+			if($data['actividad']->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
+				$this->accesoDenegado();
+				return;
+			}
+			$data['estados'] = new Actividades_estado();
+			$data['estados']->get();
+			$data['prioridades'] = new Prioridad();
+			$data['prioridades']->get();
+			$data['tipos'] = new Actividades_tipo();
+			$data['tipos']->get();
+			$this->load->view('actividades/editar', $data);
+			$this->load->view('sidebars/actividades/editar');
 		}
-
-		$config['base_url'] = base_url().'actividades/include_busqueda_contacto/';
-		$config['total_rows'] = $total;
-		$config['uri_segment'] = '3';
-		$this->pagination->initialize($config);
-		$data['pag_links'] = $this->pagination->create_links();
-		// Número de usuarios
-		$data['numContacts'] = $total;
-		$data['initialRow'] = $offset+1;
-		$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
-		// Offset y Orden
-		$data['offset'] = $offset;
-		// Cargar las vistas
-		$this->load->view('actividades/popups/buscar',$data);
 	}
+	$this->load->view('footer');
+	$this->load->view("actividades/js/include_formulario");
+}
+
+public function editar2($id=null){
+		// Comprobar los permisos
+	if($this->session->userdata('perfil')->actividades_editar_todas==0 && $this->session->userdata('perfil')->actividades_editar_propias==0){
+		$this->accesoDenegado();
+		return;
+	}
+	$actividad = new Actividad();
+	$actividad->get_by_id($id);
+		// Comprobar los permisos
+	if($actividad->usuario->id!=$this->session->userdata('id') && $this->session->userdata('perfil')->actividades_editar_todas==0){
+		$this->accesoDenegado();
+		return;
+	}
+		// Recoger el formulario
+	$actividadEditada = recogerFormulario($this->input);
+	$actividad->asunto = $actividadEditada->asunto;
+	$actividad->inicio = $actividadEditada->inicio;
+	$actividad->fin = $actividadEditada->fin;
+	$actividad->descripcion = $actividadEditada->descripcion;
+	$actividad->resultado = $actividadEditada->resultado;
+		// Recoger Tipo
+	$tipo = new Actividades_tipo();
+	$tipo->get_by_id($this->input->post('cmbTipo'));
+	$actividad->actividades_tipo = $tipo;
+		// Recoger Prioridad
+	$prioridad = new Prioridad();
+	$prioridad->get_by_id($this->input->post('cmbPrioridad'));
+	$actividad->prioridad = $prioridad;
+		// Recoger Estado
+	$estado = new Actividades_estado();
+	$estado->get_by_id($this->input->post('cmbEstado'));
+	$actividad->actividades_estado = $estado;
+		// Recoger Contacto
+	$contacto = new Contacto();
+	$contacto->get_by_id($this->input->post('txtIdContacto'));
+	if($contacto->result_count() == 0){
+		$actividad->delete($actividad->contacto);
+	}else{
+		$actividad->contacto = $contacto;
+	}
+		// Recoger Campaña
+	$campanya = new Campanya();
+	$campanya->get_by_id($this->input->post('txtIdCampanya'));
+	if($campanya->result_count() == 0){
+		$actividad->delete($actividad->campanya);
+	}else{
+		$actividad->campanya = $campanya;
+	}
+		// Recoger Ticket
+	$ticket = new Ticket();
+	if($this->input->post('txtIdTicket')!=''){
+		$ticket->get_by_id($this->input->post('txtIdTicket'));
+	}
+	if($ticket->result_count() == 0){
+		$actividad->delete($actividad->ticket);
+	}else{
+		$actividad->ticket = $ticket;
+	}
+		// Recoger Usuario
+	$usuario = new Usuario();
+	$usuario->get_by_id($this->input->post('txtIdUsuario'));
+	if($usuario->result_count() == 0){
+		$actividad->delete($actividad->usuario);
+	}else{
+		$actividad->usuario = $usuario;
+	}
+
+	$this->load->view("header");
+	if($campanya->result_count()>0 && $ticket->result_count()>0){
+			// No puede haber campaña y ticket a la vez
+		$data['error'] = "Ha ocurrido un error durante la edición de la actividad:<ul>";
+		$data['error'] .= '<li>Una Actividad no puede pertenecer a una Campaña y Ticket simultáneamente. Elimina una de las dos opciones</li>';
+		$data['error'] .= '</ul>';
+
+		$data['estados'] = new Actividades_estado();
+		$data['estados']->get();
+
+		$data['prioridades'] = new Prioridad();
+		$data['prioridades']->get();
+
+		$data['tipos'] = new Actividades_tipo();
+		$data['tipos']->get();
+
+		$data["actividad"]=$actividad;
+
+		$this->load->view('actividades/editar', $data);
+		$this->load->view('sidebars/actividades/editar');
+	}else if($actividad->save(array($tipo, $prioridad, $estado, $contacto, $campanya, $ticket, $usuario))){
+			// Inserción correcta
+		$data['success'] = "Actividad editada correctamente.";
+		$data['actividad'] = new Actividad();
+		$data['actividad']->get_by_id($actividad->id);
+		$this->load->view('actividades/ver', $data);
+		$this->load->view('sidebars/actividades/ver');
+	}else{
+			// Fallo al insertar
+		$data['error'] = "Ha ocurrido un error durante la edición de la actividad:<ul>";
+		foreach ($actividad->error->all as $error)
+		{
+			$data['error'] .= '<li>'.$error.'</li>';
+		}
+		$data['error'] .= '</ul>';
+
+		$data['estados'] = new Actividades_estado();
+		$data['estados']->get();
+
+		$data['prioridades'] = new Prioridad();
+		$data['prioridades']->get();
+
+		$data['tipos'] = new Actividades_tipo();
+		$data['tipos']->get();
+
+		$data["actividad"]=$actividad;
+
+		$this->load->view('actividades/editar', $data);
+		$this->load->view('sidebars/actividades/editar');
+	}
+	$this->load->view('footer');
+	$this->load->view("actividades/js/include_formulario");
+}
+
+public function include_busqueda_actividad($offset='0'){
+	$consulta=null;
+	if(strip_tags(trim($this->input->post('txtCadenaBuscar')))!=""){
+		$data['cadenaBuscar'] = $consulta = strip_tags(trim($this->input->post('txtCadenaBuscar')));
+	}
+		// Paginación
+	$limit = $this->Configuration_model->rowsPerPage();
+
+	$data['listaActividades'] = new Actividad();
+	if($consulta==null){
+		$data['listaActividades']->where_related_usuario('id', $this->session->userdata('id'))->get($limit, $offset);
+		$total = $data['listaActividades']->count();
+		$config['per_page'] = $limit;
+	}else{
+		$data['listaActividades']
+		->where_related_usuario('id', $this->session->userdata('id'))
+		->group_start()
+		->ilike('asunto', $consulta)
+		->or_ilike('descripcion', $consulta)
+		->group_end()
+		->get();
+		$total = $data['listaActividades']->result_count();
+		$config['per_page'] = $limit = $total;
+	}
+
+	$config['base_url'] = base_url().'actividades/include_busqueda_contacto/';
+	$config['total_rows'] = $total;
+	$config['uri_segment'] = '3';
+	$this->pagination->initialize($config);
+	$data['pag_links'] = $this->pagination->create_links();
+		// Número de usuarios
+	$data['numContacts'] = $total;
+	$data['initialRow'] = $offset+1;
+	$data['finalRow'] = ($offset+$limit>$total)?$total:$offset+$limit;
+		// Offset y Orden
+	$data['offset'] = $offset;
+		// Cargar las vistas
+	$this->load->view('actividades/popups/buscar',$data);
+}
 }
 
 /* FUNCIONES AUXILIARES */

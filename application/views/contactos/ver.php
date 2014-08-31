@@ -101,7 +101,6 @@
 									<strong>(T)</strong> <a href="<?=$this->config->base_url()?>tickets/ver/<?=$fila->ticket->id?>"><?=$fila->ticket->asunto?></a>
 									<? }else if($fila->campanya->count()>0){ ?>
 									<strong>(C)</strong> <a href="<?=$this->config->base_url()?>campanyas/ver/<?=$fila->campanya->id?>"><?=$fila->campanya->nombre?></a>
-									<? }else{ ?>
 									<? } ?>
 								</td>
 								<td><?=date("d-m-Y H:i", strtotime($fila->inicio));?></td>
