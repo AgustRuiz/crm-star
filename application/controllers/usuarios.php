@@ -161,17 +161,21 @@ class Usuarios extends CI_Controller {
 		$estado = new Usuarios_estado();
 		$estado->get_by_id($this->input->post('cmbEstado'));
 		$usuario->usuarios_estado = $estado;
-		// Nueva configuracion
-		$configuracion = new Configuracion();
-		$configuracion->filas = 8;
 
-		if($usuario->save(array($perfil, $estado, $configuracion))){
+		if($usuario->save(array($perfil, $estado))){
 			// Usuario creado correctamente
 			include('include_mail.php');
 			mail_altaUsuario($usuario->email, $usuario->nick, $usuario->password, $this->config->base_url());
 			$data["success"] = "Usuario creado correctamente. La contraseña de acceso ha sido generada aleatoriamente y mandada por correo electrónico a la dirección <em>".$usuario->email."</em>.";
 			$data["success"] .= "<br/><br/> Contraseña: ".$password."<br/><em>Esto luego se quita, por favor</em>";
 			$data['usuario']=$usuario;
+
+			//Guardar fichero de configuración
+			$configuracion = new Configuracion();
+			$configuracion->filas = 8;
+			$configuracion->save();
+			$usuario->configuracion = $configuracion;
+			$usuario->save($configuracion);
 
 			// Cargar las vistas
 			$this->load->view('header');
